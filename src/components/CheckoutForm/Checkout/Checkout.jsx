@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 
 import { Link } from "react-router-dom";
-import { commerce } from "../../../lib/commerce";
+//import { commerce } from "../../../lib/commerce";
 import useStyles from "./styles";
 import AddressForm from "../AddressForm";
 import PaymentForm from "../PaymentForm";
@@ -25,17 +25,17 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
 
   const classes = useStyles();
 
-  useEffect(() => {
-    const generateToken = async () => {
-      try {
-        const token = await commerce.checkout.generateToken(cart.id, {
-          type: "cart"
-        });
-        setCheckoutToken(token);
-      } catch (error) {}
-    };
-    generateToken();
-  }, [cart]);
+  // useEffect(() => {
+  //   const generateToken = async () => {
+  //     try {
+  //       const token = await commerce.checkout.generateToken(cart.id, {
+  //         type: "cart"
+  //       });
+  //       setCheckoutToken(token);
+  //     } catch (error) {}
+  //   };
+  //   generateToken();
+  // }, [cart]);
 
   const nextStep = () => setActiveStep((prevActiveStep) => prevActiveStep + 1);
   const backStep = () => setActiveStep((prevActiveStep) => prevActiveStep - 1);

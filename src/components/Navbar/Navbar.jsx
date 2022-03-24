@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {
   AppBar,
   Toolbar,
@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { ShoppingCart } from "@material-ui/icons";
+import { ShoppingCart, Search } from "@material-ui/icons";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import logo from "../../assets/commerce.png";
@@ -30,12 +30,15 @@ const styles = {
   }
 };
 
-const Navbar = ({ totalItems }) => {
 
-  const [searchField, setSearchField] = useState("");
-
+const Navbar = ({  searchField, setSearchField }) => {
   const classes = useStyles();
   const location = useLocation();
+
+  const cartTotalQuantity = useSelector(state => state.cart.totalQuantity);
+  
+console.log(searchField);
+  
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -49,38 +52,39 @@ const Navbar = ({ totalItems }) => {
   };
 const handleSearch = (e) => {
   setSearchField(e.target.value);
-  console.log(e.target.value);
 } 
 
-const filteredProducts = details.filter(
-  product => {
-    return (
-      product
-      .name
-      .toLowerCase()
-      .includes(searchField.toLowerCase()) 
-      // ||
-      // product
-      // .price
-      // .toLowerCase()
-      // .includes(searchField.toLowerCase())
-    );
-  }
-);
+// const filteredProducts = details.filter(
+//   product => {
+//     return (
+//       product
+//       .name
+//       .toLowerCase()
+//       .includes(searchField.toLowerCase()) 
+//       // ||
+//       // product
+//       // .price
+//       // .toLowerCase()
+//       // .includes(searchField.toLowerCase())
+//     );
+//   }
+// );
 
-function searchList() {
-  if (searchShow) {
-    return (
-        <SearchList filteredProducts={filteredProducts} />
-    );
-  }
-}
+
+
+
+// function searchList() {
+//   if (searchShow) {
+//     return (
+//         <SearchList filteredProducts={filteredProducts} />
+//     );
+//   }
+// }
   return (
     <div>
       {/* <AppBar position="fixed" className={classes.appBar} color="inherit"> */}
       <AppBar position="fixed" color='primary'>
         <Toolbar>
-          
           <Typography
             component={Link}
             to="/"
@@ -88,29 +92,35 @@ function searchList() {
             className={classes.appBar}
             color="inherit"
           >
-            <img
-              src={logo}
-              alt="Shopinext's E-Commerce"
-              height="25px"
-              className={classes.image}
-            />
-            Shopinext 
-             </Typography>
+              <div className={classes.logoContainer}>
+                <img
+                  src={logo}
+                  alt="Shopinext's E-Commerce"
+                  className={classes.image}
+                />
+                <p className={classes.logoText}>Shopinext </p>
+              </div>
+          </Typography>
              {/* search product */}
              <div className={classes.search}>
+               
             <input  
-					  type = "search" 
+					  type = "text" 
+            name="searchField"
+            value={searchField}
 				  	placeholder = "Search Products" 
 					  onChange = {handleSearch}
-			  	/>
+            className={classes.searchInput}
+			  	/><Search className={classes.searchIcon}/>
             </div>
              <div className={classes.grow} />
-              {location.pathname === "/" && (
+              {/* {location.pathname === "/" && ( */}
              <div className={classes.button}>
                  <Button 
                 id = "login-button"
                 aria-controls={open ? 'login-menu' : undefined}
                 aria-haspopup="true"
+                className={classes.loginButton}
                 aria-expanded={open ? 'true' : undefined}
                 onClick = {handleLogin}
                 >
@@ -150,10 +160,10 @@ function searchList() {
                 login
                 </IconButton> */}
                 </div>
-                )}
+                {/* )} */}
                 
           <div className={classes.grow} />
-          {location.pathname === "/" && (
+          {/* {location.pathname === "/" && ( */}
             <div className={classes.button}>
               <IconButton
                 component={Link}
@@ -161,12 +171,12 @@ function searchList() {
                 aria-label="Show cart item"
                 color="inherit"
               >
-                <Badge badgeContent={totalItems} color="secondary">
+                <Badge badgeContent={cartTotalQuantity} color="secondary">
                   <ShoppingCart />
                 </Badge>
               </IconButton>
             </div>
-          )}
+          {/* )} */}
         </Toolbar>
       </AppBar>
     </div>

@@ -1,25 +1,28 @@
 import { makeStyles, fade } from '@material-ui/core/styles';
 
-const drawerWidth = 0;
+const drawerWidth = 10;
 
 export default makeStyles((theme) => ({
   appBar: {
-    boxShadow: 'none',
-    borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+    boxShadow: `none`,
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
     },
+    textDecoration: 'none',
   },
   sellerBar: {
-   backgroundColor: 'red',
+   backgroundColor: `red`,
   },
-  search:{
-    backgroundColor: '#f5f5f5',
-    borderRadius: '5px',
-    paddingLeft: '200px',
-    // marginRight: '50%',
+  logoContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    cursor: 'pointer'
   },
+
+  logoText: {
+  },
+
   title: {
     flexGrow: 1,
     alignItems: 'center',
@@ -27,8 +30,25 @@ export default makeStyles((theme) => ({
     textDecoration: 'none',
   },
   image: {
-    marginRight: '10px',
+    marginRight: `10px`,
+    height: '25px',
   },
+
+  searchInput: {
+    borderRadius: '20px',
+    height: '40px',
+    width: '100%',
+    border: 'none',
+    paddingLeft: '20px',
+    fontSize: '20px',
+    fontWeight: '500',
+  },
+
+  loginButton: {
+    color: 'white',
+    width: '30%'
+  },
+ 
   menuButton: {
     marginRight: theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
@@ -40,26 +60,27 @@ export default makeStyles((theme) => ({
   },
   search: {
     position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
+    borderRadius: '20px',
+    backgroundColor: 'white',
     marginRight: theme.spacing(2),
     marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: 'auto',
-    },
+    width: '60%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+    
   },
   searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: '100%',
+    fontSize: `20px !important`,
+    height: '42px',
+    width: '50px',
+    color: 'black',
     position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: 'white',
+    top: '0',
+    right: '0',
+    borderRadius: '0 20px 20px 0'
+
   },
   inputRoot: {
     color: 'inherit',

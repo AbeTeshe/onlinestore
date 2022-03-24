@@ -3,34 +3,50 @@ import { Card, CardMedia, CardContent, CardActions, Typography, IconButton } fro
 import { AddShoppingCart } from '@material-ui/icons';
 import useStyles from './styles';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { addItemToCart } from '../../../core/cartSlice';
 
-const Product = ({ product ,index, onAddToCart }) => {
-    const IPFS = true;
+const Product = ({ product ,index }) => {
+    
     const classes = useStyles();
-    const ipfsURL =  useSelector(state => state?.main?.products[index]?.ipfsURL);
-    const price = useSelector(state => state?.main?.products[index]?.price);
-    const name = useSelector(state => state?.main?.products[index]?.name);
+    const dispatch = useDispatch();
+
+
+    // const IPFS = true;
+    // const ipfsURL =  useSelector(state => state?.main?.products[index]?.ipfsURL);
+    // const price = useSelector(state => state?.main?.products[index]?.price);
+    // const name = useSelector(state => state?.main?.products[index]?.name);
+
+    const {id, name, mediaUrl, price, quantity} = product;
+
+    const onAddToCart = () => {
+        dispatch(
+            addItemToCart({
+                id : id,
+                name: name,
+                price: price,
+                image: mediaUrl,
+        })
+      )
+    }
+
     return (
      <Card className={classes.root}>
-         { IPFS ?  <CardMedia className={classes.media} image = {ipfsURL} title={product.name} /> :
-            <CardMedia className={classes.media} image={product.media.source} title={product.name} />}
+         {/* { IPFS ?  <CardMedia className={classes.media} image = {ipfsURL} title={product.name} /> :} */}
+            <CardMedia className={classes.media} image={product.mediaUrl} title={product.name} />
         <CardContent>
             <div className={classes.cardContent}>
-
                 <Typography variant="h5" gutterBottom>
-                    {name}
+                    {product.name}
                 </Typography>
-
                 <Typography variant="h5">
-                    {price}
+                    ${product.price}
                 </Typography>
                 </div>
-
                 <Typography dangerouslySetInnerHTML={{ __html: product.description}} variant="body2" color="textSecondary" />
         </CardContent>
         <CardActions disableSpacing className={classes.cardActions}>
-            <IconButton aria-label="Add to Cart" onClick={() => onAddToCart(product.id, 1)}>
+            <IconButton aria-label="Add to Cart" onClick={onAddToCart}>
                 <AddShoppingCart />
             </IconButton>
         </CardActions>
@@ -38,6 +54,6 @@ const Product = ({ product ,index, onAddToCart }) => {
     );
 }
 
-export default Product
+export default Product;
 
 
