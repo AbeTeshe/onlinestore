@@ -1,10 +1,12 @@
 import React from 'react';
-import { Card, CardMedia, CardContent, CardActions, Typography, IconButton } from '@material-ui/core';
+import { Card, CardMedia, CardContent, CardActions, Typography, IconButton, Button } from '@material-ui/core';
 import { AddShoppingCart } from '@material-ui/icons';
-import useStyles from './styles';
-
+import {Link} from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { addItemToCart } from '../../../core/cartSlice';
+
+
+import useStyles from './styles';
 
 const Product = ({ product ,index }) => {
     
@@ -17,7 +19,7 @@ const Product = ({ product ,index }) => {
     // const price = useSelector(state => state?.main?.products[index]?.price);
     // const name = useSelector(state => state?.main?.products[index]?.name);
 
-    const {id, name, mediaUrl, price, quantity} = product;
+    const {id, name, mediaUrl, price, description} = product;
 
     const onAddToCart = () => {
         dispatch(
@@ -33,19 +35,20 @@ const Product = ({ product ,index }) => {
     return (
      <Card className={classes.root}>
          {/* { IPFS ?  <CardMedia className={classes.media} image = {ipfsURL} title={product.name} /> :} */}
-            <CardMedia className={classes.media} image={product.mediaUrl} title={product.name} />
+            <CardMedia className={classes.media} image={mediaUrl} title={product.name} />
         <CardContent>
             <div className={classes.cardContent}>
                 <Typography variant="h5" gutterBottom>
-                    {product.name}
+                    {name}
                 </Typography>
                 <Typography variant="h5">
-                    ${product.price}
+                    ${price}
                 </Typography>
                 </div>
-                <Typography dangerouslySetInnerHTML={{ __html: product.description}} variant="body2" color="textSecondary" />
+                <Typography dangerouslySetInnerHTML={{ __html: description}} variant="body2" color="textSecondary" />
         </CardContent>
         <CardActions disableSpacing className={classes.cardActions}>
+        <Link to={`/product/${product.id}`} style={{textDecoration: 'none'}}><Button className={classes.detailButton}>See Details</Button></Link>
             <IconButton aria-label="Add to Cart" onClick={onAddToCart}>
                 <AddShoppingCart />
             </IconButton>

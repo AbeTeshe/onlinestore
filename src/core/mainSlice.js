@@ -14,11 +14,11 @@ export const mainSlice = createSlice({
 
     createProduct: (state,action) => {
       // const formattedPrice = action.payload.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    state.products = action.payload;  
-    for(let i = 0; i < state.products.length; i++){
-    state.products[i].price = action.payload[i].price.formatted_with_symbol;  
-    state.products[i].ipfsURL = ipfsURL.products[i].ipfsURL;
-    } 
+      state.products = action.payload;  
+      for(let i = 0; i < state.products.length; i++){
+      state.products[i].price = action.payload[i].price.formatted_with_symbol;  
+      state.products[i].ipfsURL = ipfsURL.products[i].ipfsURL;
+      } 
     },
 
     updateProduct:(state,action) => {
@@ -30,22 +30,23 @@ export const mainSlice = createSlice({
       const foundIndex = state.products.findIndex(product => product.id === action.payload);
       delete state.products[foundIndex];
       state.products.splice(foundIndex,1);
-     
-    
-      // delete state.products[removingProduct];
-      // state.products.splice(foundIndex,1);
+  
     },
 
      addNewProduct: (state, action) => {
-      console.log("addNewProduct");
+      state.products.push(action.payload);
     },
+    getProduct: (state, action) => {
+      state.products = action.payload;
+    }
   }
   });
   export const {
     createProduct,
     updateProduct,
     deleteProduct,
-    getProductList
+    getProductList,
+    getProduct
   } = mainSlice.actions;
 
   export default mainSlice.reducer;

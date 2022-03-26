@@ -73,22 +73,22 @@ const AddressForm = ({ checkoutToken, next }) => {
     // setShippingOption(options[0].id);
   };
 
-  useEffect(() => {
-    fetchShippingCountries(checkoutToken.id);
-  }, []);
+  // useEffect(() => {
+  //   fetchShippingCountries(checkoutToken.id);
+  // }, []);
 
-  useEffect(() => {
-    if (shippingCountry) fetchSubdivisions(shippingCountry);
-  }, [shippingCountry]);
+  // useEffect(() => {
+  //   if (shippingCountry) fetchSubdivisions(shippingCountry);
+  // }, [shippingCountry]);
 
-  useEffect(() => {
-    if (shippingSubdivision)
-      fetchShippingOptions(
-        checkoutToken.id,
-        shippingCountry,
-        shippingSubdivision
-      );
-  }, [shippingSubdivision]);
+  // useEffect(() => {
+  //   if (shippingSubdivision)
+  //     fetchShippingOptions(
+  //       checkoutToken.id,
+  //       shippingCountry,
+  //       shippingSubdivision
+  //     );
+  // }, [shippingSubdivision]);
 
   return (
     <>

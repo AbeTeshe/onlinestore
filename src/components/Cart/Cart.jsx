@@ -24,18 +24,19 @@ const Cart = ({  handleUpdateCartQty, handleRemoveFromCart }) => {
     }
 
     const EmptyCart = () => (
-        <Typography variant="subtitle1">You have no items in your shopping cart, 
-        <Link to="/" className={classes.link}>
-           start adding some
-        </Link>!
-        </Typography>
+        <Grid className={classes.emptyCartContainer}>
+            <Typography ariant="subtitle1" className={classes.subtitle}>You have no items in your shopping cart </Typography>
+            <Link to="/" className={classes.link}>
+            <Button className={classes.AddEmptyButton}>start adding some!</Button>
+            </Link>
+        </Grid>
     );
 
     const FilledCart = () => (
         <>
-            <Grid container spacing={3}>
+            <Grid container spacing={5}>
                 {cartItems.map((item) => (
-                    <Grid item xs={12} sm={4} key={item.id}>
+                    <Grid item xs={12} sm={12}  md={6} lg={6} key={item.id}>
                         <CartItem cartTotal={cartTotal} item={item} onUpdateCartQty={handleUpdateCartQty} onRemoveFromCart={handleRemoveFromCart}/>
                     </Grid>
                 ))}
@@ -54,7 +55,7 @@ const Cart = ({  handleUpdateCartQty, handleRemoveFromCart }) => {
 
 
     return (
-        <Container>
+        <Container className={classes.cartContainer}>
             <div className={classes.toolbar} />
             <Typography className={classes.title} variant="h3" gutterbottom>
                 Your Shopping Cart

@@ -4,16 +4,23 @@ const drawerWidth = 10;
 
 export default makeStyles((theme) => ({
   appBar: {
-    boxShadow: `none`,
-    [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-    },
+     boxShadow: `none`,
+    // [theme.breakpoints.up('sm')]: {
+    //   width: `calc(100% - ${drawerWidth}px)`,
+    //   marginLeft: drawerWidth,
+    // },
     textDecoration: 'none',
+    width: '10%'
   },
   sellerBar: {
    backgroundColor: `red`,
   },
+ 
+  navbarContainer: {
+    maxWidth: '1600px',
+    marginLeft: 'auto',
+  },
+
   logoContainer: {
     display: 'flex',
     alignItems: 'center',
@@ -34,19 +41,11 @@ export default makeStyles((theme) => ({
     height: '25px',
   },
 
-  searchInput: {
-    borderRadius: '20px',
-    height: '40px',
-    width: '100%',
-    border: 'none',
-    paddingLeft: '20px',
-    fontSize: '20px',
-    fontWeight: '500',
-  },
 
   loginButton: {
     color: 'white',
-    width: '30%'
+    width: '5%',
+    float: 'right',
   },
  
   menuButton: {
@@ -59,29 +58,54 @@ export default makeStyles((theme) => ({
     flexGrow: 1,
   },
   search: {
-    position: 'relative',
     borderRadius: '20px',
-    backgroundColor: 'white',
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '60%',
+    width: '80%',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
-    
+    alignItems: 'center',
   },
+  searchBox: {
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '50%',
+  },
+
+  searchInput: {
+    borderRadius: '20px',
+    height: '40px',
+    border: 'none',
+    paddingLeft: '20px',
+    width: '100%',
+    fontSize: '20px',
+    fontWeight: '500',
+    backgroundColor: '#f0f0f0',
+  },
+
   searchIcon: {
     fontSize: `20px !important`,
     height: '42px',
     width: '50px',
     color: 'black',
     position: 'absolute',
-    backgroundColor: 'white',
+    backgroundColor: 'trasparent',
     top: '0',
     right: '0',
     borderRadius: '0 20px 20px 0'
-
   },
+  clearSearch: {
+    fontSize: `14px !important`,
+    height: '42px',
+    width: '50px',
+    color: 'black',
+    position: 'absolute',
+    backgroundColor: 'transparent',
+    top: '0',
+    right: '0',
+    borderRadius: '0 20px 20px 0',
+  },
+
   inputRoot: {
     color: 'inherit',
   },
@@ -95,4 +119,7 @@ export default makeStyles((theme) => ({
       width: '20ch',
     },
   },
+  headerCartButton: {
+    width: '5%'
+  }
 }));

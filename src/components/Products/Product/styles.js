@@ -12,10 +12,21 @@ export default makeStyles (() => ({
     },
     cardActions: {
         display: 'flex',
-        justifyContent: 'flex-end',
+        justifyContent: 'space-between',
     },
     cardContent: {
         display: 'flex',
         justifyContent: 'space-between',
+    },
+    detailButton: {
+        "&:hover": {
+            backgroundColor: '#c5a491'
+        },
+        backgroundColor: '#ab7a5f',
+        color: 'white',
+        cursor: 'pointer',
+        borderRadius: '10px',
+        
     }
+        
 }));

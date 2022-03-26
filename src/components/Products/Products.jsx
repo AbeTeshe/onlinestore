@@ -2,14 +2,14 @@ import React from 'react';
 import { Grid } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import Product from './Product/Product';
-import useStyles from './styles'
+import useStyles from './styles';
 
 
 const Products = ({ products, onAddToCart }) => {
     const classes = useStyles();
     const data =  useSelector(state => state?.main?.products);
     return (
-        <main className={classes.content}>
+        <main className={classes.productsContainer}>
             <div className={classes.toolbar} />
             <Grid container justify="center" spacing={4}>
                 {products.map((product,index) => (
