@@ -50,7 +50,7 @@ const App = () => {
             <Checkout/>
           </Route>
         </Switch>
-      </div>6
+      </div>
     </Router>
   );
 };

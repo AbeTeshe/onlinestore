@@ -30,7 +30,7 @@ const ProductDetails = ({products}) => {
         <div className={classes.toolbar} />
         <Grid container justify="center" className={classes.detailProduct} spacing={3} >
             <Grid item  xs={12} sm={12} md={12} lg={12}>
-               <Link to="/products" style={{textDecoration: 'none'}}><Button className={classes.backToProductsButton}>Back to Products</Button></Link>
+               <Link to="/" style={{textDecoration: 'none'}}><Button className={classes.backToProductsButton}>Back to Products</Button></Link>
             </Grid>
             <Grid item xs={12} sm={12} md={6} lg={6}>
                 <img src={mediaUrl} alt="detailprImage" className={classes.detailProductImage}/>

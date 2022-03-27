@@ -11,7 +11,7 @@ import {
   Fade,
 } from "@material-ui/core";
 import { ShoppingCart, Search, Clear, KeyboardArrowDown} from "@material-ui/icons";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import logo from "../../assets/commerce.png";
 import useStyles from "./styles";
@@ -34,13 +34,12 @@ const Navbar = ({  searchField, setSearchField }) => {
   const location = useLocation();
   const user = useSelector((state) => state.auth.authData);
   const cartTotalQuantity = useSelector(state => state.cart.totalQuantity);
-  
+  const history= useHistory();
   const dispatch = useDispatch();
   
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   
-  console.log(user?.result?.name);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -58,6 +57,8 @@ const clear = () => {
 
 const handleLogout = () => {
   dispatch(logout());
+  history.push("/");
+
 }
 
   return (
@@ -93,7 +94,7 @@ const handleLogout = () => {
             {/* {location.pathname === "/" && ( */}
             <div className={classes.button}>
                 {!user ? <Link to="/login" style={{textDecoration: 'none'}}>
-                  <Button id = "login-button" className={classes.loginButton}>
+                  <Button id = "login-button" className={classes.loginButton} onClick={handleClose}>
                     login
                   </Button>
                 </Link>: 

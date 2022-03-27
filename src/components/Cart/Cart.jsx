@@ -9,6 +9,7 @@ import {emptyCart} from "../../core/cartSlice";
 const Cart = ({  handleUpdateCartQty, handleRemoveFromCart }) => {
 
     const classes = useStyles();
+    const user = useSelector((state) => state.auth.authData);
     const cartItems = useSelector(state=> state.cart.cartItems);
     const dispatch = useDispatch();
 
@@ -45,7 +46,8 @@ const Cart = ({  handleUpdateCartQty, handleRemoveFromCart }) => {
                 <Typography variant="h4">Subtotal: {cartTotal}</Typography>
                 <div>
                     <Button className={classes.emptyButton} size="large" type="button" variant="contained" color="secondary" onClick={handleEmptyCart}>Empty Cart</Button>
-                    <Button component={Link} to="/checkout" className={classes.checkoutButton} size="large" type="button" variant="contained" color="primary">Checkout</Button>
+                    {user ? <Button component={Link} to="/checkout" className={classes.checkoutButton} size="large" type="button" variant="contained" color="primary">Checkout</Button>:
+                    <Button component={Link} to="/login" className={classes.checkoutButton} size="large" type="button" variant="contained" color="primary">Login</Button>}
                 </div>
             </div>
         </>
@@ -67,4 +69,4 @@ const Cart = ({  handleUpdateCartQty, handleRemoveFromCart }) => {
 
 
 
-export default Cart
+export default Cart;

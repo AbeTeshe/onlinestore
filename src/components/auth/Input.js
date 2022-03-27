@@ -1,11 +1,12 @@
 import React from 'react'
 import { TextField, Grid,InputLabel, InputAdornment, IconButton} from '@material-ui/core'
 import { Visibility, VisibilityOff } from '@material-ui/icons'
-const Input = ({name, handleChange, label, half, autoFocus, type, handleShowPassword}) => {
+const Input = ({value, name, handleChange, label, half, autoFocus, type, handleShowPassword}) => {
     return (
         <Grid item xs={12} sm = {half ? 6 : 12} style={{marginBottom: '20px'}}>
             <InputLabel style={{ fontWeight: '600', fontSize: '18px', marginBottom: '5px'}}>{label}</InputLabel>
             <TextField 
+            value={value}
             name={name}
             onChange={handleChange}
             variant="outlined"
