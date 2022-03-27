@@ -9,3 +9,4 @@ export {default as SellerTopMenu} from './SellerDashboard/SellerTopMenu';
 export {default as PrivateRoute} from './PrivateRoute/Privateroute';
 export {default as ProductDetails} from './productDetails/ProductDetails';
 export {default as Auth} from './auth/Auth';
+export {default as UserProfile} from './userProfile/UserProfile';

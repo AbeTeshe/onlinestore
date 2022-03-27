@@ -2,10 +2,12 @@ import React, {useState} from 'react';
 import {GoogleLogin} from 'react-google-login';
 import {Container, Grid, Paper, Avatar, Button, TextField, Typography} from "@material-ui/core";
 import { LockOutlined } from '@material-ui/icons';
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
+import { useDispatch } from 'react-redux';
 import Icon  from './Icon';
 import Input from './Input';
 import useStyles from "./styles";
+import {login} from '../../core/authSlice';
 const initialState = {firstName: '', 
                        lastName: '', email: '',
                        password: '', confirmPassword: ''};
@@ -16,6 +18,8 @@ const Auth = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState(initialState);
     const handleShowPassword = () => setShowPassword(!showPassword); 
+    const dispatch = useDispatch();
+    const history= useHistory();
     
     
     const handleChange= (elements) => {
@@ -32,16 +36,18 @@ const Auth = () => {
     }
 
     const googleSuccess = async (res) => {
-        // const result = res?.profileObj;
-        // const token = res?.tokedId;
+        console.log(res);
+        const result = res?.profileObj;
+        const token = res?.tokenId;
+        console.log(token);
 
-        // try {
-        //     dispatch({type: 'AUTH', data: {result, token}});
-        //     history.push('/');
-        // }
-        // catch(error) {
-        //     console.log(error);
-        // }
+        try {
+            dispatch(login({token, result}));
+            history.push('/');
+        }
+        catch(error) {
+            console.log(error);
+        }
     };
 
     const googleFailure = (error) => {
@@ -74,7 +80,7 @@ const Auth = () => {
                     <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                         {isSignup ? 'Sign Up' : 'Sign In'}
                     </Button>
-                    <GoogleLogin clientId="554997006933-rsc02n9928mffqrlor7hc0lvvprov6c2.apps.googleusercontent.com" 
+                    <GoogleLogin clientId="1020193705109-r2f6e31mhi2aqqjqo2461vsfkm6nonol.apps.googleusercontent.com" 
                         render={(renderProps) => {
                             return (
                                 <Button 

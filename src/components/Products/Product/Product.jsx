@@ -46,7 +46,9 @@ const Product = ({ product ,index }) => {
                 </Typography>
                 </div>
                 <Typography dangerouslySetInnerHTML={{ __html: description}} variant="body2" color="textSecondary" />
+                
         </CardContent>
+        
         <CardActions disableSpacing className={classes.cardActions}>
         <Link to={`/product/${product.id}`} style={{textDecoration: 'none'}}><Button className={classes.detailButton}>See Details</Button></Link>
             <IconButton aria-label="Add to Cart" onClick={onAddToCart}>

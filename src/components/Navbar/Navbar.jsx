@@ -8,16 +8,14 @@ import {
   Menu,
   Typography,
   Button,
-  TextField,
+  Fade,
 } from "@material-ui/core";
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import { ShoppingCart, Search, Clear} from "@material-ui/icons";
+import { ShoppingCart, Search, Clear, KeyboardArrowDown} from "@material-ui/icons";
 import { Link, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import logo from "../../assets/commerce.png";
 import useStyles from "./styles";
-
+import { logout } from "../../core/authSlice";
 
 const styles = {
   root: {
@@ -34,19 +32,22 @@ const styles = {
 const Navbar = ({  searchField, setSearchField }) => {
   const classes = useStyles();
   const location = useLocation();
-
+  const user = useSelector((state) => state.auth.authData);
   const cartTotalQuantity = useSelector(state => state.cart.totalQuantity);
   
-  // const [anchorEl, setAnchorEl] = useState(null);
-  // const open = Boolean(anchorEl);
-  const details = useSelector(state => state?.main?.products);
+  const dispatch = useDispatch();
+  
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  
+  console.log(user?.result?.name);
 
-  // const handleLogin = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 const handleSearch = (e) => {
   setSearchField(e.target.value);
 } 
@@ -55,36 +56,14 @@ const clear = () => {
   setSearchField("");
 }
 
-// const filteredProducts = details.filter(
-//   product => {
-//     return (
-//       product
-//       .name
-//       .toLowerCase()
-//       .includes(searchField.toLowerCase()) 
-//       // ||
-//       // product
-//       // .price
-//       // .toLowerCase()
-//       // .includes(searchField.toLowerCase())
-//     );
-//   }
-// );
+const handleLogout = () => {
+  dispatch(logout());
+}
 
-
-
-
-// function searchList() {
-//   if (searchShow) {
-//     return (
-//         <SearchList filteredProducts={filteredProducts} />
-//     );
-//   }
-// }
   return (
     <div>
       {/* <AppBar position="fixed" className={classes.appBar} color="inherit"> */}
-      <AppBar position="fixed" color='primary' >
+      <AppBar position="fixed" color='primary'>
           <Toolbar >
             <Typography component={Link} to="/" variant="h6" className={classes.appBar} color="inherit">
                 <div className={classes.logoContainer}>
@@ -113,20 +92,39 @@ const clear = () => {
             <div className={classes.grow} />
             {/* {location.pathname === "/" && ( */}
             <div className={classes.button}>
-                <Link to="/login" style={{textDecoration: 'none'}}>
+                {!user ? <Link to="/login" style={{textDecoration: 'none'}}>
                   <Button id = "login-button" className={classes.loginButton}>
                     login
                   </Button>
-                </Link>
-              
-              {/* <IconButton 
-              component={Link}
-              to="/login"
-              aria-label="Login"
-              color="inherit"
-              >
-              login
-              </IconButton> */}
+                </Link>: 
+                <div>
+                  <Button
+                    id="fade-button"
+                    aria-controls={open ? 'fade-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                    onClick={handleClick}
+                    className={classes.loginButton}
+                  >
+                    {user?.result?.name?.split(" ")[0]}<KeyboardArrowDown />
+                  </Button>
+                  <Menu
+                    id="fade-menu"
+                    MenuListProps={{
+                      'aria-labelledby': 'fade-button',
+                    }}
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    TransitionComponent={Fade}
+                    className={classes.userPopup}
+                  >
+                    <Link to="/userProfile" style={{textDecoration: 'none'}}>
+                       <MenuItem onClick={handleClose}>My Profile</MenuItem>
+                    </Link>
+                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                  </Menu>
+                </div>}
           </div>
                   {/* )} */}
                   

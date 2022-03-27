@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 //import { commerce } from "./lib/commerce";
-import { Products, Navbar, Cart, Checkout, PrivateRoute, SellerDashboard,  ProductDetails, Auth } from "./components";
+import { Products, Navbar, Cart, Checkout, PrivateRoute, SellerDashboard,  ProductDetails, Auth, UserProfile } from "./components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 //import { createProduct } from './core/mainSlice';
 import {dummyProducts} from "./mock/mockData";
+
 
 const App = () => {
   const [products, setProducts] = useState(dummyProducts);
@@ -38,15 +39,18 @@ const App = () => {
           <Route exact path="/product/:Pid">
             <ProductDetails products={products}/>
           </Route>
-          <Route  path="/login">
+          <Route exact path="/login">
             <Auth/>
+          </Route>
+          <Route  exact path="/userProfile">
+             <UserProfile/>
           </Route>
           {/* </PrivateRoute> */}
           <Route exact path="/checkout">
             <Checkout/>
           </Route>
         </Switch>
-      </div>
+      </div>6
     </Router>
   );
 };

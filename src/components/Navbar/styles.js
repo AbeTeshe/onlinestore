@@ -39,13 +39,20 @@ export default makeStyles((theme) => ({
   image: {
     marginRight: `10px`,
     height: '25px',
-  },
+  }, 
 
+  login: {
+    width: '5%'
+  },
 
   loginButton: {
     color: 'white',
-    width: '5%',
+    width: '100%',
     float: 'right',
+  },
+
+  userPopup: {
+    marginTop: '40px'
   },
  
   menuButton: {
