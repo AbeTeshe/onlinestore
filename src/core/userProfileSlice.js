@@ -5,16 +5,17 @@ const userProfileSlice = createSlice({
     initialState: {
         userProfile: localStorage.getItem("userProfile")? JSON.parse(localStorage.getItem('userProfile')):[],
     },
-    reducers: {
+    reducers: { 
         createUserProfile:(state, action) => {
+            const newPerson = action.payload;
             state.userProfile.push({
-                id,
-                firstName,
-                lastName,
-                email,
-                phoneNumber,
-                country,
-                city
+                id : newPerson.id,
+                firstName: newPerson.firstName,
+                lastName: newPerson.lastName,
+                email: newPerson.email,
+                phoneNumber: newPerson.phoneNumber,
+                country: newPerson.country,
+                city: newPerson.city,
             });
             localStorage.setItem('userProfile', JSON.stringify(state.userProfile));
         },

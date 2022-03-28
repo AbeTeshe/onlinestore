@@ -5,6 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
     name: 'auth',
     initialState: {
         authData: localStorage.getItem('profile') ? JSON.parse(localStorage.getItem('profile')) : null,
+        isAdmin: false,
     },
     reducers: {
         login: (state, action) => {
@@ -18,6 +19,7 @@ import { createSlice } from "@reduxjs/toolkit";
         }
     }
 });
+
 
 export const {login, logout} = authSlice.actions;
 
