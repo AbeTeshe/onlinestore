@@ -16,6 +16,8 @@ const userProfileSlice = createSlice({
                 phoneNumber: newPerson.phoneNumber,
                 country: newPerson.country,
                 city: newPerson.city,
+                addressLine: newPerson.addressLine,
+                zipCode: newPerson.zipCode
             });
             localStorage.setItem('userProfile', JSON.stringify(state.userProfile));
         },

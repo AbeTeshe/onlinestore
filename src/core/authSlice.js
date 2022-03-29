@@ -4,8 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
  const authSlice = createSlice({
     name: 'auth',
     initialState: {
-        authData: localStorage.getItem('profile') ? JSON.parse(localStorage.getItem('profile')) : null,
-        isAdmin: false,
+        authData: localStorage.getItem('profile') ? JSON.parse(localStorage.getItem('profile')) : null
     },
     reducers: {
         login: (state, action) => {
@@ -15,7 +14,7 @@ import { createSlice } from "@reduxjs/toolkit";
         },
         logout: (state) => {
             state.authData = null,
-            localStorage.removeItem('profile');
+            localStorage.clear();
         }
     }
 });

@@ -8,7 +8,7 @@ import {
   Typography
 } from "@material-ui/core";
 import { useForm, FormProvider } from "react-hook-form";
-
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 //import { commerce } from "../../lib/commerce";
 import FormInput from "./CustomTextField";
@@ -20,6 +20,8 @@ const AddressForm = ({ checkoutToken, next }) => {
   const [shippingSubdivision, setShippingSubdivision] = useState("");
   const [shippingOptions, setShippingOptions] = useState([]);
   const [shippingOption, setShippingOption] = useState("");
+  const userProfile = useSelector((state) => state.userProfile.userProfile);
+  console.log(userProfile[0].firstName);
 
   const methods = useForm();
 
@@ -58,6 +60,10 @@ const AddressForm = ({ checkoutToken, next }) => {
     // setShippingSubdivisions(subdivisions);
     // setShippingSubdivision(Object.keys(subdivisions)[0]);
   };
+
+  const handleChange = () => {
+
+  }
 
   const fetchShippingOptions = async (
     checkoutTokenId,
@@ -108,13 +114,16 @@ const AddressForm = ({ checkoutToken, next }) => {
           )}
         >
           <Grid container spacing={3}>
-            <FormInput required name="firstName" label="First Name" />
-            <FormInput required name="lastName" label="Last Name" />
-            <FormInput required name="address1" label="Address Line 1" />
-            <FormInput required name="email" label="Email" />
-            <FormInput required name="city" label="City" />
-            <FormInput required name="zip" label="Zip / Postal code" />
-            <Grid item xs={12} sm={6}>
+            <FormInput value={userProfile[0].firstName} handleChange={handleChange} required name="firstName" label="First Name" />
+            <FormInput value={userProfile[0].lastName} handleChange={handleChange} required name="lastName" label="Last Name" />
+            <FormInput value={userProfile[0].addressLine} handleChange={handleChange} required name="address1" label="Address Line 1" />
+            <FormInput value={userProfile[0].email} handleChange={handleChange} required name="email" label="Email" />
+            <FormInput value={userProfile[0].city} handleChange={handleChange} required name="city" label="City" />
+            <FormInput value={userProfile[0].zipCode} handleChange={handleChange} required name="zip" label="Zip / Postal code" />
+            <FormInput value={userProfile[0].country}  handleChange={handleChange} name="Country" label="Shipping Country" />
+            <FormInput   name="subdivision" label="Shipping subdivision" />
+            <FormInput   name="options" label="Shipping options" />
+            {/* <Grid item xs={12} sm={6}>
               <InputLabel>Shipping Country</InputLabel>
               <Select
                 value={shippingCountry}
@@ -128,7 +137,6 @@ const AddressForm = ({ checkoutToken, next }) => {
                 ))}
               </Select>
             </Grid>
-
             <Grid item xs={12} sm={6}>
               <InputLabel>Shipping Subdivision</InputLabel>
               <Select
@@ -157,7 +165,7 @@ const AddressForm = ({ checkoutToken, next }) => {
                   </MenuItem>
                 ))}
               </Select>
-            </Grid>
+            </Grid> */}
           </Grid>
           <br />
 

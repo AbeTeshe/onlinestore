@@ -2,7 +2,7 @@ import React from "react";
 
 import { Typography, List, ListItem, ListItemText } from "@material-ui/core";
 import { useSelector } from "react-redux";
-const Review = ({ checkoutToken }) => {
+const Review = () => {
   const cartItems = useSelector(state=> state.cart.cartItems);
     
     let cartTotal = 0;

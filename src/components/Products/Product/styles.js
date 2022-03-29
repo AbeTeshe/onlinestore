@@ -26,7 +26,6 @@ export default makeStyles (() => ({
         color: 'white',
         cursor: 'pointer',
         borderRadius: '10px',
-        
     }
         
 }));

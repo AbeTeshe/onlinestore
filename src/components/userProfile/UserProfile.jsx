@@ -18,10 +18,12 @@ const UserProfile = () => {
       profileImg: imageUrl,
       firstName: familyName,
       lastName: givenName,
-      Pemail: email,
+      email: email,
       phoneNumber: '',
       country: '',
       city: '',
+      addressLine: '',
+      zipCode: ''
   });
   
   const handleSubmit = (e) => {
@@ -51,12 +53,14 @@ const UserProfile = () => {
                         <Grid item xs={12} sm={12} md={6} lg={6}>
                             <Input value={person.firstName} name="firstName" label="First Name" handleChange={handleChange} autoFocus />
                             <Input value={person.lastName} name="lastName" label="Last Name" handleChange={handleChange} autoFocus  />
-                            <Input value={person.Pemail} name="Pemail" label="Email" handleChange={handleChange} autoFocus  />
+                            <Input value={person.email} name="email" label="Email" handleChange={handleChange} autoFocus  />
+                            <Input value={person.phoneNumber} name="phoneNumber" label="Phone Number" handleChange={handleChange} autoFocus  />
                         </Grid>
                         <Grid item xs={12} sm={12} md={6} lg={6}>
-                            <Input value={person.phoneNumber} name="phoneNumber" label="Phone Number" handleChange={handleChange} autoFocus  />
                             <Input value={person.country} name="country" label="Country" handleChange={handleChange} autoFocus  />
                             <Input value={person.city} name="city" label="City" handleChange={handleChange} autoFocus  />
+                            <Input value={person.addressLine} name="addressLine" label="Address Line 1" autoFocus handleChange={handleChange}/>
+                            <Input value={person.zipCode} name="zipCode" label="Zip / Postal code" autoFocus handleChange={handleChange}/>
                         </Grid>
                         <Button color="primary" variant="contained" onClick={handleSubmit}>Update Profile</Button>
                     </Grid>

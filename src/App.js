@@ -2,21 +2,31 @@ import React, { useState, useEffect } from "react";
 //import { commerce } from "./lib/commerce";
 import { Products, Navbar, Cart, Checkout, PrivateRoute, SellerDashboard,  ProductDetails, Auth, UserProfile } from "./components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 //import { createProduct } from './core/mainSlice';
 import {dummyProducts} from "./mock/mockData";
 
 
 const App = () => {
-  const [products, setProducts] = useState(dummyProducts);
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  //const [products, setProducts] = useState([]);
   const [searchField, setSearchField] = useState("");
   const dispatch = useDispatch();
 
-  useEffect(() => {
-      const filteredProduct = products?.filter((product) => product.name?.toLowerCase().includes(searchField.toLowerCase()));
-      setFilteredProducts(filteredProduct ? filteredProduct: []);
-  }, [searchField]);
+  const products = useSelector((state) => state?.main?.products);
+
+  // useEffect(() => {
+  //   const getProducts = () => {
+  //                  fetch('https://ipfs.infura.io/ipfs/QmVr4x7ifbJr2hqRSvfkhfRwgCQqbKUqdy8p8LdFSQSa5R')
+  //                       .then((res) => res.json())
+  //                       .then((res) => {
+  //                         console.log(res);
+  //                         setProducts(res.data);
+  //                       });
+  //   }
+  //   getProducts();
+  // }, []);
+
+  console.log(products);
 
   
 
@@ -26,7 +36,7 @@ const App = () => {
         <Navbar searchField={searchField} setSearchField={setSearchField} />
         <Switch>
           <Route exact path="/">
-            <Products products={!filteredProducts.length ? products: filteredProducts} />
+            <Products searchField={searchField} />
           </Route>
 
           <Route exact path="/cart">

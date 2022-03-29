@@ -2,18 +2,21 @@ import React, {useState, useEffect} from 'react'
 import { Grid, Typography, Button } from '@material-ui/core';
 import { Grade } from '@material-ui/icons';
 import {Link, useParams} from "react-router-dom";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useStyles from "./styles";
 import {addItemToCart} from '../../core/cartSlice';
+import {getProduct} from '../../core/mainSlice';
 
-const ProductDetails = ({products}) => {
+
+const ProductDetails = () => {
     const {Pid} = useParams();
     const classes = useStyles();
     const dispatch = useDispatch();
+    const products = useSelector((state) => state?.main?.products);
+    console.log(products);
+    const product = products?.find((item) => item.id ===Number(Pid));
 
-    const [product] = products.filter((item) => item.id === Number(Pid));
-    const {id, name, description, mediaUrl, price} = product;
-
+    const {id, name, description, mediaUrl, price, details} = product;
     const onAddToCart = () => {
       dispatch(
           addItemToCart({
@@ -36,22 +39,22 @@ const ProductDetails = ({products}) => {
                 <img src={mediaUrl} alt="detailprImage" className={classes.detailProductImage}/>
                 <div className={classes.smallImages}>
                     <img src={mediaUrl} alt="detailprImage" className={classes.detailProductImg}/>
-                    <img src={product.mediaUrl} alt="detailprImage" className={classes.detailProductImg}/>
-                    <img src={product.mediaUrl} alt="detailprImage" className={classes.detailProductImg}/>
-                    <img src={product.mediaUrl} alt="detailprImage" className={classes.detailProductImg}/>
-                    <img src={product.mediaUrl} alt="detailprImage" className={classes.detailProductImg}/>
+                    <img src={details?.image1} alt="detailprImage" className={classes.detailProductImg}/>
+                    <img src={details?.image2} alt="detailprImage" className={classes.detailProductImg}/>
+                    <img src={details?.image3} alt="detailprImage" className={classes.detailProductImg}/>
+                    <img src={details?.image4} alt="detailprImage" className={classes.detailProductImg}/>
                 </div>
             </Grid>
             <Grid item xs={12} sm={12} md={6} lg={6}>
                 <Typography variant="h1" className={classes.productDetailTitle}>{name}</Typography>
                 <Typography className={classes.productRating}>
-                {Array(5).fill().map((_, i) => (
+                {Array(details?.rating).fill().map((_, i) => (
                   <Grade className={classes.rating} key={i}/>
-                ))} (100 customer reviews)
+                ))} ({details?.totalReviews} customer reviews)
                 </Typography>
                 <Typography className={classes.productDetailPrice}>Price: <span className={classes.productPrice}>${price}</span></Typography>
-                <Typography className={classes.productDetails}><span className={classes.productDetailName}>Available: </span> <span className={classes.productDesc}>In Stock</span></Typography>
-                <Typography className={classes.productDetails}><span className={classes.productDetailName}>Product Code:</span> <span className={classes.productDesc}>100</span></Typography>
+                <Typography className={classes.productDetails}><span className={classes.productDetailName}>Available: </span> <span className={classes.productDesc}>{details?.availablityStatus}</span></Typography>
+                <Typography className={classes.productDetails}><span className={classes.productDetailName}>Product Code:</span> <span className={classes.productDesc}>{details?.productCode}</span></Typography>
                 <Typography className={classes.productDetailDescription}>{description}</Typography>
                 <Button className={classes.AddToCartProduct} onClick={onAddToCart}>Add To Cart</Button>
             </Grid>

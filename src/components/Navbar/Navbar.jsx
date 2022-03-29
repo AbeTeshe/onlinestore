@@ -58,6 +58,7 @@ const clear = () => {
 const handleLogout = () => {
   dispatch(logout());
   history.push("/");
+  localStorage.removeItem("userProfile");
 
 }
 

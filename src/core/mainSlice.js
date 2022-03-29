@@ -1,7 +1,8 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {ipfsURL} from '../components/IPFS/ipfsURL.js'
+import {ipfsURL} from '../components/IPFS/ipfsURL.js';
+import {dummyProducts } from './dummyProducts';
 const initialMainState = {
-  products: [],
+  products: dummyProducts,
   isAdmin: false,
 };
 
@@ -36,7 +37,7 @@ export const mainSlice = createSlice({
      addNewProduct: (state, action) => {
       state.products.push(action.payload);
     },
-    getProduct: (state, action) => {
+    getProducts: (state, action) => {
       state.products = action.payload;
     }
   }
@@ -46,7 +47,7 @@ export const mainSlice = createSlice({
     updateProduct,
     deleteProduct,
     getProductList,
-    getProduct
+    getProducts
   } = mainSlice.actions;
 
   export default mainSlice.reducer;
