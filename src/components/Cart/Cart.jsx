@@ -13,7 +13,6 @@ const Cart = ({  handleUpdateCartQty, handleRemoveFromCart }) => {
     const cartItems = useSelector(state=> state.cart.cartItems);
     const dispatch = useDispatch();
 
-
     let cartTotal = 0;
 
     for(let i=0; i< cartItems.length; i++){

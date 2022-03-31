@@ -17,7 +17,9 @@ const userProfileSlice = createSlice({
                 country: newPerson.country,
                 city: newPerson.city,
                 addressLine: newPerson.addressLine,
-                zipCode: newPerson.zipCode
+                zipCode: newPerson.zipCode,
+                shippingDivision: newPerson.shippingDivision,
+                shippingOption: newPerson.shippingOption
             });
             localStorage.setItem('userProfile', JSON.stringify(state.userProfile));
         },
@@ -26,7 +28,20 @@ const userProfileSlice = createSlice({
             localStorage.setItem('userProfile', JSON.stringify(state.userProfile));
         },
         updateUserProfile: (state, action) => {
-            state.userProfile[state.userProfile.find((user) => user.id ===action.payload.id)] = action.payload.userProfile;
+            const newPerson = action.payload;
+            state.userProfile[0] = {
+                id: newPerson.id,
+                firstName: newPerson.firstName,
+                lastName: newPerson.lastName,
+                email: newPerson.email,
+                phoneNumber: newPerson.phoneNumber,
+                country: newPerson.country,
+                city: newPerson.city,
+                addressLine: newPerson.addressLine,
+                zipCode: newPerson.zipCode,
+                shippingDivision: newPerson.shippingDivision,
+                shippingOption: newPerson.shippingOption
+            };
             localStorage.setItem('userProfile', JSON.stringify(state.userProfile));
         },
         getUserProfile: (state) => {

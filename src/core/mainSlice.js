@@ -1,8 +1,9 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {ipfsURL} from '../components/IPFS/ipfsURL.js';
 import {dummyProducts } from './dummyProducts';
+localStorage.setItem("products", JSON.stringify(dummyProducts));
 const initialMainState = {
-  products: dummyProducts,
+  products: JSON.parse(localStorage.getItem("products")),
   isAdmin: false,
 };
 
@@ -31,11 +32,11 @@ export const mainSlice = createSlice({
       const foundIndex = state.products.findIndex(product => product.id === action.payload);
       delete state.products[foundIndex];
       state.products.splice(foundIndex,1);
-  
     },
 
      addNewProduct: (state, action) => {
       state.products.push(action.payload);
+      localStorage.setItem("products", JSON.stringify(state.products));
     },
     getProducts: (state, action) => {
       state.products = action.payload;

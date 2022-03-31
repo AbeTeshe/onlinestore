@@ -121,8 +121,8 @@ const AddressForm = ({ checkoutToken, next }) => {
             <FormInput value={userProfile[0].city} handleChange={handleChange} required name="city" label="City" />
             <FormInput value={userProfile[0].zipCode} handleChange={handleChange} required name="zip" label="Zip / Postal code" />
             <FormInput value={userProfile[0].country}  handleChange={handleChange} name="Country" label="Shipping Country" />
-            <FormInput   name="subdivision" label="Shipping subdivision" />
-            <FormInput   name="options" label="Shipping options" />
+            <FormInput value={userProfile[0].shippingDivision} name="shippingDivision" label="Shipping subdivision" />
+            <FormInput value={userProfile[0].shippingOption} name="options" label="Shipping options" />
             {/* <Grid item xs={12} sm={6}>
               <InputLabel>Shipping Country</InputLabel>
               <Select

@@ -25,11 +25,7 @@ const App = () => {
   //   }
   //   getProducts();
   // }, []);
-
-  console.log(products);
-
-  
-
+ 
   return (
     <Router>
       <div>
