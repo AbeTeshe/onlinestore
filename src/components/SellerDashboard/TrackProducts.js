@@ -16,7 +16,7 @@ import EditIcon from "@material-ui/icons/EditOutlined";
 import DoneIcon from "@material-ui/icons/DoneAllTwoTone";
 import RevertIcon from "@material-ui/icons/NotInterestedOutlined";
 import { useSelector, useDispatch } from 'react-redux';
-import {updateProduct,deleteProduct} from "../../core/mainSlice";
+import {updateProduct,deleteProduct} from "../../redux/reducers/productSlice";
 
 
 const useStyles = makeStyles(theme => ({

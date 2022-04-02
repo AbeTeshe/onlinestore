@@ -3,7 +3,7 @@ import { Card, CardMedia, CardContent, CardActions, Typography, IconButton, Butt
 import { AddShoppingCart } from '@material-ui/icons';
 import {Link} from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { addItemToCart } from '../../../core/cartSlice';
+import { addItemToCart } from '../../../redux/reducers/cartSlice';
 
 
 import useStyles from './styles';
@@ -12,8 +12,7 @@ const Product = ({ product ,index }) => {
     
     const classes = useStyles();
     const dispatch = useDispatch();
-
-
+    
     // const IPFS = true;
     // const ipfsURL =  useSelector(state => state?.main?.products[index]?.ipfsURL);
     // const price = useSelector(state => state?.main?.products[index]?.price);
@@ -26,7 +25,7 @@ const Product = ({ product ,index }) => {
             addItemToCart({
                 id : id,
                 name: name,
-                price: price,
+                price: Number(price),
                 image: mediaUrl,
         })
       )
@@ -50,7 +49,7 @@ const Product = ({ product ,index }) => {
         </CardContent>
         
         <CardActions disableSpacing className={classes.cardActions}>
-        <Link to={`/product/${product.id}`} style={{textDecoration: 'none'}}><Button className={classes.detailButton}>See Details</Button></Link>
+        <Link to={`/product/${product._id}`} style={{textDecoration: 'none'}}><Button className={classes.detailButton}>See Details</Button></Link>
             <IconButton aria-label="Add to Cart" onClick={onAddToCart}>
                 <AddShoppingCart />
             </IconButton>

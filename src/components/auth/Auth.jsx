@@ -7,7 +7,8 @@ import { useDispatch } from 'react-redux';
 import Icon  from './Icon';
 import Input from './Input';
 import useStyles from "./styles";
-import {login} from '../../core/authSlice';
+import {loginWithGoogle} from '../../redux/reducers/authSlice';
+import { loginUser, registerUser } from '../../redux/apiCalls/authApiCalls';
 const initialState = {firstName: '', 
                        lastName: '', email: '',
                        password: '', confirmPassword: ''};
@@ -22,15 +23,23 @@ const Auth = () => {
     const history= useHistory();
     
     
-    const handleChange= (elements) => {
-
+    const handleChange= (e) => {
+        setFormData((prev) => {
+            return {...prev, [e.target.name]: e.target.value};
+        })
     }
 
     const handleSubmit = (e) => {
-
+        e.preventDefault();
+        if(isSignup){
+            registerUser(formData, dispatch);
+        } else {
+            loginUser(formData, dispatch);
+        }
     }
 
     const switchMode = () => {
+        setFormData(initialState);
         setIsSignup((preIsSignup) => !preIsSignup);
         setShowPassword(false);
     }
@@ -39,10 +48,10 @@ const Auth = () => {
         console.log(res);
         const result = res?.profileObj;
         const token = res?.tokenId;
-        console.log(token);
+        
 
         try {
-            dispatch(login({token, result}));
+            dispatch(loginWithGoogle({token, result}));
             history.push('/');
         }
         catch(error) {
@@ -68,13 +77,13 @@ const Auth = () => {
                         {
                             isSignup && (
                                 <>
-                                   <Input name="firstName" label="First Name" handleChange={handleChange} autoFocus  />
-                                   <Input name="lastName" label="Last Name" handleChange={handleChange}   />
+                                   <Input value={formData.firstName} name="firstName"  label="First Name" handleChange={handleChange} autoFocus  />
+                                   <Input value={formData.lastName} name="lastName" label="Last Name" handleChange={handleChange}   />
                                 </>
                             )}
-                            <Input name="email" label="Email Address" handleChange={handleChange} type="email"/>
-                            <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword}/>
-                            {isSignup && <Input name="confirmPassword" label="Confirm Password" handleChange={handleChange} type="password"/>}
+                            <Input value={formData.email} name="email" label="Email Address" handleChange={handleChange} type="email"/>
+                            <Input value={formData.password} name="password" label="Password" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword}/>
+                            {isSignup && <Input value={formData.confirmPassword} name="confirmPassword" label="Confirm Password" handleChange={handleChange} type="password"/>}
                             
                     </Grid>
                     <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>

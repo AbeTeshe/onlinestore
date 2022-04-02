@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import useStyles from './styles';
 import CartItem from './CartItem/CartItem';
 import { useSelector, useDispatch } from 'react-redux';
-import {emptyCart} from "../../core/cartSlice";
+import {emptyCart} from "../../redux/reducers/cartSlice";
 
 const Cart = ({  handleUpdateCartQty, handleRemoveFromCart }) => {
 

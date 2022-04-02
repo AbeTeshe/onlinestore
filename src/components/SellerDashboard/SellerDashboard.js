@@ -12,7 +12,7 @@ import useStyles from './styles';
 import {create} from 'ipfs-http-client';
 import {TrackProducts} from './TrackProducts';
 import { useDispatch } from 'react-redux';
-import {addNewProduct} from "../../core/mainSlice";
+import {addNewProduct} from "../../redux/reducers/productSlice";
 
 const client = create('https://ipfs.infura.io:5001');
 

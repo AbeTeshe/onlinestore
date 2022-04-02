@@ -52,7 +52,7 @@ const UserData = ({userProfile}) => {
                                     <LocationOn />
                                 </Avatar>
                                 </ListItemAvatar>
-                                <ListItemText primary="Address Line" secondary={`${userProfile[0]?.addressLine}, ${userProfile[0]?.zipCode}`} />
+                                <ListItemText primary="Address Line" secondary={`${userProfile[0]?.addressLine1}, ${userProfile[0]?.zipCode}`} />
                             </ListItem>
                             <ListItem>
                                 <ListItemAvatar>
@@ -60,7 +60,7 @@ const UserData = ({userProfile}) => {
                                     <ShoppingCartCheckout />
                                 </Avatar>
                                 </ListItemAvatar>
-                                <ListItemText primary="Shipping Information" secondary={`${userProfile[0]?.shippingDivision}, ${userProfile[0].shippingOption}`} />
+                                <ListItemText primary="Shipping Information" secondary={`${userProfile[0]?.shippingDivision}, ${userProfile[0]?.shippingOption}`} />
                             </ListItem>
                         </List>
                   </Grid>

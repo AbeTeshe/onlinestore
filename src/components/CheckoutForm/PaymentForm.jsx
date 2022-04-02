@@ -6,7 +6,7 @@ import {
   ElementsConsumer
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-
+import CreditCardForm from "./creditCardForm/CreditCardForm";
 import Review from "./Review";
 
 const stripePromise = loadStripe('pk_test_51JsLJnL4ZN6qtyNcqFhgoeqjaNF789pAXWN47x1g59lfidILtJ8UXi9m0Y7lUxFp59yLIxbOktd2l9WbYgsZ3eQZ00buFYC6mi');
@@ -73,7 +73,7 @@ const PaymentForm = ({
         <ElementsConsumer>
           {({ elements, stripe }) => (
             <form onSubmit={(e) => handleSubmit(e, elements, stripe)}>
-              <CardElement />
+              <CreditCardForm/>
               <br /> <br />
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <Button variant="outlined" onClick={backStep}>

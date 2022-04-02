@@ -120,8 +120,6 @@
             image2: 'https://ipfs.infura.io/ipfs/QmXjUv9oLuBpcNuMFn6xy4Rn6WD253HKZk4oHyEdkNJSJX',
             image3: 'https://ipfs.infura.io/ipfs/QmXjUv9oLuBpcNuMFn6xy4Rn6WD253HKZk4oHyEdkNJSJX',
             image4: 'https://ipfs.infura.io/ipfs/QmXjUv9oLuBpcNuMFn6xy4Rn6WD253HKZk4oHyEdkNJSJX',
-            
-    
           }
         },
         {   

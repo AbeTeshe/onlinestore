@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography, Button, Card, CardActions, CardContent, CardMedia } from '@material-ui/core';
 import {useDispatch} from 'react-redux';
 import useStyles from './styles';
-import {removeItemFromCart, updateCartQuantity} from "../../../core/cartSlice";
+import {removeItemFromCart, updateCartQuantity} from "../../../redux/reducers/cartSlice";
 
 const CartItem = ({item}) => {
   const classes = useStyles();

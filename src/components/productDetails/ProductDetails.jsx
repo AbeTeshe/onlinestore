@@ -4,26 +4,37 @@ import { Grade } from '@material-ui/icons';
 import {Link, useParams} from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import useStyles from "./styles";
-import {addItemToCart} from '../../core/cartSlice';
-import {getProduct} from '../../core/mainSlice';
+import {addItemToCart} from '../../redux/reducers/cartSlice';
+import {getSingleProducts} from '../../redux/apiCalls/product';
+import { publicRequest } from '../../requestMethod';
 
 
 const ProductDetails = () => {
     const {Pid} = useParams();
     const classes = useStyles();
+    console.log(Pid);
     const dispatch = useDispatch();
-    const products = useSelector((state) => state?.main?.products);
-    console.log(products);
-    const product = products?.find((item) => item.id ===Number(Pid));
-
-    const {id, name, description, mediaUrl, price, details} = product;
+    const [product, setProduct] = useState({});
+    
+    useEffect(() => {
+      const getProduct = async() => {
+        try {
+          const res = await publicRequest.get(`/products/${Pid}`);
+          setProduct(res.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getProduct();
+    }, [Pid]);
+     
     const onAddToCart = () => {
       dispatch(
           addItemToCart({
-              id : id,
-              name: name,
-              price: price,
-              image: mediaUrl,
+              id : product?._id,
+              name: product?.name,
+              price: Number(product?.price),
+              image: product?.mediaUrl,
       })
     )
   }
@@ -36,26 +47,26 @@ const ProductDetails = () => {
                <Link to="/" style={{textDecoration: 'none'}}><Button className={classes.backToProductsButton}>Back to Products</Button></Link>
             </Grid>
             <Grid item xs={12} sm={12} md={6} lg={6}>
-                <img src={mediaUrl} alt="detailprImage" className={classes.detailProductImage}/>
+                <img src={product?.mediaUrl} alt="detailprImage" className={classes.detailProductImage}/>
                 <div className={classes.smallImages}>
-                    <img src={mediaUrl} alt="detailprImage" className={classes.detailProductImg}/>
-                    <img src={details?.image1} alt="detailprImage" className={classes.detailProductImg}/>
-                    <img src={details?.image2} alt="detailprImage" className={classes.detailProductImg}/>
-                    <img src={details?.image3} alt="detailprImage" className={classes.detailProductImg}/>
-                    <img src={details?.image4} alt="detailprImage" className={classes.detailProductImg}/>
+                    <img src={product?.mediaUrl} alt="detailprImage" className={classes.detailProductImg}/>
+                    <img src={product?.details?.image1} alt="detailprImage" className={classes.detailProductImg}/>
+                    <img src={product?.details?.image2} alt="detailprImage" className={classes.detailProductImg}/>
+                    <img src={product?.details?.image3} alt="detailprImage" className={classes.detailProductImg}/>
+                    <img src={product?.details?.image4} alt="detailprImage" className={classes.detailProductImg}/>
                 </div>
             </Grid>
             <Grid item xs={12} sm={12} md={6} lg={6}>
-                <Typography variant="h1" className={classes.productDetailTitle}>{name}</Typography>
+                <Typography variant="h1" className={classes.productDetailTitle}>{product?.name}</Typography>
                 <Typography className={classes.productRating}>
-                {Array(details?.rating).fill().map((_, i) => (
+                {Array(product?.details?.rating).fill().map((_, i) => (
                   <Grade className={classes.rating} key={i}/>
-                ))} ({details?.totalReviews} customer reviews)
+                ))} ({product?.details?.totalReviews} customer reviews)
                 </Typography>
-                <Typography className={classes.productDetailPrice}>Price: <span className={classes.productPrice}>${price}</span></Typography>
-                <Typography className={classes.productDetails}><span className={classes.productDetailName}>Available: </span> <span className={classes.productDesc}>{details?.availablityStatus}</span></Typography>
-                <Typography className={classes.productDetails}><span className={classes.productDetailName}>Product Code:</span> <span className={classes.productDesc}>{details?.productCode}</span></Typography>
-                <Typography className={classes.productDetailDescription}>{description}</Typography>
+                <Typography className={classes.productDetailPrice}>Price: <span className={classes.productPrice}>{`$${product?.price}`}</span></Typography>
+                <Typography className={classes.productDetails}><span className={classes.productDetailName}>Available: </span> <span className={classes.productDesc}>{product?.details?.availabilityStatus}</span></Typography>
+                <Typography className={classes.productDetails}><span className={classes.productDetailName}>Product Code:</span> <span className={classes.productDesc}>{product?.details?.productCode}</span></Typography>
+                <Typography className={classes.productDetailDescription}>{product?.description}</Typography>
                 <Button className={classes.AddToCartProduct} onClick={onAddToCart}>Add To Cart</Button>
             </Grid>
         </Grid>
@@ -63,4 +74,4 @@ const ProductDetails = () => {
   )
 }
 
-export default ProductDetails
+export default ProductDetails;

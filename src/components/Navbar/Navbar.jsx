@@ -15,7 +15,7 @@ import { Link, useLocation, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import logo from "../../assets/commerce.png";
 import useStyles from "./styles";
-import { logout } from "../../core/authSlice";
+import { logout } from "../../redux/reducers/authSlice";
 
 const styles = {
   root: {

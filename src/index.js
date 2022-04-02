@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import {store} from "./core/store";
+import {store} from "./redux//store";
 
 import App from "./App";
 
