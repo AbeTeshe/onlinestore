@@ -1,15 +1,14 @@
-import React from "react";
-import { Typography, Button, Divider } from "@material-ui/core";
-import {
-  Elements,
-  CardElement,
-  ElementsConsumer
-} from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-import CreditCardForm from "./creditCardForm/CreditCardForm";
+import React, { useState, useEffect } from "react";
+import {  Button, Divider } from "@material-ui/core";
+import logo from "../../assets/commerce.png";
 import Review from "./Review";
+import StripeCheckout from "react-stripe-checkout";
+import { useSelector, useDispatch } from "react-redux";
+import {publicRequest} from "../../requestMethod";
+import { useHistory } from "react-router-dom";
 
-const stripePromise = loadStripe('pk_test_51JsLJnL4ZN6qtyNcqFhgoeqjaNF789pAXWN47x1g59lfidILtJ8UXi9m0Y7lUxFp59yLIxbOktd2l9WbYgsZ3eQZ00buFYC6mi');
+
+const KEY= "pk_test_51JsLJnL4ZN6qtyNcqFhgoeqjaNF789pAXWN47x1g59lfidILtJ8UXi9m0Y7lUxFp59yLIxbOktd2l9WbYgsZ3eQZ00buFYC6mi";
 
 const PaymentForm = ({
   checkoutToken,
@@ -18,80 +17,68 @@ const PaymentForm = ({
   shippingData,
   onCaptureCheckout
 }) => {
-  const handleSubmit = async (event, elements, stripe) => {
-    event.preventDefault();
+  
+  const cartItems = useSelector((state) => state.cart.cartItems);
+  const [stripeToken, setStripeToken] = useState(null);
+  const history = useHistory();
+  console.log(cartItems);
 
-    if (!stripe || !elements) return;
+  let cartTotal = 0;
+  for(let i=0; i< cartItems.length; i++){
+    cartTotal = cartTotal + cartItems[i]?.totalPrice;
+}
 
-    const cardElement = elements.getElement(CardElement);
-
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
-      card: cardElement
-    });
-    if (error) {
-      console.log("[error]", error);
-    } else {
-      const orderData = {
-        line_items: checkoutToken?.live?.line_items,
-        customer: {
-          firstname: shippingData.firstName,
-          lastname: shippingData.lastName,
-          email: shippingData.email
-        },
-        shipping: {
-          name: "International",
-          street: shippingData.address1,
-          town_city: shippingData.city,
-          county_state: shippingData.shippingSubdivision,
-          postal_zip_code: shippingData.zip,
-          country: shippingData.shippingCountry
-        },
-        fulfillment: { shipping_method: shippingData.shippingOption },
-        payment: {
-          gateway: "stripe",
-          stripe: {
-            payment_method_id: paymentMethod.id
-          }
-        }
-      };
-
-      onCaptureCheckout(checkoutToken.id, orderData);
-
-      nextStep();
-    }
+  const onToken = (token) => {
+    setStripeToken(token);
   };
+
+  useEffect(() => {
+    const makeRequest = async() => {
+      try {
+        const res = await publicRequest.post("/checkout/payment", {
+          tokenId: stripeToken.id,
+          amount: cartTotal * 100,
+        });
+        history.push("/orderSuccess", {
+          stripeData: res.data,
+          orderItems: cartItems,
+          total: cartTotal,
+        });
+        
+      } catch (error) {
+        console.log(error)
+      }
+    };
+
+    stripeToken && makeRequest();
+    
+  }, [stripeToken, cartTotal]);
 
   return (
     <>
       <Review checkoutToken={checkoutToken} />
       <Divider />
-      <Typography variant="h6" gutterBottom style={{ margin: "20px 0" }}>
-        Payment method
-      </Typography>
-      <Elements stripe={stripePromise}>
-        <ElementsConsumer>
-          {({ elements, stripe }) => (
-            <form onSubmit={(e) => handleSubmit(e, elements, stripe)}>
-              <CreditCardForm/>
-              <br /> <br />
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <Button variant="outlined" onClick={backStep}>
-                  Back
-                </Button>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  disabled={!stripe}
-                  color="primary"
-                >
-                  Pay {checkoutToken?.live?.subtotal.formatted_with_symbol}
-                </Button>
-              </div>
-            </form>
-          )}
-        </ElementsConsumer>
-      </Elements>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <Button variant="outlined" onClick={backStep}>
+          Back
+        </Button>
+        <StripeCheckout
+            name="shopinext"
+            image={logo}
+            description={`Your total is $${cartTotal}`}
+            amount = {cartTotal * 100}
+            token={onToken}
+            stripeKey={KEY}
+        >
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+          >
+            Pay {checkoutToken?.live?.subtotal.formatted_with_symbol}
+          </Button>
+        </StripeCheckout>
+      </div>
     </>
   );
 };

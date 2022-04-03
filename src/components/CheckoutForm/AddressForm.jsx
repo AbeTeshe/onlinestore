@@ -36,7 +36,7 @@ const AddressForm = ({ checkoutToken, next }) => {
 
   useEffect(() => {
     getUsersProfile(dispatch);
-  }, [dispatch]);
+  }, [dispatch, userProfile]);
 
   
   const handleChange = (e) => {

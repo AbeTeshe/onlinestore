@@ -33,8 +33,10 @@ const Auth = () => {
         e.preventDefault();
         if(isSignup){
             registerUser(formData, dispatch);
+            history("/");
         } else {
-            loginUser(formData, dispatch);
+            loginUser({formData}, dispatch);
+            history("/");
         }
     }
 

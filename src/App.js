@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 //import { commerce } from "./lib/commerce";
-import { Products, Navbar, Cart, Checkout, PrivateRoute, SellerDashboard,  ProductDetails, Auth, UserProfile } from "./components";
+import { Products, Navbar, Cart, Home, Checkout, OrderSuccess, SellerDashboard,  ProductDetails, Auth, UserProfile } from "./components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { getProduct } from './redux/apiCalls/product';
@@ -58,10 +58,17 @@ const App = () => {
           <Route  exact path="/userProfile">
              <UserProfile/>
           </Route>
+          {/* <Route  exact path="/orderSuccess">
+             <OrderSuccess/>
+          </Route> */}
+          <Route  exact path="/home">
+             <Home/>
+          </Route>
           {/* </PrivateRoute> */}
           <Route exact path="/checkout">
             <Checkout/>
           </Route>
+          
         </Switch>
       </div>
     </Router>

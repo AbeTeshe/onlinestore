@@ -1,19 +1,34 @@
-import React from 'react'
-import { useSelector } from 'react-redux';
+import React, {useEffect} from 'react'
+import { useSelector, useDispatch } from 'react-redux';
+import { getUserOrder } from '../../redux/apiCalls/orderApiCalls';
 
 const UserOrders = () => {
-    const cartItems = useSelector(state=> state.cart.cartItems);
-    console.log(cartItems);
+    const orders = useSelector(state=> state.order.orders);
+    const userProfile = useSelector((state) => state.userProfile.userProfile);
+    console.log(userProfile[0]._id);
+    
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+      getUserOrder(userProfile[0]?._id, dispatch);
+    }, [dispatch, userProfile]);
+    console.log(orders);
+    
   return (
     <div>
         <h1>The orders are</h1>
-        {cartItems.map((item) => {
+        {orders?.map((item) => (
             <div>
-                <h1>{item.name}</h1>
-                <h1>{item.totalPrice}</h1>
-                <h1>{item.quantity}</h1>
+               {item.orderItems.map((order) => (
+                 <ul style={{listStyle: 'none', display: 'flex', justifyContent: 'space-between'}}>
+                    <li>{order.name}</li>
+                    <li>{order.quantity}</li>
+                    <li>{`$${order.price}`}</li>
+                 </ul>
+               ))}
+               
             </div>
-        })}
+        ))}
     </div>
   )
 }
