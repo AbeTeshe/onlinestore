@@ -8,8 +8,8 @@ const userProfileSlice = createSlice({
     reducers: { 
         getUserProfile:(state, action) => {
             state.userProfile = action.payload;
-            
         },
+        
         deleteUserProfile:(state, action) =>  {
             state.userProfile.splice (
                 state.userProfile.findIndex((item) => item._id === action.payload.id), 1

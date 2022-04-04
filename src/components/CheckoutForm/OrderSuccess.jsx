@@ -42,7 +42,7 @@ const OrderSuccess = () => {
         }
       };
       data && createOrder();
-      dispatch(emptyCart());
+      
     },[cartItems, data, userProfile, dispatch]);
 
   return (

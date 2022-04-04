@@ -9,11 +9,11 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import { Link } from "react-router-dom";
 
 
-const Sidebar = () => {
+const Sidebar = ({setPage}) => {
   return (
     <div className="sidebar">
       <div className="top">
-        <Link to="/home" style={{ textDecoration: "none" }}>
+        <Link to="/admin" style={{ textDecoration: "none" }}>
           <span className="logo">shopinetx</span>
         </Link>
       </div>
@@ -21,32 +21,23 @@ const Sidebar = () => {
       <div className="center">
         <ul>
           <p className="title">MAIN</p>
-          <li>
+          <li onClick={() => setPage("home")}>
             <DashboardIcon className="icon" />
             <span>Dashboard</span>
           </li>
           <p className="title">LISTS</p>
-          <Link to="/users" style={{ textDecoration: "none" }}>
-            <li>
+            <li onClick={() => setPage("userList")}>
               <PersonOutlineIcon className="icon" />
               <span>Users</span>
             </li>
-          </Link>
-          <Link to="/products" style={{ textDecoration: "none" }}>
-            <li>
+            <li onClick={() => setPage("productList")}>
               <StoreIcon className="icon" />
               <span>Products</span>
             </li>
-          </Link>
-          <li>
+          <li onClick={() => setPage("orders")}>
             <CreditCardIcon className="icon" />
             <span>Orders</span>
           </li>
-          <li>
-            <LocalShippingIcon className="icon" />
-            <span>Delivery</span>
-          </li>
-          
           <p className="title">USER</p>
           <li>
             <AccountCircleOutlinedIcon className="icon" />

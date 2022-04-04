@@ -132,6 +132,7 @@ const handleLogout = () => {
                   
           <div className={classes.grow} />
           {/* {location.pathname === "/" && ( */}
+            <Link style={{textDecoration: 'none'}} to="/admin"><Button style={{color: 'white', width: '100px'}} color="secondary" >Admin</Button></Link>
             <div className={classes.headerCartButton}>
               <IconButton
                 component={Link}

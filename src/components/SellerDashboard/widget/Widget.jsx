@@ -5,7 +5,7 @@ import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalance
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 
-const Widget = ({ type }) => {
+const Widget = ({ type, setPage, size }) => {
   let data;
 
   //temporary
@@ -17,10 +17,11 @@ const Widget = ({ type }) => {
       data = {
         title: "USERS",
         isMoney: false,
+        page: "userList",
         link: "See all users",
         icon: (
           <PersonOutlinedIcon
-            className="icon"
+            className="widgetIcon"
             style={{
               color: "crimson",
               backgroundColor: "rgba(255, 0, 0, 0.2)",
@@ -33,10 +34,11 @@ const Widget = ({ type }) => {
       data = {
         title: "ORDERS",
         isMoney: false,
+        page: "orders",
         link: "View all orders",
         icon: (
           <ShoppingCartOutlinedIcon
-            className="icon"
+            className="widgetIcon"
             style={{
               backgroundColor: "rgba(218, 165, 32, 0.2)",
               color: "goldenrod",
@@ -45,31 +47,16 @@ const Widget = ({ type }) => {
         ),
       };
       break;
-    case "earning":
+    case "totalSales":
       data = {
-        title: "EARNINGS",
+        title: "TOTAL SALES",
         isMoney: true,
-        link: "View net earnings",
+        page: "orders",
+        link: "View all sales",
         icon: (
           <MonetizationOnOutlinedIcon
-            className="icon"
+            className="widgetIcon"
             style={{ backgroundColor: "rgba(0, 128, 0, 0.2)", color: "green" }}
-          />
-        ),
-      };
-      break;
-    case "balance":
-      data = {
-        title: "BALANCE",
-        isMoney: true,
-        link: "See details",
-        icon: (
-          <AccountBalanceWalletOutlinedIcon
-            className="icon"
-            style={{
-              backgroundColor: "rgba(128, 0, 128, 0.2)",
-              color: "purple",
-            }}
           />
         ),
       };
@@ -80,15 +67,15 @@ const Widget = ({ type }) => {
 
   return (
     <div className="widget">
-      <div className="left">
-        <span className="title">{data.title}</span>
+      <div className="widgetLeft">
+        <span className="widgetTitle">{data.title}</span>
         <span className="counter">
-          {data.isMoney && "$"} {amount}
+          {data.isMoney && "$"}{size}
         </span>
-        <span className="link">{data.link}</span>
+        <span className="widgetLink" onClick={() => setPage(data.page)}>{data.link}</span>
       </div>
-      <div className="right">
-        <div className="percentage positive">
+      <div className="widgetRight">
+        <div className="widgetPercentage positive">
           <KeyboardArrowUpIcon />
           {diff} %
         </div>

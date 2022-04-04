@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 //import { commerce } from "./lib/commerce";
-import { Products, Navbar, Cart, Home, Checkout, OrderSuccess, SellerDashboard,  ProductDetails, Auth, UserProfile } from "./components";
+import { Products, Navbar, Cart, Home, Checkout, OrderSuccess,   ProductDetails, Auth, UserProfile } from "./components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { getProduct } from './redux/apiCalls/product';
@@ -32,7 +32,7 @@ const App = () => {
     const filteredProduct = products?.filter((product) => product.name?.toLowerCase().includes(searchField.toLowerCase()));
     setFilteredProducts(filteredProduct ? filteredProduct: products);
   }, [searchField,dispatch]);
-  console.log(products);
+ 
   return (
     <Router>
       <div>
@@ -46,9 +46,6 @@ const App = () => {
             <Cart/>
           </Route>
           {/* <PrivateRoute> */}
-          <Route exact path="/seller">
-            <SellerDashboard />
-          </Route>
           <Route exact path="/product/:Pid">
             <ProductDetails/>
           </Route>
@@ -58,10 +55,10 @@ const App = () => {
           <Route  exact path="/userProfile">
              <UserProfile/>
           </Route>
-          {/* <Route  exact path="/orderSuccess">
-             <OrderSuccess/>
-          </Route> */}
-          <Route  exact path="/home">
+          <Route  exact path="/orderSuccess">
+            <OrderSuccess/>
+          </Route> 
+          <Route  exact path="/admin">
              <Home/>
           </Route>
           {/* </PrivateRoute> */}
