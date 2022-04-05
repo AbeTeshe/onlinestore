@@ -41,11 +41,9 @@ const App = () => {
           <Route exact path="/">
             <Products searchField={searchField} products={filteredProducts} />
           </Route>
-
           <Route exact path="/cart">
             <Cart/>
           </Route>
-          {/* <PrivateRoute> */}
           <Route exact path="/product/:Pid">
             <ProductDetails/>
           </Route>
@@ -61,7 +59,7 @@ const App = () => {
           <Route  exact path="/admin">
              <Home/>
           </Route>
-          {/* </PrivateRoute> */}
+         
           <Route exact path="/checkout">
             <Checkout/>
           </Route>

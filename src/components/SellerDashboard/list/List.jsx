@@ -1,20 +1,54 @@
 import "./list.css";
+
 import { DataGrid } from "@mui/x-data-grid";
+import { useDispatch, useSelector } from "react-redux";
+
+import { useState, useEffect } from "react";
+import { deleteProducts, getProduct } from "../../../redux/apiCalls/product";
+import { deleteUsersProfile, getUsersProfiles } from "../../../redux/apiCalls/userProfile";
+
+const List = ({name,  columns, setPage, setUserEditId, setProductEditId}) => {
+  const [row, setRow] = useState(null);
+  const products = useSelector((state) => state?.product?.products);
+  const userProfile = useSelector((state) => state?.userProfile?.userProfile);
+  const dispatch = useDispatch();
 
 
-import { useState } from "react";
+  useEffect(() => {
+    getProduct(dispatch);
+    getUsersProfiles(dispatch);
+    if(name==="Product"){
+      setRow(products);
+    }
+    if(name==="User"){
+      setRow(userProfile);
+    }
+  }, [dispatch, userProfile, products]);
 
-const List = ({name, data, columns, setPage}) => {
-  const [row, setRow] = useState(data);
+  
 
   const handleDelete = (id) => {
-    setRow(row.filter((item) => item.id !== id));
+    if(name==="Product"){
+      deleteProducts(id, dispatch);
+    }
+    else if (name==="User"){
+      deleteUsersProfile(id, dispatch);
+    }
   };
   
   const handleEdit = (id) => {
+    if(name==="Product") {
+      setPage("newProduct");
+      setProductEditId(id);
+    }
+    else if (name==="User"){
+      setPage("newUser");
+      setUserEditId(id);
+    }
+    else {
 
+    }
   }
-
 
   const actionColumn = [
     {
@@ -26,12 +60,12 @@ const List = ({name, data, columns, setPage}) => {
           <div className="cellAction">
             <div 
                className="viewButton"
-               onClick={handleEdit}
+               onClick={() => handleEdit(params.row._id)}
             > 
-               Edit</div>
+               Edit {name}</div>
             <div
               className="deleteButton"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => handleDelete(params.row._id)}
             >
               Delete
             </div>
@@ -51,7 +85,8 @@ const List = ({name, data, columns, setPage}) => {
       <DataGrid
         className="datagrid"
         rows={row}
-        getRowId={(row) => row._id}
+        getRowId={(row) => row?._id}
+        disableSelectionOnClick
         columns={columns.concat(actionColumn)}
         rowsPerPageOptions={[15]}
         checkboxSelection

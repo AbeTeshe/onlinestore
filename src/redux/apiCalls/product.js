@@ -24,9 +24,9 @@ export const deleteProducts = async(id, dispatch) => {
     }
 };
 
-export const addEducation = async(product, dispatch) => {
+export const addProducts = async(product, dispatch) => {
     try {
-        const res = await publicRequest.post('/products');
+        const res = await publicRequest.post('/products', product);
         dispatch(addProduct(res.data));
     }
     catch(error){
