@@ -17,7 +17,7 @@ const List = () => {
       date: "1 March",
       amount: 785,
       method: "Cash on Delivery",
-      status: "Approved",
+      status: "Delivered",
     },
     {
       id: 2235235,
@@ -27,7 +27,7 @@ const List = () => {
       date: "1 March",
       amount: 900,
       method: "Online Payment",
-      status: "Pending",
+      status: "Shipped",
     },
     {
       id: 2342353,
@@ -37,7 +37,7 @@ const List = () => {
       date: "1 March",
       amount: 35,
       method: "Cash on Delivery",
-      status: "Pending",
+      status: "Shipped",
     },
     {
       id: 2357741,
@@ -47,7 +47,7 @@ const List = () => {
       date: "1 March",
       amount: 920,
       method: "Online",
-      status: "Approved",
+      status: "Delivered",
     },
     {
       id: 2342355,
@@ -57,7 +57,7 @@ const List = () => {
       date: "1 March",
       amount: 2000,
       method: "Online",
-      status: "Pending",
+      status: "Shipped",
     },
   ];
   return (
