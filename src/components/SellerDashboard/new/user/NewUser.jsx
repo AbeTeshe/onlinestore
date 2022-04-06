@@ -99,8 +99,8 @@ console.log(person);
                   <label>Shipping Option</label>
                   <input type="text" name="shippingOption" value={person.shippingOption} onChange={handleChange} placeholder="" />
                 </div>
-              <button onClick={handleSubmit}>{(userEditId === 0) ? 'Add' : 'Update'}</button>
             </form>
+            <button onClick={handleSubmit} style={{display: 'block'}}>{(userEditId === null) ? 'Add' : 'Update'}</button>
         </div>
       </div>
     </div>

@@ -50,6 +50,15 @@ const List = ({name,  columns, setPage, setUserEditId, setProductEditId}) => {
     }
   }
 
+  const handleNew = () => {
+    if(name==="Product"){
+      setPage("newProduct");
+    }
+    else if (name==="User"){
+      setPage("newUser");
+    }
+  }
+
   const actionColumn = [
     {
       field: "action",
@@ -78,7 +87,7 @@ const List = ({name,  columns, setPage, setUserEditId, setProductEditId}) => {
     <div className="datatable">
       <div className="datatableTitle">
         Add New {name}
-        <div to="/users/new" className="link" onClick={() => setPage("newUser")}>
+        <div  className="link" onClick={handleNew}>
           Add New
         </div>
       </div>

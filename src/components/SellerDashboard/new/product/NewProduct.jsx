@@ -1,5 +1,6 @@
 import "./newProduct.css";
 import { useState, useEffect } from "react";
+import FileBase from "react-file-base64";
 import {useSelector, useDispatch} from "react-redux";
 import {updateProducts, addProducts} from "../../../../redux/apiCalls/product";
 const NewProduct = ({ productEditId, setProductEditId, setPage}) => {
@@ -7,18 +8,31 @@ const NewProduct = ({ productEditId, setProductEditId, setPage}) => {
     name: '',
     price: '',
     description: '',
+    mediaUrl: '',
     quantity: '',
-    supplier: ''
+    supplier: '',
+    details: {
+      totalReviews: '',
+      rating: '',
+      availabilityStatus: '',
+      productCode: '',
+      productCategory: '',
+      image1: '',
+      image2: '',
+      image3: '',
+      image4: ''
+    }
 });
   
   const productToUpdate = useSelector((state) =>
     productEditId ? state.product.products.find((product) => product._id ===productEditId) : null);
 
-console.log(productEditId);
+    console.log(productEditId);
+
    const dispatch = useDispatch();
 
     useEffect(() => {
-      if(productToUpdate) setProductEditId(productToUpdate)
+      if(productToUpdate) setProduct(productToUpdate)
     }, [productToUpdate]);
 
     const handleChange =(e) => {
@@ -27,22 +41,34 @@ console.log(productEditId);
       });
     }
 
-const handleSubmit = (e) => {
-  e.preventDefault();
-  if(productEditId !== null ) {
-    updateProducts(productEditId, product, dispatch);
-  }
-  else {
-    addProducts(product, dispatch);
-  }
-  clear();
-  setPage("productList");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if(productEditId !== null ) {
+      updateProducts(productEditId, product, dispatch);
+    }
+    else {
+      addProducts(product, dispatch);
+    }
+    clear();
+    setPage("productList");
 
-}
+  }
 
 
 const clear = () => {
-  setProduct({name: '', price: '', description: '', quantity: '', supplier: ''});
+  setProduct({name: '', price: '', 
+  description: '', quantity: '', 
+  supplier: '', details: {
+      totalReviews: '',
+      rating: '',
+      availabilityStatus: '',
+      productCode: '',
+      productCategory: '',
+      image1: '',
+      image2: '',
+      image3: '',
+      image4: ''
+  }});
   setProductEditId(null);
 }
 
@@ -76,9 +102,9 @@ console.log(product);
                   <label>Supplier</label>
                   <input type="text" name="supplier" value={product.supplier} onChange={handleChange} placeholder="" />
                 </div>
-              <button onClick={handleSubmit}>{(productEditId === 0) ? 'Add' : 'Update'}</button>
             </form>
         </div>
+        <button onClick={handleSubmit} style={{margin: 'auto'}}>{(productEditId === null) ? 'Add' : 'Update'}</button>
       </div>
     </div>
   );
