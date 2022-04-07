@@ -1,6 +1,7 @@
 .home {
     display: flex;
     margin-top: 70px;
+    min-height: 86vh;
 }
   
 .homeContainer {

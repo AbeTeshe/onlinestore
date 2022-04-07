@@ -24,6 +24,7 @@ const Home = () => {
 
   const dispatch = useDispatch();
   
+  console.log(orders);
   
   useEffect(() => {
     getProduct(dispatch);

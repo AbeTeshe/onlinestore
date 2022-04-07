@@ -23,7 +23,7 @@ const List = ({name,  columns, setPage, setUserEditId, setProductEditId}) => {
     if(name==="User"){
       setRow(userProfile);
     }
-  }, [dispatch, userProfile, products]);
+  }, [dispatch]);
 
   
 
@@ -76,7 +76,7 @@ const List = ({name,  columns, setPage, setUserEditId, setProductEditId}) => {
               className="deleteButton"
               onClick={() => handleDelete(params.row._id)}
             >
-              Delete
+              {name==="User" ? 'Disable': 'Delete'}
             </div>
           </div>
         );

@@ -21,6 +21,7 @@
     "@stripe/react-stripe-js": "^1.7.0",
     "@stripe/stripe-js": "^1.26.0",
     "axios": "^0.26.1",
+    "ipfs-core": "^0.14.2",
     "ipfs-http-client": "^56.0.1",
     "ipfs-mini": "^1.1.5",
     "prop-types": "^15.8.1",

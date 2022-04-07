@@ -4,7 +4,7 @@ import { Products, Navbar, Cart, Home, Checkout, OrderSuccess,   ProductDetails,
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { getProduct } from './redux/apiCalls/product';
-import { publicRequest } from "./requestMethod";
+import Footer from "./components/footer/Footer";
 
 const App = () => {
   const [searchField, setSearchField] = useState("");
@@ -12,34 +12,21 @@ const App = () => {
   const authData = useSelector((state) => state.auth?.authData);
   const products =  useSelector(state => state?.product?.products);
   const dispatch = useDispatch();
+ 
   
-  const [filteredProducts, setFilteredProducts] = useState([]);
-
-  // useEffect(() => {
-  //   const getUserProfile = async() => {
-  //     try {
-  //       const res = await publicRequest.get('/products');
-  //       setProducts(res.data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  //   getUserProfile();
-  // }, []);
 
   useEffect(() => {
     getProduct(dispatch);
-    const filteredProduct = products?.filter((product) => product.name?.toLowerCase().includes(searchField.toLowerCase()));
-    setFilteredProducts(filteredProduct ? filteredProduct: products);
+    
   }, [searchField,dispatch]);
  
   return (
     <Router>
       <div>
         <Navbar searchField={searchField} setSearchField={setSearchField} />
-        <Switch>
+        <Switch >
           <Route exact path="/">
-            <Products searchField={searchField} products={filteredProducts} />
+            <Products searchField={searchField} products={products} />
           </Route>
           <Route exact path="/cart">
             <Cart/>
@@ -47,8 +34,8 @@ const App = () => {
           <Route exact path="/product/:Pid">
             <ProductDetails/>
           </Route>
-          <Route exact path="/login">
-            <Auth/>
+          <Route exact path="/login" >
+            <Auth />
           </Route>
           <Route  exact path="/userProfile">
              <UserProfile/>
@@ -63,8 +50,8 @@ const App = () => {
           <Route exact path="/checkout">
             <Checkout/>
           </Route>
-          
         </Switch>
+        <Footer />
       </div>
     </Router>
   );

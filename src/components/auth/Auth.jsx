@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {GoogleLogin} from 'react-google-login';
 import {Container, Grid, Paper, Avatar, Button, TextField, Typography} from "@material-ui/core";
 import { LockOutlined } from '@material-ui/icons';
-import {Link, useHistory} from "react-router-dom";
+import {useLocation, useHistory} from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import Icon  from './Icon';
 import Input from './Input';
@@ -20,6 +20,10 @@ const Auth = () => {
     const [formData, setFormData] = useState(initialState);
     const handleShowPassword = () => setShowPassword(!showPassword); 
     const dispatch = useDispatch();
+    const {search}= useLocation();
+    const redirectInUrl = new URLSearchParams(search).get('redirect');
+    const redirect = redirectInUrl ? redirectInUrl : '/';
+    
     const history= useHistory();
     
     
@@ -33,10 +37,10 @@ const Auth = () => {
         e.preventDefault();
         if(isSignup){
             registerUser(formData, dispatch);
-            history("/");
+            history(redirect);
         } else {
             loginUser({formData}, dispatch);
-            history("/");
+            history(redirect);
         }
     }
 
@@ -54,7 +58,7 @@ const Auth = () => {
 
         try {
             dispatch(loginWithGoogle({token, result}));
-            history.push('/');
+            history.push(redirect);
         }
         catch(error) {
             console.log(error);

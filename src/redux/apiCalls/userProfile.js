@@ -48,3 +48,12 @@ export const addUsersProfile = async(userProfile, dispatch) => {
         console.log(error);
     }
 }
+
+export const addUserByAdminProfile = async(userProfile, dispatch) => {
+    try {
+        const res = publicRequest.post('userProfiles', userProfile);
+        dispatch(addUserProfile(res.data));
+    } catch (error) {
+        console.log(error);
+    }
+}

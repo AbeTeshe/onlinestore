@@ -14,7 +14,7 @@ const Sidebar = ({setPage}) => {
     <div className="sidebar">
       <div className="top">
         <Link to="/admin" style={{ textDecoration: "none" }}>
-          <span className="logo">shopinetx</span>
+          <span className="sidebarLogo">shopinetx</span>
         </Link>
       </div>
       <hr />
@@ -25,7 +25,7 @@ const Sidebar = ({setPage}) => {
             <DashboardIcon className="icon" />
             <span>Dashboard</span>
           </li>
-          <p className="title">LISTS</p>
+          <p className="sideBarTitle">LISTS</p>
             <li onClick={() => setPage("userList")}>
               <PersonOutlineIcon className="icon" />
               <span>Users</span>

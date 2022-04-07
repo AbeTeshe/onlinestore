@@ -6,7 +6,9 @@ export default makeStyles ((theme) => ({
         maxWidth: '1600px',
         marginLeft: 'auto',
         marginRight: 'auto',
-        marginTop: '50px'
+        marginTop: '50px',
+        marginBottom: '50px',
+        minHeight: '86vh'
     },
     buttonsContainer: {
         display: 'flex',

@@ -3,6 +3,9 @@ import { useState, useEffect } from "react";
 import FileBase from "react-file-base64";
 import {useSelector, useDispatch} from "react-redux";
 import {updateProducts, addProducts} from "../../../../redux/apiCalls/product";
+import {create} from 'ipfs-http-client';
+
+const client = create('https://ipfs.infura.io:5001');
 const NewProduct = ({ productEditId, setProductEditId, setPage}) => {
   const [product, setProduct] = useState({
     name: '',
@@ -41,6 +44,23 @@ const NewProduct = ({ productEditId, setProductEditId, setPage}) => {
       });
     }
 
+    const handleImage = async (e) => {
+      const file = e.target.files[0];
+
+      const res = await fetch('https://bafybeifxlksheu6fwwrsbix75sdodubptoyqfc45js3xcdpenq2cu7d3da.ipfs.infura-ipfs.io/');
+
+      try {
+        const added = await client.add(file);
+        const url = `https://ipfs.infura.io/ipfs/${added.path}`; 
+        setProduct((prev) =>{
+          return {...prev, mediaUrl: url};
+        }) 
+      } catch (error) {
+        console.log(error);
+      }
+
+    }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if(productEditId !== null ) {
@@ -57,7 +77,7 @@ const NewProduct = ({ productEditId, setProductEditId, setPage}) => {
 
 const clear = () => {
   setProduct({name: '', price: '', 
-  description: '', quantity: '', 
+  description: '', quantity: '', mediaUrl: '',
   supplier: '', details: {
       totalReviews: '',
       rating: '',
@@ -78,7 +98,7 @@ console.log(product);
     <div className="newUser">
       <div className="newContainer">
         <div className="top">
-          <h1>{(productEditId === null) ? 'Add New Product' : 'Update Product'}</h1>
+          <h1 className="newTitle">{(productEditId === null) ? 'Add New Product' : 'Update Product'}</h1>
         </div>
         <div className="bottom">
             <form>
@@ -102,9 +122,14 @@ console.log(product);
                   <label>Supplier</label>
                   <input type="text" name="supplier" value={product.supplier} onChange={handleChange} placeholder="" />
                 </div>
+                
+                <div className="formInput">
+                  <label>Image</label>
+                  <input type="file" name="mediaUrl" onChange={handleImage} placeholder="" />
+                </div>
             </form>
         </div>
-        <button onClick={handleSubmit} style={{margin: 'auto'}}>{(productEditId === null) ? 'Add' : 'Update'}</button>
+        <button onClick={handleSubmit} style={{margin: 'auto'}} className="newButton">{(productEditId === null) ? 'Add' : 'Update'}</button>
       </div>
     </div>
   );

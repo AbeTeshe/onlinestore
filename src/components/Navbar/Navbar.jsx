@@ -37,15 +37,17 @@ const Navbar = ({  searchField, setSearchField }) => {
   const history= useHistory();
   const dispatch = useDispatch();
   
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(false);
   const open = Boolean(anchorEl);
   
 
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    (user.length!==0) && setAnchorEl(event.currentTarget);
   };
+
+ 
   const handleClose = () => {
-    setAnchorEl(null);
+    (user.length!==0) && setAnchorEl(null);
   };
 const handleSearch = (e) => {
   setSearchField(e.target.value);
@@ -59,13 +61,12 @@ const handleLogout = () => {
   dispatch(logout());
   history.push("/");
   localStorage.removeItem("userProfile");
-
 }
 
   return (
     <div>
       {/* <AppBar position="fixed" className={classes.appBar} color="inherit"> */}
-      <AppBar position="fixed" color='primary'>
+      <AppBar position="fixed" color='primary' className={classes.appBarContainer}>
           <Toolbar >
             <Typography component={Link} to="/" variant="h6" className={classes.appBar} color="inherit">
                 <div className={classes.logoContainer}>
@@ -101,22 +102,14 @@ const handleLogout = () => {
                 </Link>: 
                 <div>
                   <Button
-                    id="fade-button"
-                    aria-controls={open ? 'fade-menu' : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? 'true' : undefined}
                     onClick={handleClick}
                     className={classes.loginButton}
                   >
                     {user?.result?.name?.split(" ")[0]}<KeyboardArrowDown />
                   </Button>
                   <Menu
-                    id="fade-menu"
-                    MenuListProps={{
-                      'aria-labelledby': 'fade-button',
-                    }}
                     anchorEl={anchorEl}
-                    open={open}
+                    open={anchorEl}
                     onClose={handleClose}
                     TransitionComponent={Fade}
                     className={classes.userPopup}

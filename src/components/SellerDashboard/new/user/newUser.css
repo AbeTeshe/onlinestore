@@ -18,12 +18,7 @@ h1 {
     text-align: center;
 }
 
-img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-}
+
 
 
 .right {
@@ -60,7 +55,7 @@ input {
 }
 
 
-button {
+.newButton {
     width: 150px;
     padding: 10px;
     border: none;

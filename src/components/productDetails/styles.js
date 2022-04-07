@@ -9,7 +9,8 @@ export default makeStyles((theme) => ({
         maxWidth: '1600px',
         marginLeft: 'auto',
         marginRight: 'auto',
-        marginTop: '30px'
+        marginTop: '30px',
+        marginBottom: '30px'
     },
     backToProductsButton: {
         "&:hover": {

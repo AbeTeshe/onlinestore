@@ -11,6 +11,7 @@ const Cart = ({  handleUpdateCartQty, handleRemoveFromCart }) => {
     const classes = useStyles();
     const user = useSelector((state) => state.auth.authData);
     const cartItems = useSelector(state=> state.cart.cartItems);
+    console.log(cartItems);
     const dispatch = useDispatch();
 
     let cartTotal = 0;
@@ -40,14 +41,15 @@ const Cart = ({  handleUpdateCartQty, handleRemoveFromCart }) => {
                         <CartItem cartTotal={cartTotal} item={item} onUpdateCartQty={handleUpdateCartQty} onRemoveFromCart={handleRemoveFromCart}/>
                     </Grid>
                 ))}
+                <Grid item xs={12} sm={12} md={12} lg={12} className={classes.cartButtons}>
+                    <Link to="/" style={{textDecoration: 'none'}}><Button className={classes.continueShopping}>Continue Shopping </Button></Link>
+                    <Button size="large" variant="contained" color="secondary" className={classes.emptyButton} onClick={handleEmptyCart}>Empty Cart</Button>
+                </Grid>
             </Grid>
             <div className={classes.cardDetails}>
-                <Typography variant="h4">Subtotal: {cartTotal}</Typography>
-                <div>
-                    <Button className={classes.emptyButton} size="large" type="button" variant="contained" color="secondary" onClick={handleEmptyCart}>Empty Cart</Button>
-                    {user ? <Button component={Link} to="/checkout" className={classes.checkoutButton} size="large" type="button" variant="contained" color="primary">Checkout</Button>:
-                    <Button component={Link} to="/login" className={classes.checkoutButton} size="large" type="button" variant="contained" color="primary">Login</Button>}
-                </div>
+                <Typography variant="h2" className={classes.cartTotal}>Total: {`$${cartTotal}`}</Typography>
+                {user ? <Button component={Link} to="/checkout" className={classes.checkoutButton} size="large" type="button" variant="contained" color="primary">Proceed to Checkout</Button>:
+                <Button component={Link} to="/login?redirect=/checkout" className={classes.checkoutButton} size="large" type="button" variant="contained" color="primary">Login</Button>}
             </div>
         </>
     );
@@ -58,7 +60,7 @@ const Cart = ({  handleUpdateCartQty, handleRemoveFromCart }) => {
     return (
         <Container className={classes.cartContainer}>
             <div className={classes.toolbar} />
-            <Typography className={classes.title} variant="h3" gutterbottom>
+            <Typography className={classes.cardTitle} variant="h3" gutterbottom>
                 Your Shopping Cart
             </Typography>
             { !cartItems.length ? <EmptyCart /> : <FilledCart />}

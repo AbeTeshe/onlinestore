@@ -50,14 +50,14 @@ const ProductDetails = () => {
                 <img src={product?.mediaUrl} alt="detailprImage" className={classes.detailProductImage}/>
                 <div className={classes.smallImages}>
                     <img src={product?.mediaUrl} alt="detailprImage" className={classes.detailProductImg}/>
-                    <img src={product?.details?.image1} alt="detailprImage" className={classes.detailProductImg}/>
-                    <img src={product?.details?.image2} alt="detailprImage" className={classes.detailProductImg}/>
-                    <img src={product?.details?.image3} alt="detailprImage" className={classes.detailProductImg}/>
-                    <img src={product?.details?.image4} alt="detailprImage" className={classes.detailProductImg}/>
+                    <img src={product?.details?.image1 || product?.mediaUrl} alt="detailprImage" className={classes.detailProductImg}/>
+                    <img src={product?.details?.image2 || product?.mediaUrl} alt="detailprImage" className={classes.detailProductImg}/>
+                    <img src={product?.details?.image3 || product?.mediaUrl} alt="detailprImage" className={classes.detailProductImg}/>
+                    <img src={product?.details?.image4 || product?.mediaUrl} alt="detailprImage" className={classes.detailProductImg}/>
                 </div>
             </Grid>
             <Grid item xs={12} sm={12} md={6} lg={6}>
-                <Typography variant="h1" className={classes.productDetailTitle}>{product?.name}</Typography>
+                <Typography variant="h2" className={classes.productDetailTitle}>{product?.name}</Typography>
                 <Typography className={classes.productRating}>
                 {Array(product?.details?.rating).fill().map((_, i) => (
                   <Grade className={classes.rating} key={i}/>

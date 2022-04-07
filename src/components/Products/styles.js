@@ -9,6 +9,7 @@ export default makeStyles((theme) => ({
     maxWidth: '1600px',
     marginLeft: 'auto',
     marginRight: 'auto',
+    minHeight: '86vh'
   },
   root: {
     flexGrow: 1,

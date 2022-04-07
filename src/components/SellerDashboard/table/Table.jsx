@@ -6,6 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import {Delete} from "@mui/icons-material";
 
 const List = () => {
   const rows = [
@@ -80,7 +81,7 @@ const List = () => {
               <TableCell className="tableCell">{row.id}</TableCell>
               <TableCell className="tableCell">
                 <div className="cellWrapper">
-                  <img src={row.img} alt="" className="image" />
+                  <img src={row.img} alt="" className="tableImage" />
                   {row.product}
                 </div>
               </TableCell>
@@ -90,6 +91,9 @@ const List = () => {
               <TableCell className="tableCell">{row.method}</TableCell>
               <TableCell className="tableCell">
                 <span className={`status ${row.status}`}>{row.status}</span>
+              </TableCell>
+              <TableCell className="tableCell">
+                <Delete />
               </TableCell>
             </TableRow>
           ))}

@@ -36,7 +36,7 @@ const handleSubmit = (e) => {
     updateUsersProfile(userEditId, person, dispatch);
   }
   else {
-      addUsersProfile(person, dispatch);
+    addUsersProfile(person, dispatch);
   }
   clear();
   setPage("userList");
@@ -100,8 +100,8 @@ console.log(person);
                   <input type="text" name="shippingOption" value={person.shippingOption} onChange={handleChange} placeholder="" />
                 </div>
             </form>
-            <button onClick={handleSubmit} style={{display: 'block'}}>{(userEditId === null) ? 'Add' : 'Update'}</button>
         </div>
+        <button onClick={handleSubmit} style={{display: 'block'}} className="newButton">{(userEditId === null) ? 'Add' : 'Update'}</button>
       </div>
     </div>
   );

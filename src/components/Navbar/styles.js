@@ -3,8 +3,11 @@ import { makeStyles, fade } from '@material-ui/core/styles';
 const drawerWidth = 10;
 
 export default makeStyles((theme) => ({
+  appBarContainer: {
+    boxShadow: `none`,
+  },
   appBar: {
-     boxShadow: `none`,
+     
     // [theme.breakpoints.up('sm')]: {
     //   width: `calc(100% - ${drawerWidth}px)`,
     //   marginLeft: drawerWidth,
