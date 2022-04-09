@@ -61,24 +61,31 @@ const List = ({name,  columns, setPage, setUserEditId, setProductEditId}) => {
 
   const actionColumn = [
     {
-      field: "action",
+      field: "edit",
       headerName: "Action",
-      width: 200,
+      width: 120,
       renderCell: (params) => {
         return (
-          <div className="cellAction">
             <div 
-               className="viewButton"
+               className="editButton"
                onClick={() => handleEdit(params.row._id)}
             > 
                Edit {name}</div>
+        );
+      },
+    },
+    {
+      field: "disable",
+      headerName: "",
+      width: 120,
+      renderCell: (params) => {
+        return (
             <div
               className="deleteButton"
               onClick={() => handleDelete(params.row._id)}
             >
-              {name==="User" ? 'Disable': 'Delete'}
+              Disable
             </div>
-          </div>
         );
       },
     },
@@ -98,7 +105,7 @@ const List = ({name,  columns, setPage, setUserEditId, setProductEditId}) => {
         disableSelectionOnClick
         columns={columns.concat(actionColumn)}
         rowsPerPageOptions={[15]}
-        checkboxSelection
+  
       />
     </div>
   );
