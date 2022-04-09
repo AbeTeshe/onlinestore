@@ -18,7 +18,6 @@ export default makeStyles((theme) => ({
   cartItemName: {
     fontSize: '20px',
     fontWeight: '600',
-    textTransform: 'capitalize',
   },
   cartItemActions: {
     display: 'flex',

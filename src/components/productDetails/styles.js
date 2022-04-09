@@ -42,7 +42,6 @@ export default makeStyles((theme) => ({
       productDetailTitle: {
           fontSize: '60px',
           fontWeight: '600',
-          textTransform: 'capitalize',
       },
       productDetailPrice: {
           fontSize: '30px',

@@ -15,7 +15,7 @@ export default makeStyles (() => ({
     },
     cardName: {
         fontSize: '16px', 
-        textTransform: 'capitalize',
+        
         fontWeight: '400'
     },
     cardPrice: {
