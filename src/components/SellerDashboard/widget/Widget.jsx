@@ -1,16 +1,22 @@
 import "./widget.css";
+import { useDispatch } from "react-redux";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
+import { setPage } from "../../../redux/reducers/stateSlices";
 
-const Widget = ({ type, setPage, size }) => {
+const Widget = ({ type, size }) => {
   let data;
 
+  const dispatch = useDispatch()
   //temporary
   const amount = 100;
   const diff = 20;
+  const handlePage = (page) => {
+    dispatch(setPage(page))
+  }
 
   switch (type) {
     case "user":
@@ -72,7 +78,7 @@ const Widget = ({ type, setPage, size }) => {
         <span className="counter">
           {data.isMoney && "$"}{size}
         </span>
-        <span className="widgetLink" onClick={() => setPage(data.page)}>{data.link}</span>
+        <span className="widgetLink" onClick={() =>handlePage(data.page)}>{data.link}</span>
       </div>
       <div className="widgetRight">
         <div className="widgetPercentage positive">

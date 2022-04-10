@@ -1,13 +1,14 @@
 import "./newProduct.css";
-import { useState, useEffect } from "react";
+import React,  { useState, useEffect } from "react";
 import FileBase from "react-file-base64";
 import {useSelector, useDispatch} from "react-redux";
 import {updateProducts, addProducts} from "../../../../redux/apiCalls/product";
 import {create} from 'ipfs-http-client';
 import {resetProductEditId} from "../../../../redux/reducers/productSlice";
+import { setPage } from "../../../../redux/reducers/stateSlices";
 
 const client = create('https://ipfs.infura.io:5001');
-const NewProduct = ({  setPage}) => {
+const NewProduct = React.memo(() => {
   const [product, setProduct] = useState({
     name: '',
     price: '',
@@ -69,7 +70,7 @@ const NewProduct = ({  setPage}) => {
       addProducts(product, dispatch);
     }
     clear();
-    setPage("productList");
+    dispatch(setPage("productList"));
 
   }
 
@@ -132,6 +133,6 @@ console.log(product);
       </div>
     </div>
   );
-};
+});
 
 export default NewProduct;

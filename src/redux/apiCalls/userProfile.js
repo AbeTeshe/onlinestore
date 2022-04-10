@@ -1,6 +1,6 @@
 import { publicRequest } from "../../requestMethod";
 
-import {getUserProfile, addUser, deleteUserProfile, updateUserProfile, addUserProfile} from "../reducers/userProfileSlice";
+import { getUserProfile, addUser, deleteUserProfile, updateUserProfile, addUserProfile} from "../reducers/userProfileSlice";
 const userId = JSON.parse(localStorage.getItem('profile'))?.result?.googleId;
 
 
@@ -9,16 +9,17 @@ export const getUsersProfile = async(dispatch) => {
         const res  = await publicRequest.get(`/userProfiles/${userId}`)
         dispatch(getUserProfile(res.data));
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
     }
 }
 
 export const getUsersProfiles = async(dispatch) => {
+    
     try {
         const res = await publicRequest.get('/userProfiles/');
         dispatch(getUserProfile(res.data));
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
     }
 }
 

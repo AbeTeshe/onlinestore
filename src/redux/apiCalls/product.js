@@ -10,7 +10,7 @@ export const getProduct = async (dispatch) => {
         dispatch(getProducts(res.data));
     } 
     catch (error) {
-        console.log(error);
+        console.log(error.message);
     }
 }
 
@@ -50,6 +50,6 @@ export const getSingleProducts = async(id, dispatch) => {
         const res = await publicRequest.get(`/products/${id}`);
         dispatch(getSingleProduct(res.data));
     } catch (error) {
-        
+        console.log(error);
     }
 }

@@ -3,16 +3,18 @@ import "./list.css";
 import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useState, useEffect } from "react";
-import { deleteProducts, getProduct } from "../../../redux/apiCalls/product";
-import { deleteUsersProfile, getUsersProfiles } from "../../../redux/apiCalls/userProfile";
+import React, { useState, useEffect } from "react";
+import { updateProducts, getProduct } from "../../../redux/apiCalls/product";
+import { updateUsersProfile, getUsersProfiles } from "../../../redux/apiCalls/userProfile";
 import { setProductEditId } from "../../../redux/reducers/productSlice";
 import { setUserEditId } from "../../../redux/reducers/userProfileSlice";
+import { setPage } from "../../../redux/reducers/stateSlices";
 
-const List = ({name,  columns, setPage}) => {
+const List = React.memo(({name,  columns}) => {
   const [row, setRow] = useState(null);
-  const products = useSelector((state) => state?.product?.products);
-  const userProfile = useSelector((state) => state?.userProfile?.userProfile);
+  const page = useSelector((state) => state.states.page);
+  const products = useSelector((state) => state.product.products);
+  const userProfile = useSelector((state) => state.userProfile.userProfile);
   const dispatch = useDispatch();
 
 
@@ -25,26 +27,28 @@ const List = ({name,  columns, setPage}) => {
     if(name==="User"){
       setRow(userProfile);
     }
-  }, [dispatch, products, userProfile]);
+  }, [dispatch, userProfile, products]);
+
+  console.log("rendering");
 
   
 
-  const handleDelete = (id) => {
+  const handleDisable = (id) => {
     if(name==="Product"){
-      deleteProducts(id, dispatch);
+      updateProducts(id, {...products, isActive: true}, dispatch);
     }
     else if (name==="User"){
-      deleteUsersProfile(id, dispatch);
+      updateUsersProfile(id, {...userProfile, isActive: true}, dispatch);
     }
   };
   
   const handleEdit = (id) => {
     if(name==="Product") {
-      setPage("newProduct");
+      dispatch(setPage("newProduct"))
       dispatch(setProductEditId(id));
     }
     else if (name==="User"){
-      setPage("newUser");
+      dispatch(setPage("newUser"));
       dispatch(setUserEditId(id));
     }
     else {
@@ -54,40 +58,41 @@ const List = ({name,  columns, setPage}) => {
 
   const handleNew = () => {
     if(name==="Product"){
-      setPage("newProduct");
+      dispatch(setPage("newProduct"));
     }
     else if (name==="User"){
-      setPage("newUser");
+      dispatch(setPage("newUser"));
     }
   }
 
   const actionColumn = [
     {
-      field: "edit",
-      headerName: "Action",
-      width: 120,
-      renderCell: (params) => {
-        return (
-            <div 
-               className="editButton"
-               onClick={() => handleEdit(params.row._id)}
-            > 
-               Edit {name}</div>
-        );
-      },
-    },
-    {
       field: "disable",
-      headerName: "",
+      headerName: "Action",
       width: 120,
       renderCell: (params) => {
         return (
             <div
               className="deleteButton"
-              onClick={() => handleDelete(params.row._id)}
+              onClick={() => handleDisable(params.row._id)}
             >
-              Disable
+             {params.row.isActive ? 'Disable' : 'Disabled'}
             </div>
+        );
+      },
+    },
+    {
+      field: "edit",
+      headerName: "",
+      width: 120,
+      renderCell: (params) => {
+        return (<>
+            {params.row.isActive && <div 
+               className="editButton"
+               onClick={() => handleEdit(params.row._id)}
+            > 
+               Edit {name}</div>}
+               </>
         );
       },
     },
@@ -111,6 +116,6 @@ const List = ({name,  columns, setPage}) => {
       />
     </div>
   );
-};
+});
 
 export default List;

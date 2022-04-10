@@ -1,9 +1,10 @@
 import "./newUser.css";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {updateUsersProfile, addUserByAdminProfile} from "../../../../redux/apiCalls/userProfile";
 import { resetUserEditId } from "../../../../redux/reducers/userProfileSlice";
-const NewUser = ({ setPage}) => {
+import { setPage } from "../../../../redux/reducers/stateSlices";
+const NewUser = React.memo(() => {
   const [person, setPerson] = useState({
     firstName: '',
     lastName: '',
@@ -41,7 +42,8 @@ const handleSubmit = (e) => {
     addUserByAdminProfile(person, dispatch);
   }
   clear();
-  setPage("userList");
+  //setPage("userList");
+  dispatch(setPage("userList"));
 
 }
 
@@ -107,6 +109,6 @@ console.log(person);
       </div>
     </div>
   );
-};
+});
 
 export default NewUser;

@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import React,{useState, useEffect} from 'react';
 import Sidebar from "../sidebar/Sidebar";
 import "./home.css";
 import Widget from "../widget/Widget";
@@ -10,22 +10,22 @@ import {useSelector, useDispatch} from "react-redux";
 import { getOrder } from '../../../redux/apiCalls/orderApiCalls';
 import {getUsersProfiles} from '../../../redux/apiCalls/userProfile';
 import {userColumns, productColumns} from '../datatablesource';
+import { getProduct } from '../../../redux/apiCalls/product';
 
-const Home = () => {
-  const [page, setPage] = useState("home");
-
+const Home = React.memo(() => {
+  const page = useSelector((state) => state.states.page);
   const orders = useSelector((state) => state?.order?.orders);
+  const products = useSelector((state) => state?.product?.products);
   const userProfile = useSelector((state) => state?.userProfile?.userProfile);
 
 
   const dispatch = useDispatch();
   
- 
-  
   useEffect(() => {
+    getProduct(dispatch);
     getOrder(dispatch);
     getUsersProfiles(dispatch);
-  }, [dispatch]);
+  }, [dispatch, page]);
 
 
   let orderTotal = 0;
@@ -35,13 +35,13 @@ const Home = () => {
 
   return (
     <div className="home">
-      <Sidebar setPage={setPage}/>
+      <Sidebar/>
       <div className="homeContainer">
         {page === 'home' && <>
             <div className="widgets">
-              <Widget type="user" setPage={setPage} size={userProfile.length}/>
-              <Widget type="order" setPage={setPage} size={orders.length}/>
-              <Widget type="totalSales" setPage={setPage} size={orderTotal}/>
+              <Widget type="user"  size={userProfile.length}/>
+              <Widget type="order"  size={orders.length}/>
+              <Widget type="totalSales"  size={orderTotal}/>
             </div>
             <div className="listContainer">
               <div className="listTitle">Latest Transactions</div>
@@ -52,31 +52,23 @@ const Home = () => {
             <List  
               columns={userColumns} 
               name="User" 
-              setPage={setPage}
+              rows={userProfile}
               />}
           {page ==="productList" && 
             <List 
                   columns={productColumns} 
                   name="Product" 
-                  setPage={setPage}
-                  
+                  rows={products}
                   /> }
           {page==="orders" && <Table />}
           {page==="newUser" &&
-            <NewUser 
-                 
-                 setPage={setPage}
-                 
-             />}
+            <NewUser />}
           {page==="newProduct" && 
-          <NewProduct 
-              
-              setPage={setPage}
-          />}
+          <NewProduct />}
       </div>
     </div>
   );
-};
+});
 
 
 export default Home;

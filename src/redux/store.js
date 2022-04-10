@@ -4,6 +4,7 @@ import cartSlice from './reducers/cartSlice';
 import authSlice from './reducers/authSlice';
 import userProfileSlice from './reducers/userProfileSlice';
 import orderSlice from './reducers/orderSlice';
+import stateSlice from './reducers/stateSlices';
 
 
 export const store = configureStore({
@@ -12,6 +13,7 @@ export const store = configureStore({
         cart: cartSlice,
         auth: authSlice,
         userProfile: userProfileSlice,
-        order: orderSlice
+        order: orderSlice,
+        states: stateSlice
     },
 });

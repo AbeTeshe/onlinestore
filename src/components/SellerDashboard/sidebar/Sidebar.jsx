@@ -7,9 +7,15 @@ import StoreIcon from "@mui/icons-material/Store";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setPage } from "../../../redux/reducers/stateSlices";
 
 
-const Sidebar = ({setPage}) => {
+const Sidebar = () => {
+  const dispatch = useDispatch();
+  const handlePage = (page) => {
+    dispatch(setPage(page))
+  }
   return (
     <div className="sidebar">
       <div className="top">
@@ -21,20 +27,20 @@ const Sidebar = ({setPage}) => {
       <div className="center">
         <ul>
           <p className="title">MAIN</p>
-          <li onClick={() => setPage("home")}>
+          <li onClick={() => handlePage("home")}>
             <DashboardIcon className="icon" />
             <span>Dashboard</span>
           </li>
           <p className="sideBarTitle">LISTS</p>
-            <li onClick={() => setPage("userList")}>
+            <li onClick={() => handlePage("userList")}>
               <PersonOutlineIcon className="icon" />
               <span>Users</span>
             </li>
-            <li onClick={() => setPage("productList")}>
+            <li onClick={() => handlePage("productList")}>
               <StoreIcon className="icon" />
               <span>Products</span>
             </li>
-          <li onClick={() => setPage("orders")}>
+          <li onClick={() => handlePage("orders")}>
             <CreditCardIcon className="icon" />
             <span>Orders</span>
           </li>
