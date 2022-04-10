@@ -1,6 +1,6 @@
 import { publicRequest } from "../../requestMethod";
 
-import {getUserProfile,  deleteUserProfile, updateUserProfile, addUserProfile} from "../reducers/userProfileSlice";
+import {getUserProfile, addUser, deleteUserProfile, updateUserProfile, addUserProfile} from "../reducers/userProfileSlice";
 const userId = JSON.parse(localStorage.getItem('profile'))?.result?.googleId;
 
 
@@ -51,8 +51,8 @@ export const addUsersProfile = async(userProfile, dispatch) => {
 
 export const addUserByAdminProfile = async(userProfile, dispatch) => {
     try {
-        const res = publicRequest.post('userProfiles', userProfile);
-        dispatch(addUserProfile(res.data));
+        const res = publicRequest.post('/userProfiles', userProfile);
+        dispatch(addUser(res.data));
     } catch (error) {
         console.log(error);
     }

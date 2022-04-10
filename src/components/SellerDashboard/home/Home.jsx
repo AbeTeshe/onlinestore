@@ -7,27 +7,23 @@ import List from "../list/List";
 import NewProduct from "../new/product/NewProduct";
 import NewUser from "../new/user/NewUser";
 import {useSelector, useDispatch} from "react-redux";
-import { getProduct } from '../../../redux/apiCalls/product';
 import { getOrder } from '../../../redux/apiCalls/orderApiCalls';
 import {getUsersProfiles} from '../../../redux/apiCalls/userProfile';
 import {userColumns, productColumns} from '../datatablesource';
-import { userInputs, productInputs } from '../formSource';
 
 const Home = () => {
   const [page, setPage] = useState("home");
   const [userEditId, setUserEditId] = useState(null);
   const [productEditId, setProductEditId] = useState(null);
-  const products = useSelector((state) => state?.product?.products);
   const orders = useSelector((state) => state?.order?.orders);
   const userProfile = useSelector((state) => state?.userProfile?.userProfile);
 
 
   const dispatch = useDispatch();
   
-  console.log(orders);
+ 
   
   useEffect(() => {
-    getProduct(dispatch);
     getOrder(dispatch);
     getUsersProfiles(dispatch);
   }, [dispatch]);
@@ -54,14 +50,14 @@ const Home = () => {
             </div>
           </>}
           {page==="userList" && 
-            <List data={userProfile} 
+            <List  
               columns={userColumns} 
               name="User" 
               setPage={setPage}
               setUserEditId={setUserEditId}
               />}
           {page ==="productList" && 
-            <List data={products} 
+            <List 
                   columns={productColumns} 
                   name="Product" 
                   setPage={setPage}

@@ -37,6 +37,7 @@ export const productColumns = [
   ];
 
   export const userColumns = [
+    
     {
       field: "fullName",
       headerName: "fullName",

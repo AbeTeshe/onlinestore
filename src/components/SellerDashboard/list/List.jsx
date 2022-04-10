@@ -46,7 +46,7 @@ const List = ({name,  columns, setPage, setUserEditId, setProductEditId}) => {
       setUserEditId(id);
     }
     else {
-
+      
     }
   }
 
@@ -104,8 +104,8 @@ const List = ({name,  columns, setPage, setUserEditId, setProductEditId}) => {
         getRowId={(row) => row?._id}
         disableSelectionOnClick
         columns={columns.concat(actionColumn)}
-        rowsPerPageOptions={[15]}
-  
+        pageSize={9}
+        rowsPerPageOptions={[9]}
       />
     </div>
   );
