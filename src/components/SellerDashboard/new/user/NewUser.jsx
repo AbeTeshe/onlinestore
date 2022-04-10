@@ -2,7 +2,8 @@ import "./newUser.css";
 import { useState, useEffect } from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {updateUsersProfile, addUsersProfile} from "../../../../redux/apiCalls/userProfile";
-const NewUser = ({ userEditId, setUserEditId, setPage}) => {
+import { resetUserEditId } from "../../../../redux/reducers/userProfileSlice";
+const NewUser = ({ setPage}) => {
   const [person, setPerson] = useState({
     firstName: '',
     lastName: '',
@@ -15,6 +16,7 @@ const NewUser = ({ userEditId, setUserEditId, setPage}) => {
     shippingDivision: '',
     shippingOption: ''
 });
+  const userEditId = useSelector((state) => state.userProfile.userEditId)
   
   const userToUpdate = useSelector((state) =>
     userEditId ? state.userProfile.userProfile.find((user) => user._id ===userEditId) : null);
@@ -22,7 +24,7 @@ console.log(userEditId);
    const dispatch = useDispatch();
     useEffect(() => {
       if(userToUpdate) setPerson(userToUpdate)
-    }, [userToUpdate]);
+    }, [userEditId]);
 
     const handleChange =(e) => {
       setPerson((prev ) =>{
@@ -46,7 +48,7 @@ const handleSubmit = (e) => {
 
 const clear = () => {
   setPerson({firstName: '', lastName: '', email: '', phoneNumber: '', country: '', city: '', addressLine1: '', zipCode: '', shippingDivision: '', shippingOption: ''});
-  setUserEditId(null);
+  dispatch(resetUserEditId());
 }
 
 console.log(person);

@@ -13,8 +13,7 @@ import {userColumns, productColumns} from '../datatablesource';
 
 const Home = () => {
   const [page, setPage] = useState("home");
-  const [userEditId, setUserEditId] = useState(null);
-  const [productEditId, setProductEditId] = useState(null);
+
   const orders = useSelector((state) => state?.order?.orders);
   const userProfile = useSelector((state) => state?.userProfile?.userProfile);
 
@@ -54,26 +53,24 @@ const Home = () => {
               columns={userColumns} 
               name="User" 
               setPage={setPage}
-              setUserEditId={setUserEditId}
               />}
           {page ==="productList" && 
             <List 
                   columns={productColumns} 
                   name="Product" 
                   setPage={setPage}
-                  setProductEditId={setProductEditId}
+                  
                   /> }
           {page==="orders" && <Table />}
           {page==="newUser" &&
             <NewUser 
-                 userEditId={userEditId}
+                 
                  setPage={setPage}
-                 setUserEditId={setUserEditId}
+                 
              />}
           {page==="newProduct" && 
           <NewProduct 
-              productEditId={productEditId}
-              setProductEditId={setProductEditId}
+              
               setPage={setPage}
           />}
       </div>

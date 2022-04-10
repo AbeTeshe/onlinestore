@@ -12,6 +12,12 @@ const App = () => {
   const authData = useSelector((state) => state.auth?.authData);
   const products =  useSelector(state => state?.product?.products);
   const dispatch = useDispatch();
+
+  const [anchorEl, setAnchorEl] = useState(false);
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
  
   
 
@@ -23,13 +29,18 @@ const App = () => {
   return (
     <Router>
       <div>
-        <Navbar searchField={searchField} setSearchField={setSearchField} />
+        <Navbar searchField={searchField} 
+              setSearchField={setSearchField} 
+              anchorEl={anchorEl}
+              setAnchorEl={setAnchorEl}
+              handleClose={handleClose}
+              />
         <Switch >
           <Route exact path="/">
             <Products searchField={searchField} products={products} />
           </Route>
           <Route exact path="/cart">
-            <Cart/>
+            <Cart handleClose={handleClose}/>
           </Route>
           <Route exact path="/product/:Pid">
             <ProductDetails/>

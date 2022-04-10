@@ -29,26 +29,23 @@ const styles = {
 };
 
 
-const Navbar = ({  searchField, setSearchField }) => {
+const Navbar = ({  searchField, setSearchField, anchorEl,setAnchorEl, handleClose }) => {
   const classes = useStyles();
-  const location = useLocation();
   const user = useSelector((state) => state.auth.authData);
   const cartTotalQuantity = useSelector(state => state.cart.totalQuantity);
   const history= useHistory();
   const dispatch = useDispatch();
   
-  const [anchorEl, setAnchorEl] = useState(false);
+  
   const open = Boolean(anchorEl);
   
 
   const handleClick = (event) => {
-    (user.length!==0) && setAnchorEl(event.currentTarget);
+    setAnchorEl(event.currentTarget);
   };
 
  
-  const handleClose = () => {
-    (user.length!==0) && setAnchorEl(null);
-  };
+  
 const handleSearch = (e) => {
   setSearchField(e.target.value);
 } 

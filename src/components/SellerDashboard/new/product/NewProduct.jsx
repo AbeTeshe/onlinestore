@@ -4,9 +4,10 @@ import FileBase from "react-file-base64";
 import {useSelector, useDispatch} from "react-redux";
 import {updateProducts, addProducts} from "../../../../redux/apiCalls/product";
 import {create} from 'ipfs-http-client';
+import {resetProductEditId} from "../../../../redux/reducers/productSlice";
 
 const client = create('https://ipfs.infura.io:5001');
-const NewProduct = ({ productEditId, setProductEditId, setPage}) => {
+const NewProduct = ({  setPage}) => {
   const [product, setProduct] = useState({
     name: '',
     price: '',
@@ -26,17 +27,15 @@ const NewProduct = ({ productEditId, setProductEditId, setPage}) => {
       image4: ''
     }
 });
-  
+  const productEditId = useSelector((state) => state.product.productEditId);
   const productToUpdate = useSelector((state) =>
     productEditId ? state.product.products.find((product) => product._id ===productEditId) : null);
-
-    console.log(productEditId);
 
    const dispatch = useDispatch();
 
     useEffect(() => {
       if(productToUpdate) setProduct(productToUpdate)
-    }, [productToUpdate]);
+    }, [productEditId]);
 
     const handleChange =(e) => {
       setProduct((prev ) =>{
@@ -89,7 +88,7 @@ const clear = () => {
       image3: '',
       image4: ''
   }});
-  setProductEditId(null);
+  dispatch(resetProductEditId());
 }
 
 console.log(product);

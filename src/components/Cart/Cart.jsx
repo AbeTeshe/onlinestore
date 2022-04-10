@@ -6,7 +6,7 @@ import CartItem from './CartItem/CartItem';
 import { useSelector, useDispatch } from 'react-redux';
 import {emptyCart} from "../../redux/reducers/cartSlice";
 
-const Cart = ({  handleUpdateCartQty, handleRemoveFromCart }) => {
+const Cart = ({  handleUpdateCartQty, handleRemoveFromCart, handleClose }) => {
 
     const classes = useStyles();
     const user = useSelector((state) => state.auth.authData);
@@ -49,7 +49,7 @@ const Cart = ({  handleUpdateCartQty, handleRemoveFromCart }) => {
             <div className={classes.cardDetails}>
                 <Typography variant="h2" className={classes.cartTotal}>Total: {`$${cartTotal}`}</Typography>
                 {user ? <Button component={Link} to="/checkout" className={classes.checkoutButton} size="large" type="button" variant="contained" color="primary">Proceed to Checkout</Button>:
-                <Button component={Link} to="/login?redirect=/checkout" className={classes.checkoutButton} size="large" type="button" variant="contained" color="primary">Login</Button>}
+                <Button component={Link} to="/login?redirect=/checkout" onClick={handleClose} className={classes.checkoutButton} size="large" type="button" variant="contained" color="primary">Login</Button>}
             </div>
         </>
     );

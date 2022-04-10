@@ -4,6 +4,7 @@ const userProfileSlice = createSlice({
     name: 'userProfile',
     initialState: {
         userProfile: [],
+        userEditId: null,
     },
     reducers: { 
         getUserProfile:(state, action) => {
@@ -21,9 +22,15 @@ const userProfileSlice = createSlice({
         },
         addUserProfile: (state, action) => {
             state.userProfile.push(action.payload);
+        },
+        setUserEditId: (state, action) => {
+            state.userEditId = action.payload;
+        },
+        resetUserEditId: (state) => {
+            state.userEditId = null;
         }
     }
 });
 
-export const {getUserProfile, addUser, deleteUserProfile, updateUserProfile, addUserProfile} = userProfileSlice.actions;
+export const {getUserProfile, addUser, deleteUserProfile, setUserEditId, resetUserEditId, updateUserProfile, addUserProfile} = userProfileSlice.actions;
 export default userProfileSlice.reducer;

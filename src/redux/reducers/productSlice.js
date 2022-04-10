@@ -4,6 +4,7 @@ export const productSlice = createSlice({
   name: "product",
   initialState: {
     products: [],
+    productEditId: null,
   },
   reducers: {
     getProducts: (state, action) => {
@@ -25,6 +26,12 @@ export const productSlice = createSlice({
 
      addNewProduct: (state, action) => {
       state.products.push(action.payload);
+    },
+    setProductEditId: (state, action) => {
+      state.productEditId = action.payload;
+    },
+    resetProductEditId: (state) => {
+      state.productEditId = null;
     }
   }
   });
@@ -33,7 +40,9 @@ export const productSlice = createSlice({
     deleteProduct,
     addProduct,
     getProducts,
-    getSingleProduct
+    getSingleProduct,
+    setProductEditId,
+    resetProductEditId
   } = productSlice.actions;
 
   export default productSlice.reducer;

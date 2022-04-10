@@ -6,8 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { deleteProducts, getProduct } from "../../../redux/apiCalls/product";
 import { deleteUsersProfile, getUsersProfiles } from "../../../redux/apiCalls/userProfile";
+import { setProductEditId } from "../../../redux/reducers/productSlice";
+import { setUserEditId } from "../../../redux/reducers/userProfileSlice";
 
-const List = ({name,  columns, setPage, setUserEditId, setProductEditId}) => {
+const List = ({name,  columns, setPage}) => {
   const [row, setRow] = useState(null);
   const products = useSelector((state) => state?.product?.products);
   const userProfile = useSelector((state) => state?.userProfile?.userProfile);
@@ -39,11 +41,11 @@ const List = ({name,  columns, setPage, setUserEditId, setProductEditId}) => {
   const handleEdit = (id) => {
     if(name==="Product") {
       setPage("newProduct");
-      setProductEditId(id);
+      dispatch(setProductEditId(id));
     }
     else if (name==="User"){
       setPage("newUser");
-      setUserEditId(id);
+      dispatch(setUserEditId(id));
     }
     else {
       
