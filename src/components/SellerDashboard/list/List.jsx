@@ -23,7 +23,7 @@ const List = ({name,  columns, setPage, setUserEditId, setProductEditId}) => {
     if(name==="User"){
       setRow(userProfile);
     }
-  }, [dispatch]);
+  }, [dispatch, products, userProfile]);
 
   
 
