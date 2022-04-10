@@ -1,7 +1,7 @@
 import "./newUser.css";
 import { useState, useEffect } from "react";
 import {useSelector, useDispatch} from "react-redux";
-import {updateUsersProfile, addUsersProfile} from "../../../../redux/apiCalls/userProfile";
+import {updateUsersProfile, addUserByAdminProfile} from "../../../../redux/apiCalls/userProfile";
 import { resetUserEditId } from "../../../../redux/reducers/userProfileSlice";
 const NewUser = ({ setPage}) => {
   const [person, setPerson] = useState({
@@ -38,7 +38,7 @@ const handleSubmit = (e) => {
     updateUsersProfile(userEditId, person, dispatch);
   }
   else {
-    addUsersProfile(person, dispatch);
+    addUserByAdminProfile(person, dispatch);
   }
   clear();
   setPage("userList");
