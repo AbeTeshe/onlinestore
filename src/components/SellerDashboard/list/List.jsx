@@ -35,10 +35,10 @@ const List = React.memo(({name,  columns}) => {
 
   const handleDisable = (id) => {
     if(name==="Product"){
-      updateProducts(id, {...products, isActive: true}, dispatch);
+      updateProducts(id, {...products, isActive: false}, dispatch);
     }
     else if (name==="User"){
-      updateUsersProfile(id, {...userProfile, isActive: true}, dispatch);
+      updateUsersProfile(id, {...userProfile, isActive: false}, dispatch);
     }
   };
   
