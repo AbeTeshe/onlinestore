@@ -9,10 +9,11 @@ import { updateUsersProfile, getUsersProfiles } from "../../../redux/apiCalls/us
 import { setProductEditId } from "../../../redux/reducers/productSlice";
 import { setUserEditId } from "../../../redux/reducers/userProfileSlice";
 import { setPage } from "../../../redux/reducers/stateSlices";
-
+import { fetchBusses } from "../../../redux/reducers/productSlices";
 const List = React.memo(({name,  columns}) => {
   const [row, setRow] = useState(null);
   const page = useSelector((state) => state.states.page);
+  const busStatus = useSelector(state=>state.product.status)
   const products = useSelector((state) => state.product.products);
   const userProfile = useSelector((state) => state.userProfile.userProfile);
   const dispatch = useDispatch();
@@ -27,11 +28,9 @@ const List = React.memo(({name,  columns}) => {
     if(name==="User"){
       setRow(userProfile);
     }
-  }, [dispatch, userProfile, products]);
-
-  console.log("rendering");
-
+  }, [dispatch, products, userProfile]);
   
+  console.log("rendering");
 
   const handleDisable = (id) => {
     if(name==="Product"){
@@ -39,6 +38,14 @@ const List = React.memo(({name,  columns}) => {
     }
     else if (name==="User"){
       updateUsersProfile(id, {...userProfile, isActive: false}, dispatch);
+    }
+  };
+  const handleEnable = (id) => {
+    if(name==="Product"){
+      updateProducts(id, {...products, isActive: true}, dispatch);
+    }
+    else if (name==="User"){
+      updateUsersProfile(id, {...userProfile, isActive: true}, dispatch);
     }
   };
   
@@ -67,35 +74,42 @@ const List = React.memo(({name,  columns}) => {
 
   const actionColumn = [
     {
-      field: "disable",
+      field: "edit",
       headerName: "Action",
       width: 120,
       renderCell: (params) => {
         return (
-            <div
-              className="deleteButton"
-              onClick={() => handleDisable(params.row._id)}
-            >
-             {params.row.isActive ? 'Disable' : 'Disabled'}
-            </div>
+             <div 
+               className="editButton"
+               onClick={() => handleEdit(params.row._id)}
+            > 
+               Edit {name}</div>
         );
       },
     },
     {
-      field: "edit",
+      field: "disable",
       headerName: "",
       width: 120,
       renderCell: (params) => {
         return (<>
-            {params.row.isActive && <div 
-               className="editButton"
-               onClick={() => handleEdit(params.row._id)}
-            > 
-               Edit {name}</div>}
-               </>
+            {params.row.isActive ? 
+              <div
+              className="disableButton"
+              onClick={() => handleDisable(params.row._id)}
+            >
+             Disable
+            </div>:
+            <div
+              className="enableButton"
+              onClick={() => handleEnable(params.row._id)}
+            >
+            Enable
+            </div>}</>
         );
       },
     },
+    
   ];
   return (
     <div className="datatable">

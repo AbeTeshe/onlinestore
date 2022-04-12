@@ -9,8 +9,8 @@ import Footer from "./components/footer/Footer";
 const App = () => {
   const [searchField, setSearchField] = useState("");
   //const [products, setProducts] = useState();
-  const authData = useSelector((state) => state.auth?.authData);
-  const products =  useSelector(state => state?.product?.products);
+  const authData = useSelector((state) => state.auth.authData);
+  const products =  useSelector(state => state.product.products.filter((product) => product.isActive === true));
   const dispatch = useDispatch();
 
   const [anchorEl, setAnchorEl] = useState(false);
@@ -24,7 +24,7 @@ const App = () => {
   useEffect(() => {
     getProduct(dispatch);
     
-  }, [searchField,dispatch]);
+  }, [searchField,dispatch, products]);
  
   return (
     <Router>
