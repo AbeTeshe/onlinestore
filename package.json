@@ -24,6 +24,7 @@
     "ipfs-core": "^0.14.2",
     "ipfs-http-client": "^56.0.1",
     "ipfs-mini": "^1.1.5",
+    "moment": "^2.29.2",
     "prop-types": "^15.8.1",
     "react": "17.0.1",
     "react-circular-progressbar": "^2.0.4",

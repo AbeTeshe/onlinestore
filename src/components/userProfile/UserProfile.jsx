@@ -15,12 +15,12 @@ const UserProfile = () => {
   const user = useSelector((state) => state.auth.authData);
   const userProfile = useSelector((state) => state.userProfile.userProfile);
   console.log(userProfile);
+  
   const [editUser, setEditUser] = useState(false);
   const [index, setIndex] = useState(0);
   
   const dispatch = useDispatch();
   const {givenName, familyName,  email} = user?.result;
-  
   const [person, setPerson] = useState({
       firstName: givenName,
       lastName: familyName,

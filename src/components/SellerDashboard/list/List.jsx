@@ -9,8 +9,8 @@ import { updateUsersProfile, getUsersProfiles } from "../../../redux/apiCalls/us
 import { setProductEditId } from "../../../redux/reducers/productSlice";
 import { setUserEditId } from "../../../redux/reducers/userProfileSlice";
 import { setPage } from "../../../redux/reducers/stateSlices";
-import { fetchBusses } from "../../../redux/reducers/productSlices";
-const List = React.memo(({name,  columns}) => {
+
+const List = ({name,  columns}) => {
   const [row, setRow] = useState(null);
   const page = useSelector((state) => state.states.page);
   const busStatus = useSelector(state=>state.product.status)
@@ -29,8 +29,8 @@ const List = React.memo(({name,  columns}) => {
       setRow(userProfile);
     }
   }, [dispatch, products, userProfile]);
-  
-  console.log("rendering");
+
+  console.log("List component");
 
   const handleDisable = (id) => {
     if(name==="Product"){
@@ -130,6 +130,6 @@ const List = React.memo(({name,  columns}) => {
       />
     </div>
   );
-});
+};
 
 export default List;

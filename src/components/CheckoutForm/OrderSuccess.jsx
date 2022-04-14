@@ -19,8 +19,8 @@ const OrderSuccess = () => {
       const createOrder = async() => {
         try {
           const res = await publicRequest.post("/orders", {
-            userId: userProfile[0]._id,
-            orderItems: cartItems.map((item) => ({
+              userId: userProfile[0]._id,
+              orderItems: cartItems.map((item) => ({
               name: item.name,
               quantity: item.quantity,
               image: item.image,
@@ -33,7 +33,7 @@ const OrderSuccess = () => {
               postalCode: userProfile[0].zipCode,
               country: userProfile[0].country
             },
-            orderStatus: 'succedded',
+            orderStatus: 'Pending',
             totalPrice: total,
           });
           setOrderId(res.data._id);

@@ -4,7 +4,7 @@ import {useSelector, useDispatch} from "react-redux";
 import {updateUsersProfile, addUserByAdminProfile} from "../../../../redux/apiCalls/userProfile";
 import { resetUserEditId } from "../../../../redux/reducers/userProfileSlice";
 import { setPage } from "../../../../redux/reducers/stateSlices";
-const NewUser = React.memo(() => {
+const NewUser = () => {
   const [person, setPerson] = useState({
     firstName: '',
     lastName: '',
@@ -109,6 +109,6 @@ console.log(person);
       </div>
     </div>
   );
-});
+};
 
 export default NewUser;

@@ -12,20 +12,26 @@ import {getUsersProfiles} from '../../../redux/apiCalls/userProfile';
 import {userColumns, productColumns} from '../datatablesource';
 import { getProduct } from '../../../redux/apiCalls/product';
 
-const Home = React.memo(() => {
+const Home = () => {
   const page = useSelector((state) => state.states.page);
   const orders = useSelector((state) => state?.order?.orders);
   const products = useSelector((state) => state?.product?.products);
   const userProfile = useSelector((state) => state?.userProfile?.userProfile);
 
 
+  orders.map((order) => {
+     order.orderItems.map((item) => {
+       console.log(item);
+     })
+  })
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     getProduct(dispatch);
     getOrder(dispatch);
     getUsersProfiles(dispatch);
-  }, [dispatch, page]);
+  }, []);
+  console.log("rendering");
 
 
   let orderTotal = 0;
@@ -45,7 +51,7 @@ const Home = React.memo(() => {
             </div>
             <div className="listContainer">
               <div className="listTitle">Latest Transactions</div>
-              <Table />
+              <Table orders={orders}/>
             </div>
           </>}
           {page==="userList" && 
@@ -68,7 +74,7 @@ const Home = React.memo(() => {
       </div>
     </div>
   );
-});
+};
 
 
 export default Home;

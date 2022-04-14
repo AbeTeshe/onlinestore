@@ -8,7 +8,7 @@ import {resetProductEditId} from "../../../../redux/reducers/productSlice";
 import { setPage } from "../../../../redux/reducers/stateSlices";
 
 const client = create('https://ipfs.infura.io:5001');
-const NewProduct = React.memo(() => {
+const NewProduct = () => {
   const [product, setProduct] = useState({
     name: '',
     price: '',
@@ -133,6 +133,6 @@ console.log(product);
       </div>
     </div>
   );
-});
+};
 
 export default NewProduct;

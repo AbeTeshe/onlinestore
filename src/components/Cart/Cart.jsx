@@ -27,7 +27,7 @@ const Cart = ({  handleUpdateCartQty, handleRemoveFromCart, handleClose }) => {
     const EmptyCart = () => (
         <Grid className={classes.emptyCartContainer}>
             <Typography ariant="subtitle1" className={classes.subtitle}>You have no items in your shopping cart </Typography>
-            <Link to="/" className={classes.link}>
+            <Link to="/" style={{textDecoration: 'none'}}>
             <Button className={classes.AddEmptyButton}>start adding some!</Button>
             </Link>
         </Grid>

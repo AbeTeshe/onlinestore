@@ -52,9 +52,7 @@ export default makeStyles((theme) => ({
     marginTop: '10px',
     marginBottom: '5px'
   },
-  link: {
-    textDecoration: 'none',
-  },
+ 
   cartButtons: {
     display: 'flex',
     justifyContent: 'space-between',
