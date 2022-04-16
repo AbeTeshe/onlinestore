@@ -14,7 +14,6 @@ const UserProfile = () => {
   const classes = useStyles();
   const user = useSelector((state) => state.auth.authData);
   const userProfile = useSelector((state) => state.userProfile.userProfile);
-  console.log(userProfile);
   
   const [editUser, setEditUser] = useState(false);
   const [index, setIndex] = useState(0);

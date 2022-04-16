@@ -21,7 +21,7 @@ const Home = () => {
 
   orders.map((order) => {
      order.orderItems.map((item) => {
-       console.log(item);
+      
      })
   })
   const dispatch = useDispatch();
@@ -31,7 +31,7 @@ const Home = () => {
     getOrder(dispatch);
     getUsersProfiles(dispatch);
   }, []);
-  console.log("rendering");
+ 
 
 
   let orderTotal = 0;
@@ -66,7 +66,7 @@ const Home = () => {
                   name="Product" 
                   rows={products}
                   /> }
-          {page==="orders" && <Table />}
+          {page==="orders" && <Table orders={orders} isAdmin={true}/>}
           {page==="newUser" &&
             <NewUser />}
           {page==="newProduct" && 

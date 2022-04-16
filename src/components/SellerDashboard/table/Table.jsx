@@ -13,14 +13,34 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 600,
+  width: 400,
   backgroundColor: 'background.paper',
   border: '2px solid #fff',
-  boxShadow: 2,
+  boxShadow: 1,
   p: 4,
 };
 
-const List = ({orders}) => {
+const List = ({orders, isAdmin}) => {
+  const [order, setOrder] = useState({
+    orderItems: [
+      {
+        name: "",
+        quantity: "",
+        image: "",
+        price: ""
+      }
+    ],
+    shippingAddress: {
+      fullName: "",
+      address: "",
+      city: "",
+      postalCode: "",
+      country: "",
+    },
+    orderStatus: "",
+    totalPrice: "",
+    userId: "",
+  })
   const [open, setOpen] = useState(false);
   const [action, setAction] = useState("");
   const handleOpen = () => setOpen(true);
@@ -43,6 +63,13 @@ const List = ({orders}) => {
     setAnchorEl(null);
   }
 
+  const handleChange = (e) => {
+    setOrder((prev) => {
+      return {...prev, [e.target.name]:e.target.value}
+  });
+  console.log(order);
+  }
+
   const getTime = (date) => {
     return moment.utc(date).format("DD MMM, YYYY");
   }
@@ -53,18 +80,19 @@ const List = ({orders}) => {
         <TableHead>
           <TableRow>
             <TableCell className="tableCell">Order ID</TableCell>
-            <TableCell className="tableCell">Product</TableCell>
+            <TableCell className="tableCell">Order Details</TableCell>
             <TableCell className="tableCell">Customer</TableCell>
             <TableCell className="tableCell">Date</TableCell>
             <TableCell className="tableCell">Amount</TableCell>
             <TableCell className="tableCell">Status</TableCell>
-            <TableCell className="tableCell">Action</TableCell>
+            {isAdmin && <TableCell className="tableCell">Action</TableCell>}
+            {isAdmin && <TableCell className="tableCell">Deliver</TableCell>}
           </TableRow>
         </TableHead>
         <TableBody>
           {orders.map((order) => {
-            return <TableRow key={order._id}>
-              <TableCell className="tableCell">{order._id}</TableCell>
+            return <TableRow key={order?._id}>
+              <TableCell className="tableCell">{order?._id}</TableCell>
               <TableCell className="tableCell">
                 <div style={{position: 'relative'}}>
                     <Button onClick={handleOpen}>See Order details</Button>
@@ -78,47 +106,35 @@ const List = ({orders}) => {
                       }}
                     >
                       <Box sx={style}>
-                        {order.orderItems.map((item) => (
-                          <div>
-                            <img src={item.image} alt="tableImg" className="tableImage"/>
-                            <h3>{item.name}</h3>
-                            
+                        {order?.orderItems?.map((item) => (
+                          <div className="orderProduct">
+                            <div className="orderProductTitle">
+                              <img src={item.image} alt="tableImg" className="tableImage"/>
+                              <p>{item.name}</p>
+                            </div>
+                            <p>{item.quantity}</p>
+                            <p>{`$${item.price * item.quantity}`}</p>
                           </div>
                         ))}
                       </Box>
                     </Modal>
                 </div>
               </TableCell> 
-              <TableCell className="tableCell">{order.shippingAddress.fullName}</TableCell>
-              <TableCell className="tableCell">{getTime(order.createdAt)}</TableCell>
-              <TableCell className="tableCell">{order.totalPrice}</TableCell>
+              <TableCell className="tableCell">{order?.shippingAddress?.fullName}</TableCell>
+              <TableCell className="tableCell">{getTime(order?.createdAt)}</TableCell>
+              <TableCell className="tableCell">{order?.totalPrice}</TableCell>
               <TableCell className="tableCell">
-                <span className={`status ${order.status}`}>{order.orderStatus}</span>
+                <span className={`status ${order?.status}`}>{order?.orderStatus}</span>
               </TableCell>
-              <TableCell className="tableCell">
-              <Button
-                  id="basic-button"
-                  aria-controls={openMenu ? 'basic-menu' : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={openMenu ? 'true' : undefined}
-                  onClick={handleClick}
-                >
-                  Select Action
-                </Button>
-                <Menu
-                  id="basic-menu"
-                  anchorEl={anchorEl}
-                  open={openMenu}
-                  onClose={handleCloseMenu}
-                  MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                  }}
-                >
-                  <MenuItem onClick={() => handleStatus("Suspend")}>Suspend</MenuItem>
-                  <MenuItem onClick={() => handleStatus("Refund")}>Refund</MenuItem>
-                  <MenuItem onClick={() => handleStatus("Canceled")}>Cancel</MenuItem>
-                </Menu>
-              </TableCell>
+              {isAdmin && <TableCell className="tableCell">
+              <label htmlFor="order">Order</label>
+              <select  name="orderStatus" value={order?.orderStatus} onChange={(e) => setOrder({...order, orderStatus: e.target.value})}>
+                 <option>change Status</option>
+                <option value="Suspend">Suspend</option>
+                <option value="Refund">Refund</option>
+                <option value="Cancel">Cancel</option>
+              </select>
+                </TableCell>}
             </TableRow>
           })}
         </TableBody>
