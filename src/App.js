@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { getProduct } from './redux/apiCalls/product';
 import Footer from "./components/footer/Footer";
+import NewUser from "./components/SellerDashboard/new/user/NewUser";
 import {useGetProductsQuery, useGetUserProfilesQuery, useGetOrdersQuery} from './redux/services/apiSlice';
 
 const App = () => {
@@ -61,6 +62,9 @@ const App = () => {
          
           <Route exact path="/checkout">
             <Checkout/>
+          </Route>
+          <Route exact path ="/user/:id">
+            <NewUser />
           </Route>
         </Switch>
         <Footer />

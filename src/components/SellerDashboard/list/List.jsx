@@ -2,13 +2,14 @@ import "./list.css";
 
 import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
-
+import {Menu, Button,  MenuItem} from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { setProductEditId } from "../../../redux/reducers/productSlice";
 import { setUserEditId } from "../../../redux/reducers/userProfileSlice";
 import { setPage } from "../../../redux/reducers/stateSlices";
 import {useGetProductsQuery, useGetUserProfilesQuery, 
-  useUpdateProductMutation, useUpdateUserProfileMutation} from '../../../redux/services/apiSlice';
+  useUpdateProductMutation, useUpdateUserProfileMutation, useGetOrdersQuery,
+  useUpdateOrderMutation} from '../../../redux/services/apiSlice';
 
 const List = ({name,  columns}) => {
   const [row, setRow] = useState(null);
@@ -17,10 +18,25 @@ const List = ({name,  columns}) => {
   // const products = useSelector((state) => state.product.products);
   // const userProfile = useSelector((state) => state.userProfile.userProfile);
 
-  const {data:products, error, isLoading} = useGetProductsQuery();
+  const {data:products} = useGetProductsQuery();
   const {data: userProfile} = useGetUserProfilesQuery();
+  const {data: orders} = useGetOrdersQuery();
+
   const [updateProduct] = useUpdateProductMutation();
   const [updateUserProfile] = useUpdateUserProfileMutation();
+  const [updateOrder] = useUpdateOrderMutation();
+
+
+  
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   
   const dispatch = useDispatch();
 
@@ -31,6 +47,9 @@ const List = ({name,  columns}) => {
     }
     if(name==="User"){
       setRow(userProfile);
+    }
+    if(name=="Order") {
+      setRow(orders);
     }
   }, [name]);
 
@@ -62,9 +81,6 @@ const List = ({name,  columns}) => {
       dispatch(setPage("newUser"));
       dispatch(setUserEditId(id));
     }
-    else {
-      
-    }
   }
 
   const handleNew = () => {
@@ -76,18 +92,50 @@ const List = ({name,  columns}) => {
     }
   }
 
+  const handleStatus = (id, status) => {
+    updateOrder({id, ...orders, orderStatus: status});
+  }
+
   const actionColumn = [
     {
       field: "edit",
       headerName: "Action",
-      width: 120,
+      width:  150,
       renderCell: (params) => {
         return (
-             <div 
+             <>
+               {name==="Order" ? 
+               <div>
+                <Button
+                  id="basic-button"
+                  aria-controls={open ? 'basic-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}
+                  onClick={handleClick}
+                >
+                  Change Status
+                </Button>
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                  }}
+                >
+                  <MenuItem onClick={() => handleStatus(params.row._id, "Suspended")}>Suspend</MenuItem>
+                  <MenuItem onClick={() => handleStatus(params.row._id, "Refunded")}>Refund</MenuItem>
+                  <MenuItem onClick={() => handleStatus(params.row._id, "Canceled")}>Cancel</MenuItem>
+                </Menu>
+             </div> : 
+                <div 
                className="editButton"
                onClick={() => handleEdit(params.row._id)}
             > 
                Edit {name}</div>
+               }
+             </>
         );
       },
     },
@@ -96,7 +144,10 @@ const List = ({name,  columns}) => {
       headerName: "",
       width: 120,
       renderCell: (params) => {
-        return (<>
+        return (
+          <div>
+            {name==="Order" ? <button>Deliver</button>:
+            <>
             {params.row.isActive ? 
               <div
               className="disableButton"
@@ -109,7 +160,8 @@ const List = ({name,  columns}) => {
               onClick={() => handleEnable(params.row._id)}
             >
             Enable
-            </div>}</>
+            </div>}</>}
+          </div>
         );
       },
     },
@@ -117,12 +169,12 @@ const List = ({name,  columns}) => {
   ];
   return (
     <div className="datatable">
-      <div className="datatableTitle">
+      {name !=="Order" && <div className="datatableTitle">
         Add New {name}
         <div  className="link" onClick={handleNew}>
           Add New
         </div>
-      </div>
+      </div>}
       <DataGrid
         className="datagrid"
         rows={row}

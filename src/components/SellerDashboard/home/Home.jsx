@@ -9,7 +9,7 @@ import NewUser from "../new/user/NewUser";
 import {useSelector, useDispatch} from "react-redux";
 import { getOrder } from '../../../redux/apiCalls/orderApiCalls';
 import {getUsersProfiles} from '../../../redux/apiCalls/userProfile';
-import {userColumns, productColumns} from '../datatablesource';
+import {userColumns, productColumns, orderColumns} from '../datatablesource';
 import { getProduct } from '../../../redux/apiCalls/product';
 import {useGetProductsQuery, useGetUserProfilesQuery, useGetOrdersQuery} from '../../../redux/services/apiSlice';
 
@@ -67,7 +67,11 @@ const Home = () => {
                   name="Product" 
                   rows={products}
                   /> }
-          {page==="orders" && <Table orders={orders} isAdmin={true}/>}
+          {page==="orders" && 
+          <List rows={orders}
+                columns={orderColumns}
+                name="Order"
+          />}
           {page==="newUser" &&
             <NewUser />}
           {page==="newProduct" && 

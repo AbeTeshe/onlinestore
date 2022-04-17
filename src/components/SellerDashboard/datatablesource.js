@@ -1,3 +1,9 @@
+import moment from "moment";
+
+const getTime = (date) => {
+  return moment.utc(date).format("DD MMM, YYYY");
+}
+
 export const productColumns = [
    
     {
@@ -44,7 +50,7 @@ export const productColumns = [
       width: 230,
       renderCell: (params) => {
         return (
-            <p>{`${params.row.firstName} ${params.row.lastName}`}</p>
+          <p>{`${params.row.firstName} ${params.row.lastName}`}</p>
         );
       },
     },
@@ -71,38 +77,61 @@ export const productColumns = [
     },
   ];
 
+  
   export const orderColumns = [
     { field: "id", headerName: "ID", width: 70 },
     {
-      field: "fullName",
-      headerName: "fullName",
+      field: "product",
+      headerName: "Product",
       width: 230,
       renderCell: (params) => {
         return (
-            <p>{`${params.row.firstName} ${params.row.lastName}`}</p>
+          <>
+          {params.row.orderItems.map((order) => (
+            <div className="cellWithImg">
+              <img className="cellImg" src={order.image} alt="avatar" />
+              {order.name}
+            </div>
+          ))}
+        </>
         );
       },
     },
     {
-      field: "email",
-      headerName: "Email",
+      field: "customer",
+      headerName: "Customer",
       width: 230,
+      renderCell: (params) => {
+        return (
+          <p>{params?.row.shippingAddress?.fullName}</p>
+        );
+      },
     },
   
     {
-      field: "phoneNumber",
-      headerName: "Phone Number",
+      field: "date",
+      headerName: "Date",
       width: 150,
+      renderCell: (params) => {
+        return (
+          <p>{getTime(params?.row.createdAt)}</p>
+        );
+      },
     },
     {
-      field: "country",
-      headerName: "Country",
-      width: 150,
+      field: "amount",
+      headerName: "Amount",
+      width: 100,
+      renderCell: (params) => {
+        return (
+          <p>{`$${params.row.totalPrice}`}</p>
+        );
+      },
     },
     {
-      field: "city",
-      headerName: "City",
-      width: 150,
+      field: "orderStatus",
+      headerName: "Status",
+      width: 120,
     },
   ];
   

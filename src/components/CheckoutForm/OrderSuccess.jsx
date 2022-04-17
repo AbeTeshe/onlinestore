@@ -2,15 +2,12 @@ import React, {useState, useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation , Link} from 'react-router-dom';
 import { publicRequest } from '../../requestMethod';
-import { emptyCart } from "../../redux/reducers/cartSlice";
 
 const OrderSuccess = () => {
     const location = useLocation();
     const data = location.state.stripeData;
     const cartItems = location.state.orderItems;
     const total = location.state.total;
-    console.log(cartItems);
-    console.log(data);
     const userProfile = useSelector((state) => state.userProfile.userProfile);
     const [orderId, setOrderId] = useState(null);
     const dispatch = useDispatch();

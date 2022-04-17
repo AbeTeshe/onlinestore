@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import { useDispatch } from "react";
 import { Modal, Box, Button, Table, Menu, 
   TableBody, TableCell, TableContainer, 
-  TableHead, TableRow, Paper,  MenuItem} from '@mui/material';
+  TableHead, TableRow, Paper,  MenuItem,  FormControl, InputLabel, Select} from '@mui/material';
 import {Delete} from "@mui/icons-material";
 import moment from "moment";
 import { updateOrder } from "../../../redux/apiCalls/orderApiCalls";
@@ -21,6 +21,11 @@ const style = {
 };
 
 const List = ({orders, isAdmin}) => {
+  const [age, setAge] = useState('');
+
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
   const [order, setOrder] = useState({
     orderItems: [
       {
@@ -63,12 +68,12 @@ const List = ({orders, isAdmin}) => {
     setAnchorEl(null);
   }
 
-  const handleChange = (e) => {
-    setOrder((prev) => {
-      return {...prev, [e.target.name]:e.target.value}
-  });
-  console.log(order);
-  }
+  // const handleChange = (e) => {
+  //   setOrder((prev) => {
+  //     return {...prev, [e.target.name]:e.target.value}
+  // });
+  // console.log(order);
+  // }
 
   const getTime = (date) => {
     return moment.utc(date).format("DD MMM, YYYY");
@@ -85,8 +90,6 @@ const List = ({orders, isAdmin}) => {
             <TableCell className="tableCell">Date</TableCell>
             <TableCell className="tableCell">Amount</TableCell>
             <TableCell className="tableCell">Status</TableCell>
-            {isAdmin && <TableCell className="tableCell">Action</TableCell>}
-            {isAdmin && <TableCell className="tableCell">Deliver</TableCell>}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -127,13 +130,22 @@ const List = ({orders, isAdmin}) => {
                 <span className={`status ${order?.status}`}>{order?.orderStatus}</span>
               </TableCell>
               {isAdmin && <TableCell className="tableCell">
-              <label htmlFor="order">Order</label>
-              <select  name="orderStatus" value={order?.orderStatus} onChange={(e) => setOrder({...order, orderStatus: e.target.value})}>
-                 <option>change Status</option>
-                <option value="Suspend">Suspend</option>
-                <option value="Refund">Refund</option>
-                <option value="Cancel">Cancel</option>
-              </select>
+                <Box sx={{maxWidth: 120}}>
+                    <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={age}
+                      label="Age"
+                      onChange={handleChange}
+                    >
+                      <MenuItem value={10}>Ten</MenuItem>
+                      <MenuItem value={20}>Twenty</MenuItem>
+                      <MenuItem value={30}>Thirty</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
                 </TableCell>}
             </TableRow>
           })}
