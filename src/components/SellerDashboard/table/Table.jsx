@@ -90,7 +90,7 @@ const List = ({orders, isAdmin}) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {orders.map((order) => {
+          {orders?.map((order) => {
             return <TableRow key={order?._id}>
               <TableCell className="tableCell">{order?._id}</TableCell>
               <TableCell className="tableCell">

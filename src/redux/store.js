@@ -1,11 +1,11 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
 import productSlice from './reducers/productSlice';
 import cartSlice from './reducers/cartSlice';
 import authSlice from './reducers/authSlice';
 import userProfileSlice from './reducers/userProfileSlice';
 import orderSlice from './reducers/orderSlice';
 import stateSlice from './reducers/stateSlices';
-import { productApi } from './services/productApi';
+import { apiSlice } from './services/apiSlice';
 
 
 export const store = configureStore({
@@ -16,9 +16,9 @@ export const store = configureStore({
         userProfile: userProfileSlice,
         order: orderSlice,
         states: stateSlice,
-        [productApi.reducerPath]: productApi.reducer,
+        [apiSlice.reducerPath]: apiSlice.reducer,
     },
     middleware: (getDefaultMiddleware) => 
-    getDefaultMiddleware().concat(productApi.middleware),
+    getDefaultMiddleware().concat(apiSlice.middleware),
 
 });

@@ -5,26 +5,27 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { getProduct } from './redux/apiCalls/product';
 import Footer from "./components/footer/Footer";
+import {useGetProductsQuery, useGetUserProfilesQuery, useGetOrdersQuery} from './redux/services/apiSlice';
 
 const App = () => {
   const [searchField, setSearchField] = useState("");
   //const [products, setProducts] = useState();
   const authData = useSelector((state) => state.auth.authData);
-  const products =  useSelector(state => state.product.products.filter((product) => product.isActive === true));
+  //const products =  useSelector(state => state.product.products.filter((product) => product.isActive === true));
   const dispatch = useDispatch();
 
+  const {data:products, error, isLoading} = useGetProductsQuery();
+  const {data: userProfile} = useGetUserProfilesQuery();
+  const {data: orders} = useGetOrdersQuery();
   const [anchorEl, setAnchorEl] = useState(false);
+
+  console.log(orders);
 
   const handleClose = () => {
     setAnchorEl(null);
   };
  
   
-
-  useEffect(() => {
-    getProduct(dispatch);
-    
-  }, [searchField,dispatch, products]);
  
   return (
     <Router>

@@ -2,14 +2,14 @@ import React, {useState, useEffect} from 'react';
 import { Grid } from '@material-ui/core';
 import Product from './Product/Product';
 import useStyles from './styles';
-import {dummyProducts} from "../../redux/reducers/dummyProducts";
+
 
 const Products = ({searchField, products}) => {
     const classes = useStyles();
     const [filteredProducts, setFilteredProducts] = useState([]);
 
     useEffect(() => {
-        const filteredProduct = products?.filter((product) => product.name?.toLowerCase().includes(searchField.toLowerCase()));
+        const filteredProduct = products?.filter((product) => (product.name?.toLowerCase().includes(searchField.toLowerCase()) && product.isActive===true));
         setFilteredProducts(filteredProduct ? filteredProduct: products);
      }, [searchField, products]);
 

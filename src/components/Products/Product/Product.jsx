@@ -35,7 +35,7 @@ const Product = ({ product}) => {
                     {name}
                 </Typography>
                 <Typography variant="h5" className={classes.cardPrice}>
-                    ${price}
+                    {`$${price}`}
                 </Typography>
                 </div>
                 <Typography dangerouslySetInnerHTML={{ __html: description}} variant="body2" color="textSecondary" className={classes.cardDesc}/>  

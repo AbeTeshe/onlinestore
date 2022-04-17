@@ -4,48 +4,52 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 
 import React, { useState, useEffect } from "react";
-import { updateProducts, getProduct } from "../../../redux/apiCalls/product";
-import { updateUsersProfile, getUsersProfiles } from "../../../redux/apiCalls/userProfile";
 import { setProductEditId } from "../../../redux/reducers/productSlice";
 import { setUserEditId } from "../../../redux/reducers/userProfileSlice";
 import { setPage } from "../../../redux/reducers/stateSlices";
+import {useGetProductsQuery, useGetUserProfilesQuery, 
+  useUpdateProductMutation, useUpdateUserProfileMutation} from '../../../redux/services/apiSlice';
 
 const List = ({name,  columns}) => {
   const [row, setRow] = useState(null);
   const page = useSelector((state) => state.states.page);
   const busStatus = useSelector(state=>state.product.status)
-  const products = useSelector((state) => state.product.products);
-  const userProfile = useSelector((state) => state.userProfile.userProfile);
+  // const products = useSelector((state) => state.product.products);
+  // const userProfile = useSelector((state) => state.userProfile.userProfile);
+
+  const {data:products, error, isLoading} = useGetProductsQuery();
+  const {data: userProfile} = useGetUserProfilesQuery();
+  const [updateProduct] = useUpdateProductMutation();
+  const [updateUserProfile] = useUpdateUserProfileMutation();
+  
   const dispatch = useDispatch();
 
 
   useEffect(() => {
-    getProduct(dispatch);
-    getUsersProfiles(dispatch);
     if(name==="Product"){
       setRow(products);
     }
     if(name==="User"){
       setRow(userProfile);
     }
-  }, [dispatch, products, userProfile]);
+  }, [name]);
 
   console.log("List component");
 
   const handleDisable = (id) => {
     if(name==="Product"){
-      updateProducts(id, {...products, isActive: false}, dispatch);
+      updateProduct({id, ...products, isActive: false});
     }
     else if (name==="User"){
-      updateUsersProfile(id, {...userProfile, isActive: false}, dispatch);
+      updateUserProfile({id, ...userProfile, isActive: false});
     }
   };
   const handleEnable = (id) => {
     if(name==="Product"){
-      updateProducts(id, {...products, isActive: true}, dispatch);
+      updateProduct({id, ...products, isActive: true});
     }
     else if (name==="User"){
-      updateUsersProfile(id, {...userProfile, isActive: true}, dispatch);
+      updateUserProfile({id, ...userProfile, isActive: true});
     }
   };
   

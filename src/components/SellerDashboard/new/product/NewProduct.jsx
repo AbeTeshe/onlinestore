@@ -6,6 +6,7 @@ import {updateProducts, addProducts} from "../../../../redux/apiCalls/product";
 import {create} from 'ipfs-http-client';
 import {resetProductEditId} from "../../../../redux/reducers/productSlice";
 import { setPage } from "../../../../redux/reducers/stateSlices";
+import {useGetProductQuery, useAddProductMutation, useUpdateProductMutation} from "../../../../redux/services/apiSlice";
 
 const client = create('https://ipfs.infura.io:5001');
 const NewProduct = () => {
@@ -29,14 +30,17 @@ const NewProduct = () => {
     }
 });
   const productEditId = useSelector((state) => state.product.productEditId);
-  const productToUpdate = useSelector((state) =>
-    productEditId ? state.product.products.find((product) => product._id ===productEditId) : null);
+  const {data} = useGetProductQuery(productEditId);
+  const [addProduct] = useAddProductMutation();
+  const [updateProduct] = useUpdateProductMutation();
+  
 
    const dispatch = useDispatch();
+   console.log(productEditId);
 
     useEffect(() => {
-      if(productToUpdate) setProduct(productToUpdate)
-    }, [productEditId]);
+      if(data) setProduct(data)
+    }, [productEditId, data]);
 
     const handleChange =(e) => {
       setProduct((prev ) =>{
@@ -64,10 +68,10 @@ const NewProduct = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if(productEditId !== null ) {
-      updateProducts(productEditId, product, dispatch);
+      updateProduct({productEditId, ...product});
     }
     else {
-      addProducts(product, dispatch);
+      addProduct(product);
     }
     clear();
     dispatch(setPage("productList"));
@@ -91,8 +95,6 @@ const clear = () => {
   }});
   dispatch(resetProductEditId());
 }
-
-console.log(product);
 
   return (
     <div className="newUser">

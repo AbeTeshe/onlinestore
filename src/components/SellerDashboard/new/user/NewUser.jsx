@@ -1,9 +1,9 @@
 import "./newUser.css";
 import React, { useState, useEffect } from "react";
 import {useSelector, useDispatch} from "react-redux";
-import {updateUsersProfile, addUserByAdminProfile} from "../../../../redux/apiCalls/userProfile";
 import { resetUserEditId } from "../../../../redux/reducers/userProfileSlice";
 import { setPage } from "../../../../redux/reducers/stateSlices";
+import {useGetUserProfileQuery, useAddUserProfileMutation, useUpdateUserProfileMutation } from "../../../../redux/services/apiSlice";
 const NewUser = () => {
   const [person, setPerson] = useState({
     firstName: '',
@@ -19,13 +19,14 @@ const NewUser = () => {
 });
   const userEditId = useSelector((state) => state.userProfile.userEditId)
   
-  const userToUpdate = useSelector((state) =>
-    userEditId ? state.userProfile.userProfile.find((user) => user._id ===userEditId) : null);
-console.log(userEditId);
+  const {data} = useGetUserProfileQuery(userEditId);
+  const [addUserProfile] = useAddUserProfileMutation();
+  const [updateUserProfile] = useUpdateUserProfileMutation();
+
    const dispatch = useDispatch();
     useEffect(() => {
-      if(userToUpdate) setPerson(userToUpdate)
-    }, [userEditId]);
+      if(data) setPerson(data)
+    }, [userEditId, data]);
 
     const handleChange =(e) => {
       setPerson((prev ) =>{
@@ -36,10 +37,10 @@ console.log(userEditId);
 const handleSubmit = (e) => {
   e.preventDefault();
   if(userEditId !== null ) {
-    updateUsersProfile(userEditId, person, dispatch);
+    updateUserProfile({userEditId, ...person});
   }
   else {
-    addUserByAdminProfile(person, dispatch);
+    addUserProfile(person);
   }
   clear();
   //setPage("userList");

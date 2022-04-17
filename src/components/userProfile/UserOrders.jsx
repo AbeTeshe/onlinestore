@@ -5,7 +5,7 @@ import Table from "../SellerDashboard/table/Table"
 const UserOrders = () => {
     const orders = useSelector(state=> state.order.orders);
     const userProfile = useSelector((state) => state.userProfile.userProfile);
-    console.log(userProfile[0]._id);
+    console.log(userProfile[0]?._id);
     
     const dispatch = useDispatch();
 
@@ -13,7 +13,6 @@ const UserOrders = () => {
       getUserOrder(userProfile[0]?._id, dispatch);
     }, [dispatch, userProfile]);
   
-    
   return (
     <div>
         <Table orders={orders} isAdmin={false}/>

@@ -11,32 +11,33 @@ import { getOrder } from '../../../redux/apiCalls/orderApiCalls';
 import {getUsersProfiles} from '../../../redux/apiCalls/userProfile';
 import {userColumns, productColumns} from '../datatablesource';
 import { getProduct } from '../../../redux/apiCalls/product';
+import {useGetProductsQuery, useGetUserProfilesQuery, useGetOrdersQuery} from '../../../redux/services/apiSlice';
 
 const Home = () => {
   const page = useSelector((state) => state.states.page);
-  const orders = useSelector((state) => state?.order?.orders);
-  const products = useSelector((state) => state?.product?.products);
-  const userProfile = useSelector((state) => state?.userProfile?.userProfile);
+  // const orders = useSelector((state) => state?.order?.orders);
+  // const products = useSelector((state) => state?.product?.products);
+  // const userProfile = useSelector((state) => state?.userProfile?.userProfile);
+
+  const {data:products, error, isLoading} = useGetProductsQuery();
+  const {data: userProfile} = useGetUserProfilesQuery();
+  const {data: orders} = useGetOrdersQuery();
 
 
-  orders.map((order) => {
-     order.orderItems.map((item) => {
-      
-     })
-  })
-  const dispatch = useDispatch();
+ 
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    getProduct(dispatch);
-    getOrder(dispatch);
-    getUsersProfiles(dispatch);
-  }, []);
+  // useEffect(() => {
+  //   getProduct(dispatch);
+  //   getOrder(dispatch);
+  //   getUsersProfiles(dispatch);
+  // }, []);
  
 
 
   let orderTotal = 0;
-  for(let i =0; i < orders.length; i++){
-    orderTotal = orders[i].totalPrice + orderTotal;
+  for(let i =0; i < orders?.length; i++){
+    orderTotal = orders[i]?.totalPrice + orderTotal;
   }
 
   return (
@@ -45,8 +46,8 @@ const Home = () => {
       <div className="homeContainer">
         {page === 'home' && <>
             <div className="widgets">
-              <Widget type="user"  size={userProfile.length}/>
-              <Widget type="order"  size={orders.length}/>
+              <Widget type="user"  size={userProfile?.length}/>
+              <Widget type="order"  size={orders?.length}/>
               <Widget type="totalSales"  size={orderTotal}/>
             </div>
             <div className="listContainer">
