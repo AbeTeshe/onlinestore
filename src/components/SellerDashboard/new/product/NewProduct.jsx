@@ -65,13 +65,13 @@ const NewProduct = () => {
 
     }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if(productEditId !== null ) {
-      updateProduct({productEditId, ...product});
+      await updateProduct({productEditId, ...product});
     }
     else {
-      addProduct(product);
+      await addProduct(product);
     }
     clear();
     dispatch(setPage("productList"));

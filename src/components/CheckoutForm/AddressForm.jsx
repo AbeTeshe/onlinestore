@@ -86,7 +86,6 @@ const AddressForm = ({ checkoutToken, next }) => {
             <FormInput value={shippingData.shippingOption} name="shippingOption" label="Shipping options" />
           </Grid>
           <br />
-
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <Button component={Link} to="/cart" variant="outlined">
               Back to cart

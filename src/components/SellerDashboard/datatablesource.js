@@ -79,7 +79,6 @@ export const productColumns = [
 
   
   export const orderColumns = [
-    { field: "id", headerName: "ID", width: 70 },
     {
       field: "product",
       headerName: "Product",
@@ -132,6 +131,57 @@ export const productColumns = [
       field: "orderStatus",
       headerName: "Status",
       width: 120,
+    },
+  ];
+
+  export const invoiceColumns = [
+    {
+      field: "product",
+      headerName: "Product",
+      width: 230,
+      renderCell: (params) => {
+        return (
+          <>
+          {params.row.invoiceItems.map((invoice) => (
+            <div className="cellWithImg">
+              <img className="cellImg" src={invoice.image} alt="avatar" />
+              {invoice.name}
+            </div>
+          ))}
+        </>
+        );
+      },
+    },
+    {
+      field: "customer",
+      headerName: "Customer",
+      width: 230,
+      renderCell: (params) => {
+        return (
+          <p>{params?.row.customerName}</p>
+        );
+      },
+    },
+  
+    {
+      field: "date",
+      headerName: "Date",
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <p>{getTime(params?.row.createdAt)}</p>
+        );
+      },
+    },
+    {
+      field: "amount",
+      headerName: "Amount",
+      width: 100,
+      renderCell: (params) => {
+        return (
+          <p>{`$${params.row.totalPrice}`}</p>
+        );
+      },
     },
   ];
   

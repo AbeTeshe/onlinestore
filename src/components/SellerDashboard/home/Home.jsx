@@ -6,12 +6,10 @@ import Table from "../table/Table";
 import List from "../list/List";
 import NewProduct from "../new/product/NewProduct";
 import NewUser from "../new/user/NewUser";
-import {useSelector, useDispatch} from "react-redux";
-import { getOrder } from '../../../redux/apiCalls/orderApiCalls';
-import {getUsersProfiles} from '../../../redux/apiCalls/userProfile';
-import {userColumns, productColumns, orderColumns} from '../datatablesource';
-import { getProduct } from '../../../redux/apiCalls/product';
-import {useGetProductsQuery, useGetUserProfilesQuery, useGetOrdersQuery} from '../../../redux/services/apiSlice';
+import {useSelector} from "react-redux";
+import {userColumns, productColumns, orderColumns, invoiceColumns} from '../datatablesource';
+import {useGetProductsQuery, useGetUserProfilesQuery, useGetOrdersQuery, useGetInvoicesQuery} from '../../../redux/services/apiSlice';
+import { DeliveryDining } from '@mui/icons-material';
 
 const Home = () => {
   const page = useSelector((state) => state.states.page);
@@ -22,6 +20,11 @@ const Home = () => {
   const {data:products, error, isLoading} = useGetProductsQuery();
   const {data: userProfile} = useGetUserProfilesQuery();
   const {data: orders} = useGetOrdersQuery();
+  const {data: invoices} = useGetInvoicesQuery();
+
+  const deliveredOrders = orders?.filter((order) => order.orderStatus==="Delivered");
+
+  console.log(deliveredOrders);
 
 
  
@@ -72,6 +75,12 @@ const Home = () => {
                 columns={orderColumns}
                 name="Order"
           />}
+          {page==="invoices" && 
+          <List rows={deliveredOrders}
+                columns={invoiceColumns}
+                name="Invoice"
+          />}
+          
           {page==="newUser" &&
             <NewUser />}
           {page==="newProduct" && 

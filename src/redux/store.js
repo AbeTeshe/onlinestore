@@ -1,4 +1,5 @@
 import { configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query'
 import productSlice from './reducers/productSlice';
 import cartSlice from './reducers/cartSlice';
 import authSlice from './reducers/authSlice';
@@ -22,3 +23,5 @@ export const store = configureStore({
     getDefaultMiddleware().concat(apiSlice.middleware),
 
 });
+
+setupListeners(store.dispatch);

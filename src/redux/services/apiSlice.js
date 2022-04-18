@@ -5,17 +5,15 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const apiSlice = createApi({
   reducerPath: 'apiSlice',
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/' }),
-  tagTypes: ["Products", "UserProfile" , "Orders" ],
+  tagTypes: ['Product', 'UserProfile', 'Order', 'Invoice'],
   endpoints: (builder) => ({
-
-    //PRODUCTS API's
     getProducts: builder.query({
       query: () => "/products",
-      providesTags: ["Products"],
+      providesTags: ['Product'],
     }),
     getProduct: builder.query({
       query : (id) => `/products/${id}`,
-      providesTags: ["Products"],
+      providesTags: ['Product'],
     }),
     addProduct: builder.mutation({
       query(product) {
@@ -25,7 +23,7 @@ export const apiSlice = createApi({
           body: product,
         }
       },
-      invalidatesTags: ["Products"],
+      invalidatesTags: ['Product'],
     }),
     deleteProduct: builder.mutation({
       query(id) {
@@ -34,7 +32,7 @@ export const apiSlice = createApi({
           method: 'DELETE',
         }
       },
-      invalidatesTags: ["Products"],
+      invalidatesTags: ['Product'],
     }),
     updateProduct: builder.mutation({
       query(data) {
@@ -45,18 +43,15 @@ export const apiSlice = createApi({
           body,
         }
       },
-      invalidatesTags: ["Products"],
+      invalidatesTags: ['Product'],
     }),
-
-
-    //USER PROFILES API's
     getUserProfiles: builder.query({
       query: () => "/userProfiles",
-      providesTags: ["UserProfile"],
+      providesTags: ['UserProfile'],
     }),
     getUserProfile: builder.query({
       query: (id) => `/userProfiles/${id}`,
-      providesTags: ["UserProfile"],
+      providesTags: ['UserProfile'],
     }),
     addUserProfile: builder.mutation({
       query(userProfile) {
@@ -66,7 +61,7 @@ export const apiSlice = createApi({
           body: userProfile,
         }
       },
-      invalidatesTags: ["UserProfile"],
+      invalidatesTags: ['UserProfile'],
     }),
     deleteUserProfile: builder.mutation({
       query(id) {
@@ -75,7 +70,7 @@ export const apiSlice = createApi({
           method: 'DELETE',
         }
       },
-      invalidatesTags: ["UserProfile"],
+      invalidatesTags: ['UserProfile'],
     }),
     updateUserProfile: builder.mutation({
       query(data) {
@@ -86,19 +81,15 @@ export const apiSlice = createApi({
           body,
         }
       },
-      invalidatesTags: ["UserProfile"],
+      invalidatesTags: ['UserProfile'],
     }),
-
-    
-
-    //ORDERS API's
     getOrders: builder.query({
       query: () => "/orders",
-      providesTags: ["Orders"]
+      providesTags: ['Order']
     }),
     getOrder: builder.query({
       query: (id) => `/orders/${id}`,
-      providesTags: ["Orders"]
+      providesTags: ['Order']
     }),
     addOrder: builder.mutation({
       query(order) {
@@ -108,7 +99,7 @@ export const apiSlice = createApi({
           body: order,
         }
       },
-      invalidatesTags: ["Orders"],
+      invalidatesTags: ['Order'],
     }),
     deleteOrder: builder.mutation({
       query(id) {
@@ -117,7 +108,7 @@ export const apiSlice = createApi({
           method: 'DELETE',
         }
       },
-      invalidatesTags: ["Orders"],
+      invalidatesTags: ['Order'],
     }),
     updateOrder: builder.mutation({
       query(data) {
@@ -128,9 +119,26 @@ export const apiSlice = createApi({
           body,
         }
       },
-      invalidatesTags: ["Orders"],
+      invalidatesTags: ['Order'],
     }),
-
+    getInvoices: builder.query({
+      query: () => "/invoices",
+      providesTags: ['Invoice']
+    }),
+    getInvoice: builder.query({
+      query: (id) => `/invoices/${id}`,
+      providesTags: ['Invoice']
+    }),
+    addInvoice: builder.mutation({
+      query(invoice) {
+        return {
+          url: "/invoices",
+          method: "POST",
+          body: invoice,
+        }
+      },
+      invalidatesTags: ['Invoice'],
+    }),
   }),
 })
 
@@ -140,4 +148,6 @@ export const { useGetProductsQuery, useGetProductQuery, useAddProductMutation,
   useDeleteProductMutation, useUpdateProductMutation,
   useGetUserProfilesQuery, useGetUserProfileQuery, useAddUserProfileMutation,
    useDeleteUserProfileMutation, useUpdateUserProfileMutation,
-  useGetOrdersQuery, useGetOrderQuery, useAddOrderMutation, useDeleteOrderMutation, useUpdateOrderMutation } = apiSlice;
+  useGetOrdersQuery, useGetOrderQuery, useAddOrderMutation, useDeleteOrderMutation, useUpdateOrderMutation,
+  useGetInvoiceQuery, useGetInvoicesQuery, useAddInvoiceMutation
+ } = apiSlice;

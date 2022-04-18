@@ -9,23 +9,25 @@ import { setUserEditId } from "../../../redux/reducers/userProfileSlice";
 import { setPage } from "../../../redux/reducers/stateSlices";
 import {useGetProductsQuery, useGetUserProfilesQuery, 
   useUpdateProductMutation, useUpdateUserProfileMutation, useGetOrdersQuery,
-  useUpdateOrderMutation} from '../../../redux/services/apiSlice';
+  useUpdateOrderMutation, useAddInvoiceMutation, useGetInvoicesQuery} from '../../../redux/services/apiSlice';
 
 const List = ({name,  columns}) => {
   const [row, setRow] = useState(null);
   const page = useSelector((state) => state.states.page);
-  const busStatus = useSelector(state=>state.product.status)
-  // const products = useSelector((state) => state.product.products);
-  // const userProfile = useSelector((state) => state.userProfile.userProfile);
+  
 
   const {data:products} = useGetProductsQuery();
   const {data: userProfile} = useGetUserProfilesQuery();
   const {data: orders} = useGetOrdersQuery();
+  const {data: invoices} = useGetInvoicesQuery();
 
   const [updateProduct] = useUpdateProductMutation();
   const [updateUserProfile] = useUpdateUserProfileMutation();
   const [updateOrder] = useUpdateOrderMutation();
+  const [addInvoice] = useAddInvoiceMutation();
 
+
+  const deliveredOrders = orders?.filter((order) => order.orderStatus==="Delivered");
 
   
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -48,29 +50,43 @@ const List = ({name,  columns}) => {
     if(name==="User"){
       setRow(userProfile);
     }
-    if(name=="Order") {
+    if(name==="Order") {
       setRow(orders);
+    }
+    if(name==="Invoice"){
+      setRow(invoices);
     }
   }, [name]);
 
   console.log("List component");
 
-  const handleDisable = (id) => {
+  const handleDisable = async (id) => {
     if(name==="Product"){
-      updateProduct({id, ...products, isActive: false});
+      await updateProduct({id, ...products, isActive: false});
     }
     else if (name==="User"){
-      updateUserProfile({id, ...userProfile, isActive: false});
+      await updateUserProfile({id, ...userProfile, isActive: false});
     }
   };
-  const handleEnable = (id) => {
+  const handleEnable = async (id) => {
     if(name==="Product"){
-      updateProduct({id, ...products, isActive: true});
+      await updateProduct({id, ...products, isActive: true});
     }
     else if (name==="User"){
-      updateUserProfile({id, ...userProfile, isActive: true});
+      await updateUserProfile({id, ...userProfile, isActive: true});
     }
   };
+
+  const handleDeliver = async (id) => {
+    await updateOrder({id, ...orders, orderStatus: 'Delivered'});
+    const deliveredOrder = orders.find((order) => order._id === id);
+    await addInvoice({
+      invoiceItems: deliveredOrder.orderItems,
+      customerName: deliveredOrder.shippingAddress.fullName,
+      totalPrice: deliveredOrder.totalPrice,
+      userId: deliveredOrder.userId
+    });
+  }
   
   const handleEdit = (id) => {
     if(name==="Product") {
@@ -92,43 +108,20 @@ const List = ({name,  columns}) => {
     }
   }
 
-  const handleStatus = (id, status) => {
-    updateOrder({id, ...orders, orderStatus: status});
+  const handleStatus = async (id, status) => {
+    await  updateOrder({id, ...orders, orderStatus: status});
   }
 
   const actionColumn = [
     {
       field: "edit",
       headerName: "Action",
-      width:  150,
+      width:  120,
       renderCell: (params) => {
         return (
              <>
-               {name==="Order" ? 
-               <div>
-                <Button
-                  id="basic-button"
-                  aria-controls={open ? 'basic-menu' : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? 'true' : undefined}
-                  onClick={handleClick}
-                >
-                  Change Status
-                </Button>
-                <Menu
-                  id="basic-menu"
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
-                  MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                  }}
-                >
-                  <MenuItem onClick={() => handleStatus(params.row._id, "Suspended")}>Suspend</MenuItem>
-                  <MenuItem onClick={() => handleStatus(params.row._id, "Refunded")}>Refund</MenuItem>
-                  <MenuItem onClick={() => handleStatus(params.row._id, "Canceled")}>Cancel</MenuItem>
-                </Menu>
-             </div> : 
+               {name==="Order" ? <>{params.row.orderStatus !== "Delivered" && <Button onClick={() => handleDeliver(params.row._id)} variant="contained">Deliver</Button>}</>
+                : 
                 <div 
                className="editButton"
                onClick={() => handleEdit(params.row._id)}
@@ -142,11 +135,39 @@ const List = ({name,  columns}) => {
     {
       field: "disable",
       headerName: "",
-      width: 120,
+      width: 150,
       renderCell: (params) => {
         return (
           <div>
-            {name==="Order" ? <button>Deliver</button>:
+            {name==="Order" ? 
+            <>
+            {(params.row.orderStatus !=="Delivered" && params.row.orderStatus !=="Shipped") && <div>
+            <Button
+              id="basic-button"
+              aria-controls={open ? 'basic-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}
+              onClick={handleClick}
+            >
+              Change Status
+            </Button>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button',
+              }}
+            >
+              <MenuItem onClick={() => handleStatus(params.row._id, "Shipped")}>Ship</MenuItem>
+              <MenuItem onClick={() => handleStatus(params.row._id, "Suspended")}>Suspend</MenuItem>
+              <MenuItem onClick={() => handleStatus(params.row._id, "Refunded")}>Refund</MenuItem>
+              <MenuItem onClick={() => handleStatus(params.row._id, "Canceled")}>Cancel</MenuItem>
+            </Menu>
+         </div>}
+            </>
+            :
             <>
             {params.row.isActive ? 
               <div
@@ -169,7 +190,7 @@ const List = ({name,  columns}) => {
   ];
   return (
     <div className="datatable">
-      {name !=="Order" && <div className="datatableTitle">
+      {(name !=="Order" && name !=="Invoice") && <div className="datatableTitle">
         Add New {name}
         <div  className="link" onClick={handleNew}>
           Add New
@@ -180,7 +201,7 @@ const List = ({name,  columns}) => {
         rows={row}
         getRowId={(row) => row?._id}
         disableSelectionOnClick
-        columns={columns.concat(actionColumn)}
+        columns={name ==="Invoice" ? columns : columns.concat(actionColumn)}
         pageSize={9}
         rowsPerPageOptions={[9]}
       />

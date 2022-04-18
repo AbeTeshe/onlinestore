@@ -34,13 +34,13 @@ const NewUser = () => {
       });
     }
 
-const handleSubmit = (e) => {
+const handleSubmit =async  (e) => {
   e.preventDefault();
   if(userEditId !== null ) {
-    updateUserProfile({userEditId, ...person});
+    await updateUserProfile({userEditId, ...person});
   }
   else {
-    addUserProfile(person);
+    await addUserProfile(person);
   }
   clear();
   //setPage("userList");

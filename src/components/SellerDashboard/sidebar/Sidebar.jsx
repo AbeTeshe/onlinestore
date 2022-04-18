@@ -1,7 +1,7 @@
 import "./sidebar.css";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import ReceiptIcon from "@mui/icons-material/Receipt";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import StoreIcon from "@mui/icons-material/Store";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
@@ -43,6 +43,10 @@ const Sidebar = () => {
           <li onClick={() => handlePage("orders")}>
             <CreditCardIcon className="icon" />
             <span>Orders</span>
+          </li>
+          <li onClick={() => handlePage("invoices")}>
+            <ReceiptIcon className="icon" />
+            <span>Invoices</span>
           </li>
           <p className="title">USER</p>
           <li>
