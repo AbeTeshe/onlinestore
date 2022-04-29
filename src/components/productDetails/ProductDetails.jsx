@@ -8,27 +8,15 @@ import {addItemToCart} from '../../redux/reducers/cartSlice';
 import {getSingleProducts} from '../../redux/apiCalls/product';
 import { publicRequest } from '../../requestMethod';
 import {useGetProductQuery} from "../../redux/services/apiSlice";
-
+import {toast} from 'react-toastify';
 
 const ProductDetails = () => {
     const {Pid} = useParams();
     const classes = useStyles();
     console.log(Pid);
     const dispatch = useDispatch();
-    //const [product, setProduct] = useState({});
     const {data:product} = useGetProductQuery(Pid);
     
-    // useEffect(() => {
-    //   const getProduct = async() => {
-    //     try {
-    //       const res = await publicRequest.get(`/products/${Pid}`);
-    //       setProduct(res.data);
-    //     } catch (error) {
-    //       console.log(error);
-    //     }
-    //   }
-    //   getProduct();
-    // }, [Pid]);
      
     const onAddToCart = () => {
       dispatch(
@@ -39,6 +27,7 @@ const ProductDetails = () => {
               image: product?.mediaUrl,
       })
     )
+    toast.success(`${product?.name} added to cart!`);
   }
 
   return (

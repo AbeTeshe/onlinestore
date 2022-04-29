@@ -101,7 +101,7 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
     );
 
   return (
-    <>
+    <div style={{minHeight: '92vh'}}>
       <div className={classes.toolbar} />
       <main className={classes.layout}>
         <Paper className={classes.paper}>
@@ -121,7 +121,7 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
           )} 
         </Paper>
       </main>
-    </>
+    </div>
   );
 };
 

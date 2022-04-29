@@ -1,35 +1,28 @@
 import "./list.css";
 
 import { DataGrid } from "@mui/x-data-grid";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {Menu, Button,  MenuItem} from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { setProductEditId } from "../../../redux/reducers/productSlice";
 import { setUserEditId } from "../../../redux/reducers/userProfileSlice";
 import { setPage } from "../../../redux/reducers/stateSlices";
 import {useGetProductsQuery, useGetUserProfilesQuery, 
   useUpdateProductMutation, useUpdateUserProfileMutation, useGetOrdersQuery,
-  useUpdateOrderMutation, useAddInvoiceMutation, useGetInvoicesQuery} from '../../../redux/services/apiSlice';
+  useUpdateOrderMutation, useAddInvoiceMutation} from '../../../redux/services/apiSlice';
+import {toast} from "react-toastify";
 
-const List = ({name,  columns}) => {
-  const [row, setRow] = useState(null);
-  const page = useSelector((state) => state.states.page);
-  
-
-  const {data:products} = useGetProductsQuery();
+const List = ({name, row,  columns}) => {
+  const {data: products} = useGetProductsQuery();
   const {data: userProfile} = useGetUserProfilesQuery();
   const {data: orders} = useGetOrdersQuery();
-  const {data: invoices} = useGetInvoicesQuery();
+
 
   const [updateProduct] = useUpdateProductMutation();
   const [updateUserProfile] = useUpdateUserProfileMutation();
   const [updateOrder] = useUpdateOrderMutation();
   const [addInvoice] = useAddInvoiceMutation();
 
-
-  const deliveredOrders = orders?.filter((order) => order.orderStatus==="Delivered");
-
-  
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -42,38 +35,26 @@ const List = ({name,  columns}) => {
   
   const dispatch = useDispatch();
 
-
-  useEffect(() => {
-    if(name==="Product"){
-      setRow(products);
-    }
-    if(name==="User"){
-      setRow(userProfile);
-    }
-    if(name==="Order") {
-      setRow(orders);
-    }
-    if(name==="Invoice"){
-      setRow(invoices);
-    }
-  }, [name]);
-
   console.log("List component");
 
   const handleDisable = async (id) => {
     if(name==="Product"){
       await updateProduct({id, ...products, isActive: false});
+      toast.warn("Product disabled!");
     }
     else if (name==="User"){
       await updateUserProfile({id, ...userProfile, isActive: false});
+      toast.warn("User disabled!");
     }
   };
   const handleEnable = async (id) => {
     if(name==="Product"){
       await updateProduct({id, ...products, isActive: true});
+      toast.success("Product enabled!");
     }
     else if (name==="User"){
       await updateUserProfile({id, ...userProfile, isActive: true});
+      toast.success("User enabled!");
     }
   };
 
@@ -86,6 +67,7 @@ const List = ({name,  columns}) => {
       totalPrice: deliveredOrder.totalPrice,
       userId: deliveredOrder.userId
     });
+    toast.success("Order is delivered!");
   }
   
   const handleEdit = (id) => {
@@ -110,6 +92,7 @@ const List = ({name,  columns}) => {
 
   const handleStatus = async (id, status) => {
     await  updateOrder({id, ...orders, orderStatus: status});
+    toast.success("Order status changed!");
   }
 
   const actionColumn = [

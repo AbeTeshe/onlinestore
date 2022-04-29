@@ -1,19 +1,19 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-
+const userId = JSON.parse(localStorage.getItem('profile'))?.result?.googleId;
 
 // Define a service using a base URL and expected endpoints
 export const apiSlice = createApi({
   reducerPath: 'apiSlice',
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/' }),
-  tagTypes: ['Product', 'UserProfile', 'Order', 'Invoice'],
+  tagTypes: ['Products', 'UserProfiles', 'Orders', 'Invoices', 'Logo'],
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: () => "/products",
-      providesTags: ['Product'],
+      providesTags: ['Products'],
     }),
     getProduct: builder.query({
       query : (id) => `/products/${id}`,
-      providesTags: ['Product'],
+      providesTags: ['Products'],
     }),
     addProduct: builder.mutation({
       query(product) {
@@ -23,7 +23,7 @@ export const apiSlice = createApi({
           body: product,
         }
       },
-      invalidatesTags: ['Product'],
+      invalidatesTags: ['Products'],
     }),
     deleteProduct: builder.mutation({
       query(id) {
@@ -32,7 +32,7 @@ export const apiSlice = createApi({
           method: 'DELETE',
         }
       },
-      invalidatesTags: ['Product'],
+      invalidatesTags: ['Products'],
     }),
     updateProduct: builder.mutation({
       query(data) {
@@ -43,15 +43,19 @@ export const apiSlice = createApi({
           body,
         }
       },
-      invalidatesTags: ['Product'],
+      invalidatesTags: ['Products'],
     }),
     getUserProfiles: builder.query({
       query: () => "/userProfiles",
-      providesTags: ['UserProfile'],
+      providesTags: ['UserProfiles'],
+    }),
+    getUsersProfile: builder.query({
+      query: () => `/userProfiles/${userId}`,
+      providesTags: ['UserProfiles'],
     }),
     getUserProfile: builder.query({
-      query: (id) => `/userProfiles/${id}`,
-      providesTags: ['UserProfile'],
+      query: (id) => `/userProfiles/find/${id}`,
+      providesTags: ['UserProfiles'],
     }),
     addUserProfile: builder.mutation({
       query(userProfile) {
@@ -61,7 +65,7 @@ export const apiSlice = createApi({
           body: userProfile,
         }
       },
-      invalidatesTags: ['UserProfile'],
+      invalidatesTags: ['UserProfiles'],
     }),
     deleteUserProfile: builder.mutation({
       query(id) {
@@ -70,7 +74,7 @@ export const apiSlice = createApi({
           method: 'DELETE',
         }
       },
-      invalidatesTags: ['UserProfile'],
+      invalidatesTags: ['UserProfiles'],
     }),
     updateUserProfile: builder.mutation({
       query(data) {
@@ -81,15 +85,19 @@ export const apiSlice = createApi({
           body,
         }
       },
-      invalidatesTags: ['UserProfile'],
+      invalidatesTags: ['UserProfiles'],
     }),
     getOrders: builder.query({
       query: () => "/orders",
-      providesTags: ['Order']
+      providesTags: ['Orders']
     }),
     getOrder: builder.query({
       query: (id) => `/orders/${id}`,
-      providesTags: ['Order']
+      providesTags: ['Orders']
+    }),
+    getUserOrder: builder.query({
+      query: (id) => `/orders/find/${id}`,
+      providesTags: ['Orders']
     }),
     addOrder: builder.mutation({
       query(order) {
@@ -99,7 +107,7 @@ export const apiSlice = createApi({
           body: order,
         }
       },
-      invalidatesTags: ['Order'],
+      invalidatesTags: ['Orders'],
     }),
     deleteOrder: builder.mutation({
       query(id) {
@@ -108,7 +116,7 @@ export const apiSlice = createApi({
           method: 'DELETE',
         }
       },
-      invalidatesTags: ['Order'],
+      invalidatesTags: ['Orders'],
     }),
     updateOrder: builder.mutation({
       query(data) {
@@ -119,15 +127,19 @@ export const apiSlice = createApi({
           body,
         }
       },
-      invalidatesTags: ['Order'],
+      invalidatesTags: ['Orders'],
     }),
     getInvoices: builder.query({
       query: () => "/invoices",
-      providesTags: ['Invoice']
+      providesTags: ['Invoices']
     }),
     getInvoice: builder.query({
       query: (id) => `/invoices/${id}`,
-      providesTags: ['Invoice']
+      providesTags: ['Invoices']
+    }),
+    getUserInvoices: builder.query({
+      query: (id) => `/invoices/find/${id}`,
+      providesTags: ['Invoices']
     }),
     addInvoice: builder.mutation({
       query(invoice) {
@@ -137,7 +149,22 @@ export const apiSlice = createApi({
           body: invoice,
         }
       },
-      invalidatesTags: ['Invoice'],
+      invalidatesTags: ['Invoices'],
+    }),
+    getLogoData: builder.query({
+      query: () => "/logo",
+      providesTags: ['Logo']
+    }),
+    updateLogo: builder.mutation({
+      query(data) {
+        const {id, ...body} = data;
+        return {
+          url: `/logo/${id}`,
+          method: 'PUT',
+          body,
+        }
+      },
+      invalidatesTags: ['Logo'],
     }),
   }),
 })
@@ -146,8 +173,9 @@ export const apiSlice = createApi({
 // auto-generated based on the defined endpoints
 export const { useGetProductsQuery, useGetProductQuery, useAddProductMutation, 
   useDeleteProductMutation, useUpdateProductMutation,
-  useGetUserProfilesQuery, useGetUserProfileQuery, useAddUserProfileMutation,
+  useGetUserProfilesQuery,useGetUsersProfileQuery, useGetUserProfileQuery, useAddUserProfileMutation,
    useDeleteUserProfileMutation, useUpdateUserProfileMutation,
-  useGetOrdersQuery, useGetOrderQuery, useAddOrderMutation, useDeleteOrderMutation, useUpdateOrderMutation,
-  useGetInvoiceQuery, useGetInvoicesQuery, useAddInvoiceMutation
+  useGetOrdersQuery, useGetOrderQuery, useGetUserOrderQuery,  useAddOrderMutation, useDeleteOrderMutation, useUpdateOrderMutation,
+  useGetInvoiceQuery, useGetInvoicesQuery,useGetUserInvoicesQuery, useAddInvoiceMutation, 
+  useGetLogoDataQuery, useUpdateLogoMutation
  } = apiSlice;

@@ -1,12 +1,12 @@
 import "./newProduct.css";
 import React,  { useState, useEffect } from "react";
-import FileBase from "react-file-base64";
 import {useSelector, useDispatch} from "react-redux";
 import {updateProducts, addProducts} from "../../../../redux/apiCalls/product";
 import {create} from 'ipfs-http-client';
 import {resetProductEditId} from "../../../../redux/reducers/productSlice";
 import { setPage } from "../../../../redux/reducers/stateSlices";
 import {useGetProductQuery, useAddProductMutation, useUpdateProductMutation} from "../../../../redux/services/apiSlice";
+import {toast} from 'react-toastify';
 
 const client = create('https://ipfs.infura.io:5001');
 const NewProduct = () => {
@@ -29,18 +29,17 @@ const NewProduct = () => {
       image4: ''
     }
 });
-  const productEditId = useSelector((state) => state.product.productEditId);
-  const {data} = useGetProductQuery(productEditId);
+  const id = useSelector((state) => state.product.productEditId);
+  const {data} = useGetProductQuery(id);
   const [addProduct] = useAddProductMutation();
   const [updateProduct] = useUpdateProductMutation();
   
 
    const dispatch = useDispatch();
-   console.log(productEditId);
-
+ 
     useEffect(() => {
       if(data) setProduct(data)
-    }, [productEditId, data]);
+    }, [id, data]);
 
     const handleChange =(e) => {
       setProduct((prev ) =>{
@@ -67,11 +66,13 @@ const NewProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(productEditId !== null ) {
-      await updateProduct({productEditId, ...product});
+    if(id !== null ) {
+      await updateProduct({id, ...product});
+      toast.success("Product Updated!");
     }
     else {
       await addProduct(product);
+      toast.success("New Product Added!");
     }
     clear();
     dispatch(setPage("productList"));
@@ -100,7 +101,7 @@ const clear = () => {
     <div className="newUser">
       <div className="newContainer">
         <div className="top">
-          <h1 className="newTitle">{(productEditId === null) ? 'Add New Product' : 'Update Product'}</h1>
+          <h1 className="newTitle">{(id === null) ? 'Add New Product' : 'Update Product'}</h1>
         </div>
         <div className="bottom">
             <form>
@@ -129,12 +130,15 @@ const clear = () => {
                   <label>Image</label>
                   <input type="file" name="mediaUrl" onChange={handleImage} placeholder="" />
                 </div>
+                <div className="formInput">
+                  <label>Image's URL</label>
+                  <input type="text" name="mediaUrl" value={product.mediaUrl} onChange={handleImage} placeholder="" />
+                </div>
             </form>
         </div>
-        <button onClick={handleSubmit} style={{margin: 'auto'}} className="newButton">{(productEditId === null) ? 'Add' : 'Update'}</button>
+        <button onClick={handleSubmit} style={{margin: 'auto'}} className="newButton">{(id === null) ? 'Add' : 'Update'}</button>
       </div>
     </div>
   );
 };
-
 export default NewProduct;

@@ -1,14 +1,19 @@
 import React, {useState, useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation , Link} from 'react-router-dom';
+import { emptyCart } from '../../redux/reducers/cartSlice';
 import { publicRequest } from '../../requestMethod';
+import {useGetUserProfilesQuery} from "../../redux/services/apiSlice";
 
 const OrderSuccess = () => {
     const location = useLocation();
     const data = location.state.stripeData;
     const cartItems = location.state.orderItems;
     const total = location.state.total;
-    const userProfile = useSelector((state) => state.userProfile.userProfile);
+    const user = useSelector((state) => state.auth.authData);
+    const {data: userProfiles} = useGetUserProfilesQuery();
+    const userProfile = userProfiles?.find((profile) => profile?.userId === user?.result?.googleId)
+    
     const [orderId, setOrderId] = useState(null);
     const dispatch = useDispatch();
    
@@ -16,7 +21,7 @@ const OrderSuccess = () => {
       const createOrder = async() => {
         try {
           const res = await publicRequest.post("/orders", {
-              userId: userProfile[0]._id,
+              userId: userProfile?._id,
               orderItems: cartItems.map((item) => ({
               name: item.name,
               quantity: item.quantity,
@@ -24,11 +29,11 @@ const OrderSuccess = () => {
               price: item.price,
             })),
             shippingAddress: {
-              fullName: `${userProfile[0]?.firstName} ${userProfile[0].lastName}`,
-              address: userProfile[0]?.addressLine1,
-              city: userProfile[0]?.city,
-              postalCode: userProfile[0].zipCode,
-              country: userProfile[0].country
+              fullName: `${userProfile?.firstName} ${userProfile?.lastName}`,
+              address: userProfile?.addressLine1,
+              city: userProfile?.city,
+              postalCode: userProfile?.zipCode,
+              country: userProfile?.country
             },
             orderStatus: 'Pending',
             totalPrice: total,
@@ -37,8 +42,10 @@ const OrderSuccess = () => {
         } catch (error) {
           console.log(error);
         }
+        
       };
       data && createOrder();
+      dispatch(emptyCart());
       
     },[cartItems, data, userProfile, dispatch]);
 

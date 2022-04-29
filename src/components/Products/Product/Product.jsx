@@ -4,7 +4,7 @@ import { AddShoppingCart } from '@material-ui/icons';
 import {Link} from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { addItemToCart } from '../../../redux/reducers/cartSlice';
-
+import {toast} from "react-toastify";
 
 import useStyles from './styles';
 
@@ -24,6 +24,7 @@ const Product = ({ product}) => {
                 image: mediaUrl,
         })
       )
+      toast.success(`${name} added to cart!`);
     }
 
     return (

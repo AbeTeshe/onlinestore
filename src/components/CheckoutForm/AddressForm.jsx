@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   InputLabel,
   Select,
@@ -12,32 +12,31 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 //import { commerce } from "../../lib/commerce";
 import FormInput from "./CustomTextField";
-import { addUsersProfile, getUsersProfile, updateUsersProfile } from "../../redux/apiCalls/userProfile";
-
+import {useGetUserProfilesQuery, useAddUserProfileMutation, useUpdateUserProfileMutation} from "../../redux/services/apiSlice";
 const AddressForm = ({ checkoutToken, next }) => {
+  const user = useSelector((state) => state.auth.authData);
   
-  
-  const userProfile = useSelector((state) => state.userProfile.userProfile);
-  const dispatch = useDispatch();
-
+  const {data: userProfiles} = useGetUserProfilesQuery();
+  const [addUserProfile] = useAddUserProfileMutation();
+  const [updateUserProfile] = useUpdateUserProfileMutation();
+  const {googleId, givenName, familyName,  email} = user?.result;
+  const userProfile = userProfiles?.find((profile) => profile?.userId === googleId)
+  const id = userProfile?._id;
+  console.log(userProfile);
+ 
   const [shippingData, setShippingData] = useState({
-    firstName: userProfile[0]?.firstName,
-    lastName: userProfile[0]?.lastName,
-    email: userProfile[0]?.email,
-    country: userProfile[0]?.country,
-    city: userProfile[0]?.city,
-    addressLine1: userProfile[0]?.addressLine1,
-    zipCode: userProfile[0]?.zipCode,
-    shippingDivision: userProfile[0]?.shippingDivision,
-    shippingOption: userProfile[0]?.shippingOption,
+    firstName: userProfile?.firstName || givenName,
+    lastName: userProfile?.lastName || familyName,
+    email: userProfile?.email || email,
+    country: userProfile?.country,
+    city: userProfile?.city,
+    addressLine1: userProfile?.addressLine1,
+    zipCode: userProfile?.zipCode,
+    shippingDivision: userProfile?.shippingDivision,
+    shippingOption: userProfile?.shippingOption,
 });
 
   const methods = useForm();
-
-  useEffect(() => {
-    getUsersProfile(dispatch);
-  }, [dispatch, userProfile]);
-
   
   const handleChange = (e) => {
     setShippingData((prev)=> {
@@ -45,13 +44,13 @@ const AddressForm = ({ checkoutToken, next }) => {
     })
   }
 
-  const handleSubmit =(e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
-    if(userProfile.length===0){
-      addUsersProfile(shippingData, dispatch);
+    if(userProfile===undefined){
+      await addUserProfile({userId: googleId, ...shippingData});
     }
     else {
-      updateUsersProfile(userProfile[0]?._id, shippingData, dispatch);
+      updateUserProfile({id, ...shippingData});
     }
   }
 
@@ -82,18 +81,18 @@ const AddressForm = ({ checkoutToken, next }) => {
             <FormInput value={shippingData.city} handleChange={handleChange} required name="city" label="City" />
             <FormInput value={shippingData.zipCode} handleChange={handleChange} required name="zipCode" label="Zip / Postal code" />
             <FormInput value={shippingData.country}  handleChange={handleChange} name="country" label="Shipping Country" />
-            <FormInput value={shippingData.shippingDivision} name="shippingDivision" label="Shipping subdivision" />
-            <FormInput value={shippingData.shippingOption} name="shippingOption" label="Shipping options" />
+            <FormInput value={shippingData.shippingDivision} handleChange={handleChange} name="shippingDivision" label="Shipping subdivision"  />
+            <FormInput value={shippingData.shippingOption} handleChange={handleChange} name="shippingOption" label="Shipping options"/>
           </Grid>
           <br />
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Grid container style={{ display: "flex", justifyContent: "space-between" }} >
             <Button component={Link} to="/cart" variant="outlined">
               Back to cart
             </Button>
-            <Button type="submit" variant="contained" color="primary" >
-              Next
+            <Button type="submit" variant="contained" color="primary" onClick={(userProfile===undefined) && handleSubmit}>
+              {(userProfile===undefined) ? 'Add Shipping Info': 'Next'}
             </Button>
-          </div>
+          </Grid>
         </form>
       </FormProvider>
     </>

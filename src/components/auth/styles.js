@@ -4,6 +4,7 @@ export default makeStyles((theme) => ({
     toolbar: theme.mixins.toolbar,
     authContainer: {
         marginTop: '20px',
+        minHeight: '86vh',
     },
     paper: {
         marginTop: theme.spacing(4),

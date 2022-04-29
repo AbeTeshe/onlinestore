@@ -16,7 +16,7 @@ const UserData = ({userProfile}) => {
                                     <Person />
                                 </Avatar>
                                 </ListItemAvatar>
-                                <ListItemText primary="Name" secondary={`${userProfile[0]?.firstName} ${userProfile[0]?.lastName}`} />
+                                <ListItemText primary="Name" secondary={`${userProfile?.firstName} ${userProfile?.lastName}`} />
                             </ListItem>
                             <ListItem>
                                 <ListItemAvatar>
@@ -24,7 +24,7 @@ const UserData = ({userProfile}) => {
                                     <Email />
                                 </Avatar>
                                 </ListItemAvatar>
-                                <ListItemText primary="Email" secondary={userProfile[0]?.email} />
+                                <ListItemText primary="Email" secondary={userProfile?.email} />
                             </ListItem>
                             <ListItem>
                                 <ListItemAvatar>
@@ -32,7 +32,7 @@ const UserData = ({userProfile}) => {
                                     <Phone />
                                 </Avatar>
                                 </ListItemAvatar>
-                                <ListItemText primary="Phone Number" secondary={userProfile[0]?.phoneNumber} />
+                                <ListItemText primary="Phone Number" secondary={userProfile?.phoneNumber} />
                             </ListItem>
                         </List>
                   </Grid>
@@ -44,7 +44,7 @@ const UserData = ({userProfile}) => {
                                     <LocationOn />
                                 </Avatar>
                                 </ListItemAvatar>
-                                <ListItemText primary="Address" secondary={`${userProfile[0]?.city}, ${userProfile[0]?.country}`} />
+                                <ListItemText primary="Address" secondary={`${userProfile?.city}, ${userProfile?.country}`} />
                             </ListItem>
                             <ListItem>
                                 <ListItemAvatar>
@@ -52,7 +52,7 @@ const UserData = ({userProfile}) => {
                                     <LocationOn />
                                 </Avatar>
                                 </ListItemAvatar>
-                                <ListItemText primary="Address Line" secondary={`${userProfile[0]?.addressLine1}, ${userProfile[0]?.zipCode}`} />
+                                <ListItemText primary="Address Line" secondary={`${userProfile?.addressLine1}, ${userProfile?.zipCode}`} />
                             </ListItem>
                             <ListItem>
                                 <ListItemAvatar>
@@ -60,7 +60,7 @@ const UserData = ({userProfile}) => {
                                     <ShoppingCartCheckout />
                                 </Avatar>
                                 </ListItemAvatar>
-                                <ListItemText primary="Shipping Information" secondary={`${userProfile[0]?.shippingDivision}, ${userProfile[0]?.shippingOption}`} />
+                                <ListItemText primary="Shipping Information" secondary={`${userProfile?.shippingDivision}, ${userProfile?.shippingOption}`} />
                             </ListItem>
                         </List>
                   </Grid>

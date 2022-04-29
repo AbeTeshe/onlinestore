@@ -6,17 +6,18 @@ import {
   Badge,
   MenuItem,
   Menu,
+  InputBase ,
   Typography,
   Button,
   Fade,
 } from "@material-ui/core";
 import { ShoppingCart, Search, Clear, KeyboardArrowDown} from "@material-ui/icons";
-import { Link, useLocation, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import logo from "../../assets/commerce.png";
+import logos from "../../assets/commerce.png";
 import useStyles from "./styles";
 import { logout } from "../../redux/reducers/authSlice";
-
+import {useGetLogoDataQuery} from "../../redux/services/apiSlice";
 const styles = {
   root: {
     flexGrow: 1
@@ -28,18 +29,16 @@ const styles = {
   }
 };
 
-
 const Navbar = ({  searchField, setSearchField, anchorEl,setAnchorEl, handleClose }) => {
   const classes = useStyles();
   const user = useSelector((state) => state.auth.authData);
   const cartTotalQuantity = useSelector(state => state.cart.totalQuantity);
   const history= useHistory();
   const dispatch = useDispatch();
-  
-  
+  const {data: logoData} = useGetLogoDataQuery();
+  const logo = logoData?.find((item) => item._id ==='62601a178676685899526a77');
   const open = Boolean(anchorEl);
-  
-
+ 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -66,19 +65,19 @@ const handleLogout = () => {
       <AppBar position="fixed" color='primary' className={classes.appBarContainer}>
           <Toolbar >
             <Typography component={Link} to="/" variant="h6" className={classes.appBar} color="inherit">
-                <div className={classes.logoContainer}>
+                  <div className={classes.logoContainer}>
                   <img
-                    src={logo}
+                    src={logo?.logoImage || logos}
                     alt="Shopinext's E-Commerce"
                     className={classes.image}
                   />
-                  <p className={classes.logoText}>Shopinext </p>
+                  <p className={classes.logoText}>{logo?.logoText || 'Shopinext'} </p>
                 </div>
             </Typography>
               {/* search product */}
             <div className={classes.search}>  
                 <div className={classes.searchBox}>
-                  <input  
+                  <InputBase  
                     type = "text" 
                     name="searchField"
                     value={searchField}
@@ -90,7 +89,7 @@ const handleLogout = () => {
                 </div>
             </div>
             <div className={classes.grow} />
-            {/* {location.pathname === "/" && ( */}
+            {/* userProfile  */}
             <div className={classes.button}>
                 {!user ? <Link to="/login" style={{textDecoration: 'none'}}>
                   <Button id = "login-button" className={classes.loginButton} onClick={handleClose}>
@@ -117,11 +116,8 @@ const handleLogout = () => {
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                   </Menu>
                 </div>}
-          </div>
-                  {/* )} */}
-                  
+          </div>     
           <div className={classes.grow} />
-          {/* {location.pathname === "/" && ( */}
             <Link style={{textDecoration: 'none'}} to="/admin"><Button style={{color: 'white', width: '100px'}} color="secondary" >Admin</Button></Link>
             <div className={classes.headerCartButton}>
               <IconButton
@@ -135,7 +131,6 @@ const handleLogout = () => {
                 </Badge>
               </IconButton>
             </div>
-            {/* )} */}
           </Toolbar>
       </AppBar>
     </div>

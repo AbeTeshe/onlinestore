@@ -57,7 +57,7 @@ const Widget = ({ type, size }) => {
       data = {
         title: "TOTAL SALES",
         isMoney: true,
-        page: "orders",
+        page: "invoices",
         link: "View all sales",
         icon: (
           <MonetizationOnOutlinedIcon

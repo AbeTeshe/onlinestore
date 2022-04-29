@@ -2,31 +2,24 @@ import React, { useState, useEffect } from "react";
 //import { commerce } from "./lib/commerce";
 import { Products, Navbar, Cart, Home, Checkout, OrderSuccess,   ProductDetails, Auth, UserProfile } from "./components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
-import { getProduct } from './redux/apiCalls/product';
+import {  useSelector } from 'react-redux';
+
 import Footer from "./components/footer/Footer";
-import NewUser from "./components/SellerDashboard/new/user/NewUser";
-import {useGetProductsQuery, useGetUserProfilesQuery, useGetOrdersQuery} from './redux/services/apiSlice';
+import {useGetProductsQuery} from './redux/services/apiSlice';
+import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   const [searchField, setSearchField] = useState("");
-  //const [products, setProducts] = useState();
   const authData = useSelector((state) => state.auth.authData);
-  //const products =  useSelector(state => state.product.products.filter((product) => product.isActive === true));
-  const dispatch = useDispatch();
-
-  const {data:products, error, isLoading} = useGetProductsQuery();
-  const {data: userProfile} = useGetUserProfilesQuery();
-  const {data: orders} = useGetOrdersQuery();
+  const {data} = useGetProductsQuery();
   const [anchorEl, setAnchorEl] = useState(false);
+  const products =  data?.filter((product) => product.isActive === true);
 
-  console.log(orders);
 
   const handleClose = () => {
     setAnchorEl(null);
   };
- 
-  
  
   return (
     <Router>
@@ -37,6 +30,7 @@ const App = () => {
               setAnchorEl={setAnchorEl}
               handleClose={handleClose}
               />
+        <ToastContainer autoClose={2000}/>
         <Switch >
           <Route exact path="/">
             <Products searchField={searchField} products={products} />
@@ -59,12 +53,8 @@ const App = () => {
           <Route  exact path="/admin">
              <Home/>
           </Route>
-         
           <Route exact path="/checkout">
             <Checkout/>
-          </Route>
-          <Route exact path ="/user/:id">
-            <NewUser />
           </Route>
         </Switch>
         <Footer />

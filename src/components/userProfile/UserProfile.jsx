@@ -2,25 +2,29 @@ import {  Button, Container, GridDirection, Grid } from '@material-ui/core';
 
 import UserData from './UserData';
 import UserOrders from './UserOrders';
-import React, {useState, useEffect} from 'react';
+import UserInvoices from './UserInvoices';
+import React, {useState} from 'react';
 import Input from '../auth/Input';
 import useStyles from './styles';
-
-import { useSelector, useDispatch } from 'react-redux';
-import {addUsersProfile, getUsersProfile, updateUsersProfile } from '../../redux/apiCalls/userProfile';
-
-
+import { useSelector } from 'react-redux';
+import {useGetUserProfilesQuery, useAddUserProfileMutation, useUpdateUserProfileMutation} from "../../redux/services/apiSlice";
+import {toast} from 'react-toastify';
 const UserProfile = () => {
   const classes = useStyles();
   const user = useSelector((state) => state.auth.authData);
-  const userProfile = useSelector((state) => state.userProfile.userProfile);
-  
   const [editUser, setEditUser] = useState(false);
   const [index, setIndex] = useState(0);
   
-  const dispatch = useDispatch();
-  const {givenName, familyName,  email} = user?.result;
+  const {data: userProfiles} = useGetUserProfilesQuery();
+  const [addUserProfile] = useAddUserProfileMutation();
+  const [updateUserProfile] = useUpdateUserProfileMutation();
+
+  const {googleId, givenName, familyName,  email} = user?.result;
+  const userProfile = userProfiles?.find((profile) => profile?.userId === googleId)
+  const id = userProfile?._id;
+
   const [person, setPerson] = useState({
+      userId: googleId,
       firstName: givenName,
       lastName: familyName,
       email: email,
@@ -33,17 +37,15 @@ const UserProfile = () => {
       shippingOption: ''
   });
 
-  useEffect(() => {
-    getUsersProfile(dispatch);
-  }, [dispatch, editUser]);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
       e.preventDefault();
       if(!editUser){
-        addUsersProfile(person, dispatch);
+        await addUserProfile(person);
+        toast.success("UserProfile added!");
       }
       else {
-        updateUsersProfile(userProfile[0]._id, person, dispatch);
+        updateUserProfile({id, ...person});
+        toast.success("UserProfile Updated!");
       }
       setEditUser(false);
   }
@@ -57,16 +59,17 @@ const UserProfile = () => {
   const handleEdit =() => {
      setEditUser(true);
       setPerson({
-          firstName: userProfile[0].firstName,
-          lastName: userProfile[0].lastName,
-          email: userProfile[0].email,
-          phoneNumber: userProfile[0].phoneNumber,
-          country: userProfile[0].country,
-          city: userProfile[0].country,
-          addressLine1: userProfile[0].addressLine1,
-          zipCode: userProfile[0].zipCode,
-          shippingDivision: userProfile[0].shippingDivision,
-          shippingOption: userProfile[0].shippingOption
+          userId: userProfile?.userId,
+          firstName: userProfile?.firstName,
+          lastName: userProfile?.lastName,
+          email: userProfile?.email,
+          phoneNumber: userProfile?.phoneNumber,
+          country: userProfile?.country,
+          city: userProfile?.country,
+          addressLine1: userProfile?.addressLine1,
+          zipCode: userProfile?.zipCode,
+          shippingDivision: userProfile?.shippingDivision,
+          shippingOption: userProfile?.shippingOption
       });
   };
 
@@ -93,7 +96,7 @@ const UserProfile = () => {
                 </Grid>
                 <Grid item  xs={12} sm={8} md={9} lg={9} style={{display: 'flex'}}>
                     {index===0 && <Grid container justify="center" spacing={2}>
-                {(userProfile.length===0 || editUser) ? <><Grid item xs={12} sm={12} md={6} lg={6}>
+                {(userProfile===undefined || editUser) ? <><Grid item xs={12} sm={12} md={6} lg={6}>
                     <Input type="text" value={person.firstName} name="firstName" label="First Name" handleChange={handleChange} autoFocus />
                     <Input type="text" value={person.lastName} name="lastName" label="Last Name" handleChange={handleChange}  autoFocus />
                     <Input value={person.email} name="email" label="Email" handleChange={handleChange}   />
@@ -107,12 +110,13 @@ const UserProfile = () => {
                     <Input value={person.shippingDivision} name="shippingDivision" label="Shipping Subdivision" handleChange={handleChange}  />
                     <Input value={person.shippingOption} name="shippingOption" label="Shipping Option" handleChange={handleChange}   />
                 </Grid></>:
-            <UserData userProfile={userProfile}/>}
-            {(userProfile.length===0 || editUser) ? <Button style={{margin: 'auto'}} color="primary"  variant="contained" onClick={handleSubmit}>Update Profile</Button>:
-            <Button  color="primary" variant="contained"  onClick={handleEdit}>Edit Profile</Button>}
-        </Grid>}
+                <UserData userProfile={userProfile}/>}
+                {(userProfile===undefined || editUser) ? <Button style={{margin: 'auto'}} color="primary"  variant="contained" onClick={handleSubmit}>Update Profile</Button>:
+                <Button  color="primary" variant="contained"  onClick={handleEdit}>Edit Profile</Button>}
+            </Grid>}
                     {index===1 && <ChangePassword />}
-                    {index===2 && <UserOrders />}
+                    {index===2 && <UserOrders id={id} />}
+                    {index===3 && <UserInvoices id={id}/> }
                 </Grid>
             </Grid>
     </Container>

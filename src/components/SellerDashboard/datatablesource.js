@@ -128,9 +128,14 @@ export const productColumns = [
       },
     },
     {
-      field: "orderStatus",
+      field: "Status",
       headerName: "Status",
       width: 120,
+      renderCell: (params) => {
+        return (
+          <p className={params.row.orderStatus}>{params.row.orderStatus}</p>
+        );
+      },
     },
   ];
 

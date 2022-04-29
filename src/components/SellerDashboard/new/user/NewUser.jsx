@@ -4,6 +4,8 @@ import {useSelector, useDispatch} from "react-redux";
 import { resetUserEditId } from "../../../../redux/reducers/userProfileSlice";
 import { setPage } from "../../../../redux/reducers/stateSlices";
 import {useGetUserProfileQuery, useAddUserProfileMutation, useUpdateUserProfileMutation } from "../../../../redux/services/apiSlice";
+import {toast} from "react-toastify";
+
 const NewUser = () => {
   const [person, setPerson] = useState({
     firstName: '',
@@ -17,16 +19,18 @@ const NewUser = () => {
     shippingDivision: '',
     shippingOption: ''
 });
-  const userEditId = useSelector((state) => state.userProfile.userEditId)
+  const id = useSelector((state) => state.userProfile.userEditId)
   
-  const {data} = useGetUserProfileQuery(userEditId);
+  const {data} = useGetUserProfileQuery(id);
   const [addUserProfile] = useAddUserProfileMutation();
   const [updateUserProfile] = useUpdateUserProfileMutation();
+  console.log(id);
+  console.log(data);
 
    const dispatch = useDispatch();
     useEffect(() => {
       if(data) setPerson(data)
-    }, [userEditId, data]);
+    }, [id, data]);
 
     const handleChange =(e) => {
       setPerson((prev ) =>{
@@ -36,11 +40,13 @@ const NewUser = () => {
 
 const handleSubmit =async  (e) => {
   e.preventDefault();
-  if(userEditId !== null ) {
-    await updateUserProfile({userEditId, ...person});
+  if(id !== null ) {
+    await updateUserProfile({id, ...person});
+    toast.success("User updated!");
   }
   else {
     await addUserProfile(person);
+    toast.success("New User Added!");
   }
   clear();
   //setPage("userList");
@@ -60,7 +66,7 @@ console.log(person);
     <div className="newUser">
       <div className="newContainer">
         <div className="top">
-          <h1>{(userEditId === null) ? 'Add New user' : 'Update User'}</h1>
+          <h1>{(id === null) ? 'Add New user' : 'Update User'}</h1>
         </div>
         <div className="bottom">
             <form>
@@ -106,7 +112,7 @@ console.log(person);
                 </div>
             </form>
         </div>
-        <button onClick={handleSubmit} style={{display: 'block'}} className="newButton">{(userEditId === null) ? 'Add' : 'Update'}</button>
+        <button onClick={handleSubmit} style={{display: 'block'}} className="newButton">{(id === null) ? 'Add' : 'Update'}</button>
       </div>
     </div>
   );

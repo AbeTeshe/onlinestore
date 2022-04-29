@@ -58,7 +58,7 @@ const PaymentForm = ({
     <>
       <Review checkoutToken={checkoutToken} />
       <Divider />
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", marginTop: '20px' }}>
         <Button variant="outlined" onClick={backStep}>
           Back
         </Button>

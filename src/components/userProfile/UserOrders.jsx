@@ -1,21 +1,13 @@
-import React, {useEffect} from 'react'
-import { useSelector, useDispatch } from 'react-redux';
-import { getUserOrder } from '../../redux/apiCalls/orderApiCalls';
+import React from 'react'
+import { useGetUserOrderQuery } from '../../redux/services/apiSlice';
 import Table from "../SellerDashboard/table/Table"
-const UserOrders = () => {
-    const orders = useSelector(state=> state.order.orders);
-    const userProfile = useSelector((state) => state.userProfile.userProfile);
-    console.log(userProfile[0]?._id);
+const UserOrders = ({id}) => {
     
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-      getUserOrder(userProfile[0]?._id, dispatch);
-    }, [dispatch, userProfile]);
+    const {data: orders} = useGetUserOrderQuery(id);
   
   return (
     <div>
-        <Table orders={orders} isAdmin={false}/>
+        <Table orders={orders}/>
     </div>
   )
 }
