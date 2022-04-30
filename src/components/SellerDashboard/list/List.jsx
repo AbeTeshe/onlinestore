@@ -130,7 +130,7 @@ const List = ({name, row,  columns}) => {
             <>
             {(params.row.orderStatus !=="Delivered") &&
             <ButtonGroup variant="contained" aria-label="outlined primary button group">
-              <Button onClick={() => handleStatus(params.row._id, "Delivered")}>Deliver</Button>
+              <Button onClick={() => handleDeliver(params.row._id, "Delivered")}>Deliver</Button>
               {params.row.orderStatus !=="Shipped" && <>
               <Button onClick={() => handleStatus(params.row._id, "Shipped")}>Ship</Button>
               <Button onClick={() => handleStatus(params.row._id, "Suspended")}>Suspend</Button>
