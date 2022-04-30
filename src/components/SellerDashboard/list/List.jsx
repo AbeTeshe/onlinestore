@@ -2,7 +2,7 @@ import "./list.css";
 
 import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch } from "react-redux";
-import {Menu, Button,  MenuItem} from "@mui/material";
+import {Menu, Button,  ButtonGroup, MenuItem} from "@mui/material";
 import React from "react";
 import { setProductEditId } from "../../../redux/reducers/productSlice";
 import { setUserEditId } from "../../../redux/reducers/userProfileSlice";
@@ -95,16 +95,20 @@ const List = ({name, row,  columns}) => {
     toast.success("Order status changed!");
   }
 
+  const headerName =  name ==="Order" ? "" : "Action";
+  const headerName1 = name ==="Order" ? "Action" :"";
+  const width1 = name ==="Order" ? 0 : 120;
+  const width2 = name ==="Order" ? 450: 150;
+  
   const actionColumn = [
     {
       field: "edit",
-      headerName: "Action",
-      width:  120,
+      headerName: headerName,
+      width:  width1,
       renderCell: (params) => {
         return (
              <>
-               {name==="Order" ? <>{params.row.orderStatus !== "Delivered" && <Button onClick={() => handleDeliver(params.row._id)} variant="contained">Deliver</Button>}</>
-                : 
+               {name !=="Order" &&
                 <div 
                className="editButton"
                onClick={() => handleEdit(params.row._id)}
@@ -117,38 +121,24 @@ const List = ({name, row,  columns}) => {
     },
     {
       field: "disable",
-      headerName: "",
-      width: 150,
+      headerName: headerName1,
+      width: width2,
       renderCell: (params) => {
         return (
           <div>
             {name==="Order" ? 
             <>
-            {(params.row.orderStatus !=="Delivered" && params.row.orderStatus !=="Shipped") && <div>
-            <Button
-              id="basic-button"
-              aria-controls={open ? 'basic-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? 'true' : undefined}
-              onClick={handleClick}
-            >
-              Change Status
-            </Button>
-            <Menu
-              id="basic-menu"
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              MenuListProps={{
-                'aria-labelledby': 'basic-button',
-              }}
-            >
-              <MenuItem onClick={() => handleStatus(params.row._id, "Shipped")}>Ship</MenuItem>
-              <MenuItem onClick={() => handleStatus(params.row._id, "Suspended")}>Suspend</MenuItem>
-              <MenuItem onClick={() => handleStatus(params.row._id, "Refunded")}>Refund</MenuItem>
-              <MenuItem onClick={() => handleStatus(params.row._id, "Canceled")}>Cancel</MenuItem>
-            </Menu>
-         </div>}
+            {(params.row.orderStatus !=="Delivered") &&
+            <ButtonGroup variant="contained" aria-label="outlined primary button group">
+              <Button onClick={() => handleStatus(params.row._id, "Delivered")}>Deliver</Button>
+              {params.row.orderStatus !=="Shipped" && <>
+              <Button onClick={() => handleStatus(params.row._id, "Shipped")}>Ship</Button>
+              <Button onClick={() => handleStatus(params.row._id, "Suspended")}>Suspend</Button>
+              <Button onClick={() => handleStatus(params.row._id, "Refunded")}>Refund</Button>
+              <Button onClick={() => handleStatus(params.row._id, "Canceled")}>Cancel</Button>
+              </>}
+            </ButtonGroup>
+            }
             </>
             :
             <>
