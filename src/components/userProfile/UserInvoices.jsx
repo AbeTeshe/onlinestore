@@ -4,8 +4,8 @@ import moment from "moment";
 import { Modal, Box, Button, Table, 
   TableBody, TableCell, TableContainer, 
   TableHead, TableRow, Paper} from '@mui/material';
-  
-import {useGetUserInvoicesQuery} from "../../redux/services/apiSlice";
+import {useSelector} from "react-redux";
+import {useGetUserInvoicesQuery, useGetUserProfilesQuery} from "../../redux/services/apiSlice";
 
   const style = {
     position: 'absolute',
@@ -19,16 +19,17 @@ import {useGetUserInvoicesQuery} from "../../redux/services/apiSlice";
     p: 4,
   };
 
-const UserInvoices = ({id}) => {
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    const {data: invoices} = useGetUserInvoicesQuery(id);
-  
-    console.log(invoices);
+const UserInvoices = () => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const user = useSelector((state) => state.auth.authData);
+  const {googleId, givenName, familyName,  email} = user?.result;
+  const {data: userProfiles} = useGetUserProfilesQuery();
+  const userProfile = userProfiles?.find((profile) => profile?.userId === googleId)
+  const id = userProfile?._id;
+  const {data: invoices} = useGetUserInvoicesQuery(id);
     
-
-  
   const getTime = (date) => {
     return moment.utc(date).format("DD MMM, YYYY");
   }
