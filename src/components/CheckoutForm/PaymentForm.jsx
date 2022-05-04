@@ -64,7 +64,6 @@ const PaymentForm = ({
         </Button>
         <StripeCheckout
             name="shopinext"
-            image={logo}
             description={`Your total is $${cartTotal}`}
             amount = {cartTotal * 100}
             token={onToken}

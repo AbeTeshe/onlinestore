@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {create} from 'ipfs-http-client';
 import {useUpdateLogoMutation, useGetLogoDataQuery, useAddLogoDataMutation} from "../../../redux/services/apiSlice";
 import { toast } from 'react-toastify';
@@ -17,6 +17,12 @@ const Logo = () => {
   const {data} = useGetLogoDataQuery();
   const logo = data?.find(element => element !== undefined);
   const id  = logo?._id;
+
+  useEffect(() => {
+    if(logo) {
+      setLogoData(logo);
+    }
+  }, [logo])
 
   const handleImage =  async (e) => {
     const file = e.target.files[0];
@@ -72,11 +78,11 @@ const Logo = () => {
                 <input type="text" name="logoImage" value={logoData.logoImage} onChange={(e) => setLogoData({...logoData, logoImage: e.target.value})} placeholder=""/>
               </div>
               <div className="logoFormInput">
-                  <label>Logo Color</label>
+                  <label>Titleba Color</label>
                   <input type="color" name="color" value={logoData.color} onChange={(e) =>setLogoData({...logoData, color: e.target.value})}/>
               </div>
               <div className="logoFormInput">
-                  <label>Logo Color</label>
+                  <label>Titlebar Color</label>
                   <input type="text" name="color" value={logoData.color} onChange={(e) =>setLogoData({...logoData, color: e.target.value})}/>
               </div>
           </form>

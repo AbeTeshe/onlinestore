@@ -14,7 +14,7 @@ import {toast} from 'react-toastify';
 const ProductDetails = () => {
     const {Pid} = useParams();
     const classes = useStyles();
-    console.log(Pid);
+    
     const dispatch = useDispatch();
     const {data:product, isLoading} = useGetProductQuery(Pid);
     
