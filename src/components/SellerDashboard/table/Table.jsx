@@ -4,6 +4,7 @@ import { useDispatch } from "react";
 import { Modal, Box, Button, Table, Menu, 
   TableBody, TableCell, TableContainer, 
   TableHead, TableRow, Paper,  MenuItem} from '@mui/material';
+import Modals from "../modal/Modal";
 import {Delete} from "@mui/icons-material";
 import moment from "moment";
 
@@ -25,10 +26,12 @@ const List = ({orders}) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  
   const getTime = (date) => {
     return moment.utc(date).format("DD MMM, YYYY");
   }
+  
+  
+
   
   return (
     <TableContainer component={Paper} className="table">
@@ -48,31 +51,7 @@ const List = ({orders}) => {
             return <TableRow key={order?._id}>
               <TableCell className="tableCell">{order?._id}</TableCell>
               <TableCell className="tableCell">
-                <div style={{position: 'relative'}}>
-                    <Button onClick={handleOpen}>See Order details</Button>
-                    <Modal
-                      open={open}
-                      onClose={handleClose}
-                      aria-labelledby="modal-modal-title"
-                      aria-describedby="modal-modal-description"
-                      BackdropProps={{
-                        invisible: true,
-                      }}
-                    >
-                      <Box sx={style}>
-                        {order?.orderItems?.map((item) => (
-                          <div className="orderProduct">
-                            <div className="orderProductTitle">
-                              <img src={item.image} alt="tableImg" className="tableImage"/>
-                              <p>{item.name}</p>
-                            </div>
-                            <p>{item.quantity}</p>
-                            <p>{`$${item.price * item.quantity}`}</p>
-                          </div>
-                        ))}
-                      </Box>
-                    </Modal>
-                </div>
+                <Modals orderItems={order?.orderItems} />
               </TableCell> 
               <TableCell className="tableCell">{order?.shippingAddress?.fullName}</TableCell>
               <TableCell className="tableCell">{getTime(order?.createdAt)}</TableCell>

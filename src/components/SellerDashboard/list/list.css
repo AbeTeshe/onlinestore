@@ -28,7 +28,9 @@
 .cellWithImg {
     display: flex;
     align-items: center;
+    
 }
+
   
 .cellImg {
     width: 32px;
@@ -76,7 +78,6 @@
 .disableButton, .enableButton {
     padding: 2px 5px;
     border-radius: 5px;
-    
     cursor: pointer;
 }
 

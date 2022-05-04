@@ -3,6 +3,7 @@ import { Grid, Typography, Button } from '@material-ui/core';
 import { Grade } from '@material-ui/icons';
 import {Link, useParams} from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
+import Loading from "./Loading";
 import useStyles from "./styles";
 import {addItemToCart} from '../../redux/reducers/cartSlice';
 import {getSingleProducts} from '../../redux/apiCalls/product';
@@ -15,7 +16,7 @@ const ProductDetails = () => {
     const classes = useStyles();
     console.log(Pid);
     const dispatch = useDispatch();
-    const {data:product} = useGetProductQuery(Pid);
+    const {data:product, isLoading} = useGetProductQuery(Pid);
     
      
     const onAddToCart = () => {
@@ -31,6 +32,8 @@ const ProductDetails = () => {
   }
 
   return (
+    <>
+    {isLoading ? <Loading /> :
     <main className={classes.productDetailContainer}>
         <div className={classes.toolbar} />
         <Grid container justify="center" className={classes.detailProduct} spacing={3} >
@@ -61,7 +64,7 @@ const ProductDetails = () => {
                 <Button className={classes.AddToCartProduct} onClick={onAddToCart}>Add To Cart</Button>
             </Grid>
         </Grid>
-    </main>
+    </main>}</>
   )
 }
 

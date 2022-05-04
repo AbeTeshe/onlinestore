@@ -115,8 +115,8 @@ const UserProfile = () => {
                 <Button  color="primary" variant="contained"  onClick={handleEdit}>Edit Profile</Button>}
             </Grid>}
                     {index===1 && <ChangePassword />}
-                    {index===2 && <UserOrders id={id} />}
-                    {index===3 && <UserInvoices id={id}/> }
+                    {index===2 && <UserOrders  />}
+                    {index===3 && <UserInvoices /> }
                 </Grid>
             </Grid>
     </Container>

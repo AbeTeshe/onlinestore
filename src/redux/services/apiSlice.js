@@ -155,6 +155,16 @@ export const apiSlice = createApi({
       query: () => "/logo",
       providesTags: ['Logo']
     }),
+    addLogoData: builder.mutation({
+      query(logo) {
+        return {
+          url: "/logo",
+          method: 'POST',
+          body: logo
+        }
+      },
+      invalidatesTags: ['Logo'],
+    }),
     updateLogo: builder.mutation({
       query(data) {
         const {id, ...body} = data;
@@ -177,5 +187,5 @@ export const { useGetProductsQuery, useGetProductQuery, useAddProductMutation,
    useDeleteUserProfileMutation, useUpdateUserProfileMutation,
   useGetOrdersQuery, useGetOrderQuery, useGetUserOrderQuery,  useAddOrderMutation, useDeleteOrderMutation, useUpdateOrderMutation,
   useGetInvoiceQuery, useGetInvoicesQuery,useGetUserInvoicesQuery, useAddInvoiceMutation, 
-  useGetLogoDataQuery, useUpdateLogoMutation
+  useGetLogoDataQuery, useUpdateLogoMutation, useAddLogoDataMutation
  } = apiSlice;

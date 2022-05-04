@@ -60,28 +60,4 @@ ul {
 }
 
 
-.logoFormInput {
-  width: 80%;
-}
-
-.logoChangeButton {
-  margin-top: 20px;
-  margin-bottom: 10px;
-  background-color: #7451f8;
-  color: white;
-  padding: 5px;
-  border-radius: 3px;
-  cursor: pointer;
-}
-.changeLogoButton {
-    width: 150px;
-    padding: 10px 5px;
-    border: none;
-    background-color: teal;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 20px;
-    display: block;
-}
   

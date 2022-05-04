@@ -9,7 +9,7 @@ import NewUser from "../new/user/NewUser";
 import {useSelector} from "react-redux";
 import {userColumns, productColumns, orderColumns, invoiceColumns} from '../datatablesource';
 import {useGetProductsQuery, useGetUserProfilesQuery, useGetOrdersQuery, useGetInvoicesQuery} from '../../../redux/services/apiSlice';
-
+import Logo from "../logo/Logo";
 
 const Home = () => {
   const page = useSelector((state) => state.states.page);
@@ -18,10 +18,13 @@ const Home = () => {
   const {data: orders} = useGetOrdersQuery();
   const {data: invoices} = useGetInvoicesQuery();
   
+ 
   let orderTotal = 0;
   for(let i =0; i < invoices?.length; i++){
     orderTotal = invoices[i]?.totalPrice + orderTotal;
   }
+
+  const subOrder = orders?.slice(0,9);
 
   return (
     <div className="home">
@@ -35,7 +38,7 @@ const Home = () => {
             </div>
             <div className="listContainer">
               <div className="listTitle">Latest Transactions</div>
-              <Table orders={orders?.slice(0, 8)}/>
+              <List row={subOrder || []} columns={orderColumns} name="Invoice"/>
             </div>
           </>}
           {page==="userList" && 
@@ -48,6 +51,7 @@ const Home = () => {
           <List row={invoices} columns={invoiceColumns} name="Invoice" />}
           {page==="newUser" && <NewUser />}
           {page==="newProduct" && <NewProduct />}
+          {page==="logo" && <Logo />}
       </div>
     </div>
   );

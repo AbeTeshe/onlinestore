@@ -16,7 +16,6 @@ const App = () => {
   const [anchorEl, setAnchorEl] = useState(false);
   const products =  data?.filter((product) => product.isActive === true);
 
-
   const handleClose = () => {
     setAnchorEl(null);
   };

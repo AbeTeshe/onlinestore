@@ -12,11 +12,12 @@ import {
   Fade,
 } from "@material-ui/core";
 import { ShoppingCart, Search, Clear, KeyboardArrowDown} from "@material-ui/icons";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import logos from "../../assets/commerce.png";
 import useStyles from "./styles";
 import { logout } from "../../redux/reducers/authSlice";
+
 import {useGetLogoDataQuery} from "../../redux/services/apiSlice";
 const styles = {
   root: {
@@ -29,21 +30,21 @@ const styles = {
   }
 };
 
-const Navbar = ({  searchField, setSearchField, anchorEl,setAnchorEl, handleClose }) => {
+const Navbar = ({  searchField, setSearchField, anchorEl,setAnchorEl, handleClose, showSearch }) => {
   const classes = useStyles();
   const user = useSelector((state) => state.auth.authData);
   const cartTotalQuantity = useSelector(state => state.cart.totalQuantity);
   const history= useHistory();
+  const location = useLocation();
   const dispatch = useDispatch();
   const {data: logoData} = useGetLogoDataQuery();
-  const logo = logoData?.find((item) => item._id ==='62601a178676685899526a77');
+  const logo = logoData?.find(element => element !== undefined);
+
   const open = Boolean(anchorEl);
  
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
- 
   
 const handleSearch = (e) => {
   setSearchField(e.target.value);
@@ -62,7 +63,7 @@ const handleLogout = () => {
   return (
     <div>
       {/* <AppBar position="fixed" className={classes.appBar} color="inherit"> */}
-      <AppBar position="fixed" color='primary' className={classes.appBarContainer}>
+      <AppBar position="fixed" color='primary' style={{backgroundColor: logo?.color || '#3f51b5'}} className={classes.appBarContainer}>
           <Toolbar >
             <Typography component={Link} to="/" variant="h6" className={classes.appBar} color="inherit">
                   <div className={classes.logoContainer}>
@@ -76,7 +77,7 @@ const handleLogout = () => {
             </Typography>
               {/* search product */}
             <div className={classes.search}>  
-                <div className={classes.searchBox}>
+                {(location.pathname ==='/') && <div className={classes.searchBox}>
                   <InputBase  
                     type = "text" 
                     name="searchField"
@@ -86,7 +87,7 @@ const handleLogout = () => {
                     className={classes.searchInput} />
                     {searchField && <Clear className={classes.clearSearch} onClick={clear} style={{fontSize: "small"}}/> }
                     {!searchField && <Search className={classes.searchIcon} />}
-                </div>
+                </div>}
             </div>
             <div className={classes.grow} />
             {/* userProfile  */}

@@ -1,4 +1,5 @@
 import moment from "moment";
+import Modals from "./modal/Modal";
 
 const getTime = (date) => {
   return moment.utc(date).format("DD MMM, YYYY");
@@ -78,6 +79,7 @@ export const productColumns = [
   ];
 
   
+  
   export const orderColumns = [
     {
       field: "product",
@@ -86,12 +88,7 @@ export const productColumns = [
       renderCell: (params) => {
         return (
           <>
-          {params.row.orderItems.map((order) => (
-            <div className="cellWithImg">
-              <img className="cellImg" src={order.image} alt="avatar" />
-              {order.name}
-            </div>
-          ))}
+          <Modals items={params?.row.orderItems} name='Orders'/>
         </>
         );
       },
@@ -147,12 +144,7 @@ export const productColumns = [
       renderCell: (params) => {
         return (
           <>
-          {params.row.invoiceItems.map((invoice) => (
-            <div className="cellWithImg">
-              <img className="cellImg" src={invoice.image} alt="avatar" />
-              {invoice.name}
-            </div>
-          ))}
+          <Modals items={params?.row.invoiceItems} name='Invoices'/>
         </>
         );
       },
