@@ -10,7 +10,7 @@ import {useSelector} from "react-redux";
 import {userColumns, productColumns, orderColumns, invoiceColumns} from '../datatablesource';
 import {useGetProductsQuery, useGetUserProfilesQuery, useGetOrdersQuery, useGetInvoicesQuery} from '../../../redux/services/apiSlice';
 import Logo from "../logo/Logo";
-import AdminProfile from "../AdminProfile";
+import LicensePage from "../LicensePage";
 
 const Home = () => {
   const page = useSelector((state) => state.states.page);
@@ -53,7 +53,7 @@ const Home = () => {
           {page==="newUser" && <NewUser />}
           {page==="newProduct" && <NewProduct />}
           {page==="logo" && <Logo />}
-          {page==="profile" && <AdminProfile />}
+          {page==="profile" && <LicensePage />}
       </div>
     </div>
   );

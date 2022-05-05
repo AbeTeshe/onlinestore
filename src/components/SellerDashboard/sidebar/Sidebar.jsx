@@ -6,7 +6,7 @@ import ReceiptIcon from "@mui/icons-material/Receipt";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import StoreIcon from "@mui/icons-material/Store";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -26,7 +26,7 @@ const Sidebar = () => {
     <div className="sidebar">
       <div className="top">
         <Link to="/admin" style={{ textDecoration: "none" }}>
-          <span className="sidebarLogo">shopinetx</span>
+          <span className="sidebarLogo">Hosted on IPFS</span>
         </Link>
       </div>
       <hr />
@@ -56,8 +56,8 @@ const Sidebar = () => {
           </li>
           <p className="title">SETTING</p>
           <li onClick={() => handlePage("profile")}>
-            <AccountCircleOutlinedIcon className="icon" />
-            <span>Profile</span>
+            <ArticleOutlinedIcon className="icon" />
+            <span>License</span>
           </li>
           <li onClick={() => handlePage("logo")}>
             <DashboardCustomizeIcon className="icon" />
