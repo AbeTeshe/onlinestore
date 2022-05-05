@@ -55,7 +55,7 @@ const Sidebar = () => {
             <span>Invoices</span>
           </li>
           <p className="title">SETTING</p>
-          <li>
+          <li onClick={() => handlePage("profile")}>
             <AccountCircleOutlinedIcon className="icon" />
             <span>Profile</span>
           </li>
