@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation , Link} from 'react-router-dom';
+import { useLocation} from 'react-router-dom';
 import { emptyCart } from '../../redux/reducers/cartSlice';
 import { publicRequest } from '../../requestMethod';
 import {useGetUserProfilesQuery} from "../../redux/services/apiSlice";
+import {setAppPage} from "../../redux/reducers/stateSlices";
 
 const OrderSuccess = () => {
     const location = useLocation();
@@ -62,7 +63,7 @@ const OrderSuccess = () => {
       {orderId
         ? `Order has been created successfully. Your order number is ${orderId}`
         : `Successfull. Your order is being prepared...`}
-      <Link to="/"><button style={{ padding: 10, marginTop: 20 }}>Go to Homepage</button></Link>
+      <button style={{ padding: 10, marginTop: 20 }} onClick={() => dispatch(setAppPage("productPage"))} >Go to Homepage</button>
     </div>
   )
 }

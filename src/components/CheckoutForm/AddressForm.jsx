@@ -1,21 +1,19 @@
 import React, { useState } from "react";
 import {
-  InputLabel,
-  Select,
-  MenuItem,
   Button,
   Grid,
   Typography
 } from "@material-ui/core";
 import { useForm, FormProvider } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 //import { commerce } from "../../lib/commerce";
 import FormInput from "./CustomTextField";
+import {setAppPage} from "../../redux/reducers/stateSlices";
+
 import {useGetUserProfilesQuery, useAddUserProfileMutation, useUpdateUserProfileMutation} from "../../redux/services/apiSlice";
 const AddressForm = ({ checkoutToken, next }) => {
   const user = useSelector((state) => state.auth.authData);
-  
+  const dispatch = useDispatch();
   const {data: userProfiles} = useGetUserProfilesQuery();
   const [addUserProfile] = useAddUserProfileMutation();
   const [updateUserProfile] = useUpdateUserProfileMutation();
@@ -86,7 +84,7 @@ const AddressForm = ({ checkoutToken, next }) => {
           </Grid>
           <br />
           <Grid container style={{ display: "flex", justifyContent: "space-between" }} >
-            <Button component={Link} to="/cart" variant="outlined">
+            <Button  variant="outlined" onClick={() => dispatch(setAppPage("cart"))}>
               Back to cart
             </Button>
             <Button type="submit" variant="contained" color="primary" onClick={(userProfile===undefined) && handleSubmit}>

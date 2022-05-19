@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 import {GoogleLogin} from 'react-google-login';
-import {Container, Grid, Paper, Avatar, Button, TextField, Typography} from "@material-ui/core";
+import {Container, Grid, Paper, Avatar, Button,  Typography} from "@material-ui/core";
 import { LockOutlined } from '@material-ui/icons';
-import {useLocation, useHistory} from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import Icon  from './Icon';
 import Input from './Input';
 import useStyles from "./styles";
 import {loginWithGoogle} from '../../redux/reducers/authSlice';
 import { loginUser, registerUser } from '../../redux/apiCalls/authApiCalls';
+import {setAppPage} from "../../redux/reducers/stateSlices";
 const initialState = {firstName: '', 
                        lastName: '', email: '',
                        password: '', confirmPassword: ''};
@@ -20,12 +20,6 @@ const Auth = () => {
     const [formData, setFormData] = useState(initialState);
     const handleShowPassword = () => setShowPassword(!showPassword); 
     const dispatch = useDispatch();
-    const {search}= useLocation();
-    const redirectInUrl = new URLSearchParams(search).get('redirect');
-    const redirect = redirectInUrl ? redirectInUrl : '/';
-    
-    const history= useHistory();
-    
     
     const handleChange= (e) => {
         setFormData((prev) => {
@@ -37,10 +31,10 @@ const Auth = () => {
         e.preventDefault();
         if(isSignup){
             registerUser(formData, dispatch);
-            history(redirect);
+            dispatch(setAppPage('productPage'))
         } else {
             loginUser({formData}, dispatch);
-            history(redirect);
+            dispatch(setAppPage('productPage'))
         }
     }
 
@@ -58,7 +52,7 @@ const Auth = () => {
 
         try {
             dispatch(loginWithGoogle({token, result}));
-            history.push(redirect);
+            dispatch(setAppPage('productPage'))
         }
         catch(error) {
             console.log(error);

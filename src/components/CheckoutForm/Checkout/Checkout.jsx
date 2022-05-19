@@ -10,7 +10,7 @@ import {
   Button
 } from "@material-ui/core";
 
-import { Link } from "react-router-dom";
+import {useDispatch} from "react-redux";
 //import { commerce } from "../../../lib/commerce";
 import useStyles from "./styles";
 import AddressForm from "../AddressForm";
@@ -22,20 +22,9 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
   const [checkoutToken, setCheckoutToken] = useState(null);
   const [activeStep, setActiveStep] = useState(0);
   const [shippingData, setShippingData] = useState({});
+  const dispatch = useDispatch();
 
   const classes = useStyles();
-
-  // useEffect(() => {
-  //   const generateToken = async () => {
-  //     try {
-  //       const token = await commerce.checkout.generateToken(cart.id, {
-  //         type: "cart"
-  //       });
-  //       setCheckoutToken(token);
-  //     } catch (error) {}
-  //   };
-  //   generateToken();
-  // }, [cart]);
 
   const nextStep = () => setActiveStep((prevActiveStep) => prevActiveStep + 1);
   const backStep = () => setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -45,6 +34,10 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
 
     nextStep();
   };
+
+  const handleAppPage = () => {
+    dispatch(setAppPage("productPage"))
+  }
 
   let Confirmation = () =>
     order.customer ? (
@@ -60,7 +53,7 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
           </Typography>
         </div>
         <br />
-        <Button component={Link} variant="outlined" type="button" to="/">
+        <Button onClick={handleAppPage} variant="outlined" type="button">
           Back to home
         </Button>
       </>
@@ -75,7 +68,7 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
       <>
         <Typography variant="h5">Error: {error}</Typography>
         <br />
-        <Button component={Link} variant="outlined" type="button" to="/">
+        <Button onClick={handleAppPage}  variant="outlined" type="button" >
           Back to home
         </Button>
       </>

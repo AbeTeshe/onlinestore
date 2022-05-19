@@ -2,7 +2,7 @@ import "./list.css";
 
 import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch } from "react-redux";
-import {Menu, Button,  ButtonGroup, MenuItem} from "@mui/material";
+import { Button,  ButtonGroup} from "@mui/material";
 import React from "react";
 import { setProductEditId } from "../../../redux/reducers/productSlice";
 import { setUserEditId } from "../../../redux/reducers/userProfileSlice";
@@ -12,7 +12,8 @@ import {useGetProductsQuery, useGetUserProfilesQuery,
   useUpdateOrderMutation, useAddInvoiceMutation} from '../../../redux/services/apiSlice';
 import {toast} from "react-toastify";
 
-const List = ({name, row,  columns}) => {
+
+const List = ({name, row,  columns, isLoading}) => {
   const {data: products} = useGetProductsQuery();
   const {data: userProfile} = useGetUserProfilesQuery();
   const {data: orders} = useGetOrdersQuery();
@@ -169,15 +170,15 @@ const List = ({name, row,  columns}) => {
           Add New
         </div>
       </div>}
-      <DataGrid
-        className="datagrid"
-        rows={row}
-        getRowId={(row) => row?._id}
-        disableSelectionOnClick
-        columns={name ==="Invoice" ? columns : columns.concat(actionColumn)}
-        pageSize={9}
-        rowsPerPageOptions={[9]}
-      />
+        <DataGrid
+            className="datagrid"
+            rows={row ? row : []}
+            getRowId={(row) => row?._id}
+            disableSelectionOnClick
+            columns={name ==="Invoice" ? columns : columns.concat(actionColumn)}
+            pageSize={9}
+            rowsPerPageOptions={[9]}
+          />
     </div>
   );
 };

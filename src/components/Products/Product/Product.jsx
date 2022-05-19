@@ -1,9 +1,9 @@
 import React from 'react';
 import { Card, CardMedia, CardContent, CardActions, Typography, IconButton, Button } from '@material-ui/core';
 import { AddShoppingCart } from '@material-ui/icons';
-import {Link} from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { addItemToCart } from '../../../redux/reducers/cartSlice';
+import {setProductDetailId, setAppPage} from "../../../redux/reducers/stateSlices";
 import {toast} from "react-toastify";
 
 import useStyles from './styles';
@@ -27,6 +27,11 @@ const Product = ({ product}) => {
       toast.success(`${name} added to cart!`);
     }
 
+    const handleProductDetail = (id) => {
+        dispatch(setAppPage('productDetails'));
+        dispatch(setProductDetailId(id));
+    }
+
     return (
      <Card className={classes.root}>
         <CardMedia className={classes.media} image={mediaUrl} title={product.name} />
@@ -42,7 +47,7 @@ const Product = ({ product}) => {
                 <Typography dangerouslySetInnerHTML={{ __html: description}} variant="body2" color="textSecondary" className={classes.cardDesc}/>  
         </CardContent>
         <CardActions disableSpacing className={classes.cardActions}>
-        <Link to={`/product/${product._id}`} style={{textDecoration: 'none'}}><Button className={classes.detailButton}>See Details</Button></Link>
+        <Button className={classes.detailButton} onClick={() => handleProductDetail(product._id)}>See Details</Button>
             <IconButton aria-label="Add to Cart" onClick={onAddToCart}>
                 <AddShoppingCart />
             </IconButton>

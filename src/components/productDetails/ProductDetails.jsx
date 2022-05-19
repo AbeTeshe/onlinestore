@@ -1,22 +1,19 @@
-import React, {useState, useEffect} from 'react'
+
 import { Grid, Typography, Button } from '@material-ui/core';
 import { Grade } from '@material-ui/icons';
-import {Link, useParams} from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import Loading from "./Loading";
 import useStyles from "./styles";
 import {addItemToCart} from '../../redux/reducers/cartSlice';
-import {getSingleProducts} from '../../redux/apiCalls/product';
-import { publicRequest } from '../../requestMethod';
 import {useGetProductQuery} from "../../redux/services/apiSlice";
+import { setAppPage } from '../../redux/reducers/stateSlices';
 import {toast} from 'react-toastify';
 
 const ProductDetails = () => {
-    const {Pid} = useParams();
+    const id = useSelector((state) => state.states.productDetailId);
     const classes = useStyles();
-    
     const dispatch = useDispatch();
-    const {data:product, isLoading} = useGetProductQuery(Pid);
+    const {data:product, isLoading} = useGetProductQuery(id);
     
      
     const onAddToCart = () => {
@@ -38,7 +35,7 @@ const ProductDetails = () => {
         <div className={classes.toolbar} />
         <Grid container justify="center" className={classes.detailProduct} spacing={3} >
             <Grid item  xs={12} sm={12} md={12} lg={12}>
-               <Link to="/" style={{textDecoration: 'none'}}><Button className={classes.backToProductsButton}>Back to Products</Button></Link>
+               <Button className={classes.backToProductsButton} onClick={() => dispatch(setAppPage("productPage"))}>Back to Products</Button>
             </Grid>
             <Grid item xs={12} sm={12} md={6} lg={6}>
                 <img src={product?.mediaUrl} alt="detailprImage" className={classes.detailProductImage}/>

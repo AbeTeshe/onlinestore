@@ -15,13 +15,13 @@ const App = () => {
   const {data} = useGetProductsQuery();
   const [anchorEl, setAnchorEl] = useState(false);
   const products =  data?.filter((product) => product.isActive === true);
+  const appPage = useSelector((state) => state.states.appPage);
 
   const handleClose = () => {
     setAnchorEl(null);
   };
  
   return (
-    <Router>
       <div>
         <Navbar searchField={searchField} 
               setSearchField={setSearchField} 
@@ -30,35 +30,17 @@ const App = () => {
               handleClose={handleClose}
               />
         <ToastContainer autoClose={2000}/>
-        <Switch >
-          <Route exact path="/">
-            <Products searchField={searchField} products={products} />
-          </Route>
-          <Route exact path="/cart">
-            <Cart handleClose={handleClose}/>
-          </Route>
-          <Route exact path="/product/:Pid">
-            <ProductDetails/>
-          </Route>
-          <Route exact path="/login" >
-            <Auth />
-          </Route>
-          <Route  exact path="/userProfile">
-             <UserProfile/>
-          </Route>
-          <Route  exact path="/orderSuccess">
-            <OrderSuccess/>
-          </Route> 
-          <Route  exact path="/admin">
-             <Home/>
-          </Route>
-          <Route exact path="/checkout">
-            <Checkout/>
-          </Route>
-        </Switch>
+        {appPage==='productPage' && <Products searchField={searchField} products={products} />}
+        {appPage==='cart' && <Cart handleClose={handleClose}/>}
+        {appPage==='productDetails' && <ProductDetails/>}
+        {appPage==='login' && <Auth />}
+        {appPage==='userProfile' && <UserProfile/>}
+        {appPage==="admin" && <Home />}
+        {appPage==="orderSuccess" && <OrderSuccess/>}
+        {appPage==="checkout" && <Checkout/>}
         <Footer />
       </div>
-    </Router>
+   
   );
 };
 
