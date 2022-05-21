@@ -1,4 +1,3 @@
-import React, {useState, useEffect} from "react";
 import {
   AppBar,
   Toolbar,
@@ -16,19 +15,9 @@ import { useSelector, useDispatch } from "react-redux";
 import logos from "../../assets/commerce.png";
 import useStyles from "./styles";
 import { logout } from "../../redux/reducers/authSlice";
-import {setAppPage} from "../../redux/reducers/stateSlices";
+import {setAppPage, setLoginPlace} from "../../redux/reducers/stateSlices";
 
 import {useGetLogoDataQuery} from "../../redux/services/apiSlice";
-const styles = {
-  root: {
-    flexGrow: 1
-  },
-  typography: {
-    top: "auto",
-    bottom: 0,
-    textAlign:"center",
-  }
-};
 
 const Navbar = ({  searchField, setSearchField, anchorEl,setAnchorEl, handleClose, showSearch }) => {
   const classes = useStyles();
@@ -65,6 +54,7 @@ const handleAppPage = (page) => {
 
 const loginHandler = () => {
   handleClose();
+  dispatch(setLoginPlace("login"));
   dispatch(setAppPage("login"));
 }
 
@@ -75,7 +65,6 @@ const handleProfileLink = () => {
 
   return (
     <div>
-      {/* <AppBar position="fixed" className={classes.appBar} color="inherit"> */}
       <AppBar position="fixed" color='primary' style={{backgroundColor: logo?.color || '#3f51b5'}} className={classes.appBarContainer}>
           <Toolbar >
             <Typography onClick={() => handleAppPage('productPage')} variant="h6" className={classes.appBar} color="inherit">
@@ -88,7 +77,6 @@ const handleProfileLink = () => {
                   <p className={classes.logoText}>{logo?.logoText || 'Shopinext'} </p>
                 </div>
             </Typography>
-              {/* search product */}
             <div className={classes.search}>  
                 {(appPage==='productPage') && <div className={classes.searchBox}>
                   <InputBase  
@@ -103,7 +91,6 @@ const handleProfileLink = () => {
                 </div>}
             </div>
             <div className={classes.grow} />
-            {/* userProfile  */}
             <div className={classes.button}>
                 {!user ? 
                   <Button id = "login-button" className={classes.loginButton} onClick={loginHandler}>

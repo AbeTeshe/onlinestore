@@ -6,6 +6,7 @@ const stateSlice = createSlice({
         page: localStorage.getItem('page') ? JSON.parse(localStorage.getItem('page')): 'home',
         appPage: localStorage.getItem('appPage') ? JSON.parse(localStorage.getItem('appPage')) : 'productPage',
         productDetailId: null,
+        loginPlace: null,
     },
     reducers: {
         setPage: (state, action) => {
@@ -18,10 +19,14 @@ const stateSlice = createSlice({
         },
         setProductDetailId: (state, action) => {
             state.productDetailId = action.payload;
-        }
+        },
+        setLoginPlace: (state, action) => {
+            state.loginPlace = action.payload;
+        },
+      
     }
 });
 
-export const {setPage, setAppPage, setProductDetailId} = stateSlice.actions;
+export const {setPage, setAppPage, setProductDetailId, setLoginPlace} = stateSlice.actions;
 
 export default stateSlice.reducer;

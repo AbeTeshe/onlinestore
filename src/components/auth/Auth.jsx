@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {GoogleLogin} from 'react-google-login';
 import {Container, Grid, Paper, Avatar, Button,  Typography} from "@material-ui/core";
 import { LockOutlined } from '@material-ui/icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Icon  from './Icon';
 import Input from './Input';
 import useStyles from "./styles";
@@ -19,6 +19,8 @@ const Auth = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState(initialState);
     const handleShowPassword = () => setShowPassword(!showPassword); 
+    const loginPlace = useSelector((state) => state.states.loginPlace);
+    console.log(loginPlace);
     const dispatch = useDispatch();
     
     const handleChange= (e) => {
@@ -31,10 +33,20 @@ const Auth = () => {
         e.preventDefault();
         if(isSignup){
             registerUser(formData, dispatch);
-            dispatch(setAppPage('productPage'))
+            if(loginPlace === "login") {
+                dispatch(setAppPage('productPage'))
+            }
+            else if (loginPlace==="cart"){
+                dispatch(setAppPage('checkout'))
+            }
         } else {
             loginUser({formData}, dispatch);
-            dispatch(setAppPage('productPage'))
+            if(loginPlace ==="login") {
+                dispatch(setAppPage('productPage'))
+            }
+            else if (loginPlace==="cart"){
+                dispatch(setAppPage('checkout'))
+            }
         }
     }
 
@@ -45,14 +57,16 @@ const Auth = () => {
     }
 
     const googleSuccess = async (res) => {
-        console.log(res);
         const result = res?.profileObj;
         const token = res?.tokenId;
-        
-
         try {
             dispatch(loginWithGoogle({token, result}));
-            dispatch(setAppPage('productPage'))
+            if(loginPlace ==="login") {
+                dispatch(setAppPage('productPage'))
+            }
+            else if (loginPlace==="cart"){
+                dispatch(setAppPage('checkout'))
+            }
         }
         catch(error) {
             console.log(error);

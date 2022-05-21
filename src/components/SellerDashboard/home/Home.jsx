@@ -1,23 +1,15 @@
-import React,{useState, useEffect} from 'react';
-import Sidebar from "../sidebar/Sidebar";
 import "./home.css";
-import Widget from "../widget/Widget";
-import Table from "../table/Table";
-import List from "../list/List";
-import NewProduct from "../new/product/NewProduct";
-import NewUser from "../new/user/NewUser";
+import {Sidebar, Widget, List, NewProduct, NewUser, Card, Logo, LicensePage} from "../../index";
 import {useSelector} from "react-redux";
 import {userColumns, productColumns, orderColumns, invoiceColumns} from '../datatablesource';
 import {useGetProductsQuery, useGetUserProfilesQuery, useGetOrdersQuery, useGetInvoicesQuery} from '../../../redux/services/apiSlice';
-import Logo from "../logo/Logo";
-import LicensePage from "../LicensePage";
 
 const Home = () => {
   const page = useSelector((state) => state.states.page);
-  const {data:products, isLoading: productLoading} = useGetProductsQuery();
-  const {data: userProfile, isLoading: userLoading} = useGetUserProfilesQuery();
-  const {data: orders, isLoading: orderLoading} = useGetOrdersQuery();
-  const {data: invoices, isLoading: invoiceLoading} = useGetInvoicesQuery();
+  const {data:products} = useGetProductsQuery();
+  const {data: userProfile} = useGetUserProfilesQuery();
+  const {data: orders} = useGetOrdersQuery();
+  const {data: invoices} = useGetInvoicesQuery();
   
  
   let orderTotal = 0;
@@ -37,19 +29,19 @@ const Home = () => {
               <Widget type="order"  size={orders?.length}/>
               <Widget type="totalSales"  size={orderTotal}/>
             </div>
-            <div className="listContainer">
+            <Card style={{flexDirection: 'column'}}>
               <div className="listTitle">Latest Transactions</div>
-              <List row={subOrder || []} isLoading={orderLoading} columns={orderColumns} name="Invoice"/>
-            </div>
+              <List row={subOrder || []}  columns={orderColumns} name="Invoice"/>
+            </Card>
           </>}
           {page==="userList" && 
-            <List  row={userProfile} isLoading={userLoading} columns={userColumns} name="User" />}
+            <List  row={userProfile}  columns={userColumns} name="User" />}
           {page ==="productList" && 
-            <List row={products} isLoading={productLoading} columns={productColumns} name="Product" /> }
+            <List row={products} columns={productColumns} name="Product" /> }
           {page==="orders" && 
-            <List row={orders} isLoading={orderLoading} columns={orderColumns} name="Order"/>}
+            <List row={orders}  columns={orderColumns} name="Order"/>}
           {page==="invoices" && 
-          <List row={invoices} isLoading={invoiceLoading} columns={invoiceColumns} name="Invoice" />}
+          <List row={invoices}  columns={invoiceColumns} name="Invoice" />}
           {page==="newUser" && <NewUser />}
           {page==="newProduct" && <NewProduct />}
           {page==="logo" && <Logo />}

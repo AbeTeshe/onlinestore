@@ -1,5 +1,4 @@
 import "./sidebar.css";
-import {useState} from "react";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ReceiptIcon from "@mui/icons-material/Receipt";
@@ -8,14 +7,12 @@ import StoreIcon from "@mui/icons-material/Store";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
-import { Link } from "react-router-dom";
+import {Card} from "../../index";
 import { useDispatch } from "react-redux";
 import { setPage } from "../../../redux/reducers/stateSlices";
 
 
 const Sidebar = () => {
-  
-
 
   const dispatch = useDispatch();
   const handlePage = (page) => {
@@ -24,9 +21,9 @@ const Sidebar = () => {
   
   return (
     <div className="sidebar">
-      <div className="top">
+      <Card className="top">
           <span className="sidebarLogo">Hosted on IPFS</span>
-      </div>
+      </Card>
       <hr />
       <div className="center">
         <ul>
@@ -36,10 +33,10 @@ const Sidebar = () => {
             <span>Dashboard</span>
           </li>
           <p className="sideBarTitle">LISTS</p>
-            <li onClick={() => handlePage("userList")}>
+          <li onClick={() => handlePage("userList")}>
               <PersonOutlineIcon className="icon" />
               <span>Users</span>
-            </li>
+          </li>
             <li onClick={() => handlePage("productList")}>
               <StoreIcon className="icon" />
               <span>Products</span>

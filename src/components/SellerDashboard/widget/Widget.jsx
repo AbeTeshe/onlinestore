@@ -2,10 +2,10 @@ import "./widget.css";
 import { useDispatch } from "react-redux";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 import { setPage } from "../../../redux/reducers/stateSlices";
+import Card from "../../../container/card/Card";
 
 const Widget = ({ type, size }) => {
   let data;
@@ -72,7 +72,7 @@ const Widget = ({ type, size }) => {
   }
 
   return (
-    <div className="widget">
+    <Card className="widget">
       <div className="widgetLeft">
         <span className="widgetTitle">{data.title}</span>
         <span className="counter">
@@ -87,7 +87,7 @@ const Widget = ({ type, size }) => {
         </div>
         {data.icon}
       </div>
-    </div>
+    </Card>
   );
 };
 

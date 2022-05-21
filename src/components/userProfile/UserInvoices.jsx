@@ -1,10 +1,7 @@
 import React, {useState} from 'react'
 import "./userInvoice.css";
 import moment from "moment";
-import List from "../SellerDashboard/list/List";
-import { Modal, Box, Button, Table, 
-  TableBody, TableCell, TableContainer, 
-  TableHead, TableRow, Paper} from '@mui/material';
+import {Card, List} from "../index";
 import {useSelector} from "react-redux";
 import {useGetUserInvoicesQuery, useGetUserProfilesQuery} from "../../redux/services/apiSlice";
 import { invoiceColumns } from '../SellerDashboard/datatablesource';
@@ -37,9 +34,9 @@ const UserInvoices = () => {
   }
 
   return (
-    <div style={{width: '100%'}}>
+    <Card style={{flexDirection: 'column'}}>
       <List row={invoices || []} columns={invoiceColumns} name="Invoice" />
-    </div>
+    </Card>
   )
 }
 

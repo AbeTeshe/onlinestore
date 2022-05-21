@@ -1,12 +1,12 @@
 
-import {  Button, Container, Grid, List, 
+import {  Grid, List, 
     ListItem, ListItemAvatar, Avatar, ListItemText } from '@material-ui/core';
 
 import {Person, Email, Phone, LocationOn, ShoppingCartCheckout} from "@mui/icons-material";
-
+import {Card} from "../index";
 const UserData = ({userProfile}) => {
     return (
-        <Container>
+        <Card style={{width: '100%'}}>
               <Grid container justify="left" spacing={1}>
                   <Grid item xs={12} sm={12} md={6} lg={4} >
                         <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
@@ -65,7 +65,7 @@ const UserData = ({userProfile}) => {
                         </List>
                   </Grid>
               </Grid>
-          </Container>
+          </Card>
     )
 }
 

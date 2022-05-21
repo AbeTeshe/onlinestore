@@ -1,17 +1,12 @@
-import React, { useState, useEffect } from "react";
-//import { commerce } from "./lib/commerce";
-import { Products, Navbar, Cart, Home, Checkout, OrderSuccess,   ProductDetails, Auth, UserProfile } from "./components";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React, { useState} from "react";
+import { Products, Navbar, Cart, Home, Checkout, OrderSuccess,   ProductDetails, Auth, UserProfile, Footer } from "./components";
 import {  useSelector } from 'react-redux';
-
-import Footer from "./components/footer/Footer";
 import {useGetProductsQuery} from './redux/services/apiSlice';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   const [searchField, setSearchField] = useState("");
-  const authData = useSelector((state) => state.auth.authData);
   const {data} = useGetProductsQuery();
   const [anchorEl, setAnchorEl] = useState(false);
   const products =  data?.filter((product) => product.isActive === true);
@@ -22,7 +17,7 @@ const App = () => {
   };
  
   return (
-      <div>
+      <>
         <Navbar searchField={searchField} 
               setSearchField={setSearchField} 
               anchorEl={anchorEl}
@@ -39,7 +34,7 @@ const App = () => {
         {appPage==="orderSuccess" && <OrderSuccess/>}
         {appPage==="checkout" && <Checkout/>}
         <Footer />
-      </div>
+      </>
    
   );
 };

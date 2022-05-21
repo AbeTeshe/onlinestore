@@ -4,7 +4,7 @@ import useStyles from './styles';
 import CartItem from './CartItem/CartItem';
 import { useSelector, useDispatch } from 'react-redux';
 import {emptyCart} from "../../redux/reducers/cartSlice";
-import { setAppPage } from '../../redux/reducers/stateSlices';
+import { setAppPage, setLoginPlace } from '../../redux/reducers/stateSlices';
 
 const Cart = ({  handleUpdateCartQty, handleRemoveFromCart, handleClose }) => {
 
@@ -29,6 +29,7 @@ const Cart = ({  handleUpdateCartQty, handleRemoveFromCart, handleClose }) => {
 
     const handleLogin = () => {
         handleClose();
+        dispatch(setLoginPlace("cart"));
         dispatch(setAppPage("login"));
     }
 

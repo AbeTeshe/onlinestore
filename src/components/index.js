@@ -1,5 +1,4 @@
 
-
 export { default as Navbar } from './Navbar/Navbar';
 export { default as Products } from './Products/Products';
 export { default as Cart } from './Cart/Cart';
@@ -9,3 +8,15 @@ export {default as Auth} from './auth/Auth';
 export {default as UserProfile} from './userProfile/UserProfile';
 export {default as OrderSuccess} from './CheckoutForm/OrderSuccess';
 export {default as Home} from './SellerDashboard/home/Home';
+export {default as Footer} from './footer/Footer';
+export {default as Sidebar} from './SellerDashboard/sidebar/Sidebar';
+export {default as Widget} from './SellerDashboard/widget/Widget';
+export {default as List} from './SellerDashboard/list/List';
+export {default as NewUser} from './SellerDashboard/new/NewUser';
+export {default as NewProduct} from './SellerDashboard/new/NewProduct';
+export {default as Logo} from './SellerDashboard/logo/Logo';
+export {default as LicensePage} from './SellerDashboard/LicensePage';
+export {default as Card} from '../container/card/Card';
+export {default as Form} from '../container/form/Form';
+export {default as Input} from '../container/input/Input';
+export {default as Button} from '../container/button/Button';

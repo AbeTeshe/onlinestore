@@ -1,24 +1,20 @@
 import React from 'react'
 import { TextField, Grid,InputLabel, InputAdornment, IconButton} from '@material-ui/core'
 import { Visibility, VisibilityOff } from '@material-ui/icons'
-const Input = ({value, name, autoFocus, handleChange, label, half, type, handleShowPassword}) => {
+const Input = (props) => {
     return (
-        <Grid item xs={12} sm = {half ? 6 : 12} style={{marginBottom: '20px'}}>
-            <InputLabel style={{ fontWeight: '600', fontSize: '18px', marginBottom: '5px'}}>{label}</InputLabel>
+        <Grid item xs={12} sm = {props.half ? 6 : 12} style={{marginBottom: '20px'}}>
+            <InputLabel style={{ fontWeight: '600', fontSize: '18px', marginBottom: '5px'}}>{props.label}</InputLabel>
             <TextField 
-            value={value}
-            name={name}
-            onChange={handleChange}
+            {...props}
+            onChange={props.handleChange}
             variant="outlined"
-            required
             fullWidth
-            autoFocus={autoFocus}
-            type={type}
-            InputProps={name === 'password' ? {
+            InputProps={props.name === 'password' ? {
                 endAdornment: (
                     <InputAdornment position="end">
-                        <IconButton onClick={handleShowPassword}>
-                            {type === 'password' ? <Visibility />: <VisibilityOff/>}
+                        <IconButton onClick={props.handleShowPassword}>
+                            {props.type === 'password' ? <Visibility />: <VisibilityOff/>}
                         </IconButton>
                     </InputAdornment>
                 )

@@ -1,11 +1,8 @@
 import "./list.css";
-
 import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch } from "react-redux";
 import { Button,  ButtonGroup} from "@mui/material";
-import React from "react";
-import { setProductEditId } from "../../../redux/reducers/productSlice";
-import { setUserEditId } from "../../../redux/reducers/userProfileSlice";
+import { setProductEditId,  setProfileEditId } from "../../../redux/reducers/editSlice";
 import { setPage } from "../../../redux/reducers/stateSlices";
 import {useGetProductsQuery, useGetUserProfilesQuery, 
   useUpdateProductMutation, useUpdateUserProfileMutation, useGetOrdersQuery,
@@ -13,30 +10,16 @@ import {useGetProductsQuery, useGetUserProfilesQuery,
 import {toast} from "react-toastify";
 
 
-const List = ({name, row,  columns, isLoading}) => {
+const List = ({name, row,  columns}) => {
   const {data: products} = useGetProductsQuery();
   const {data: userProfile} = useGetUserProfilesQuery();
   const {data: orders} = useGetOrdersQuery();
-
-
   const [updateProduct] = useUpdateProductMutation();
   const [updateUserProfile] = useUpdateUserProfileMutation();
   const [updateOrder] = useUpdateOrderMutation();
   const [addInvoice] = useAddInvoiceMutation();
-
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   
   const dispatch = useDispatch();
-
-  console.log("List component");
 
   const handleDisable = async (id) => {
     if(name==="Product"){
@@ -78,7 +61,7 @@ const List = ({name, row,  columns, isLoading}) => {
     }
     else if (name==="User"){
       dispatch(setPage("newUser"));
-      dispatch(setUserEditId(id));
+      dispatch(setProfileEditId(id));
     }
   }
 
@@ -164,12 +147,12 @@ const List = ({name, row,  columns, isLoading}) => {
   ];
   return (
     <div className="datatable">
-      {(name !=="Order" && name !=="Invoice") && <div className="datatableTitle">
-        Add New {name}
-        <div  className="link" onClick={handleNew}>
+       <div className="datatableTitle">
+         {name} List
+         {(name !=="Order" && name !=="Invoice") && <div  className="link" onClick={handleNew}>
           Add New
-        </div>
-      </div>}
+        </div>}
+      </div>
         <DataGrid
             className="datagrid"
             rows={row ? row : []}
