@@ -11,7 +11,6 @@ import {
 } from "@material-ui/core";
 
 import {useDispatch} from "react-redux";
-//import { commerce } from "../../../lib/commerce";
 import useStyles from "./styles";
 import AddressForm from "../AddressForm";
 import PaymentForm from "../PaymentForm";

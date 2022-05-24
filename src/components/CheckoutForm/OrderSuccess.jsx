@@ -1,22 +1,26 @@
 import React, {useState, useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation} from 'react-router-dom';
 import { emptyCart } from '../../redux/reducers/cartSlice';
 import { publicRequest } from '../../requestMethod';
 import {useGetUserProfilesQuery} from "../../redux/services/apiSlice";
-import {setAppPage} from "../../redux/reducers/stateSlices";
+import {setAppPage, resetStripeData} from "../../redux/reducers/stateSlices";
 
 const OrderSuccess = () => {
-    const location = useLocation();
-    const data = location.state.stripeData;
-    const cartItems = location.state.orderItems;
-    const total = location.state.total;
+    const dispatch = useDispatch();
+    const data = useSelector((state) => state.states.stripeData);
+    const cartItems = useSelector((state) => state.cart.cartItems);
+   
     const user = useSelector((state) => state.auth.authData);
     const {data: userProfiles} = useGetUserProfilesQuery();
     const userProfile = userProfiles?.find((profile) => profile?.userId === user?.result?.googleId)
     
     const [orderId, setOrderId] = useState(null);
-    const dispatch = useDispatch();
+    
+
+    let total = 0;
+    for(let i=0; i< cartItems.length; i++){
+      total = total + cartItems[i]?.totalPrice;
+  }
    
     useEffect(() => {
       const createOrder = async() => {
@@ -47,6 +51,7 @@ const OrderSuccess = () => {
       };
       data && createOrder();
       dispatch(emptyCart());
+      dispatch(resetStripeData());
       
     },[cartItems, data, userProfile, dispatch]);
 

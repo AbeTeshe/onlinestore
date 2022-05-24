@@ -75,12 +75,14 @@ const UserProfile = () => {
 
   const ChangePassword = () => {
       return (
-        <Grid item xs={12} sm={9} md={6} lg={6} justify="center" spacing={2}>
-            <Input name="oldPassword" label="Old password" autoFocus />
-            <Input name= "newPassword" label="new Password"  />
-            <Input name="confirmPassowrd" label="confirmPassword"  />
-            <Button color="primary" variant="contained">Change password</Button>
-        </Grid>
+        
+            <Grid item xs={12} sm={9} md={6} lg={6} justify="center" spacing={2}>
+                <Input name="oldPassword" label="Old password" autoFocus />
+                <Input name= "newPassword" label="new Password"  />
+                <Input name="confirmPassowrd" label="confirmPassword"  />
+                <Button color="primary" variant="contained">Change password</Button>
+            </Grid>
+        
       )
   }
 

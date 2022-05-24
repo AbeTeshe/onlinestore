@@ -12,8 +12,8 @@ const UserOrders = () => {
   const {data: orders} = useGetUserOrderQuery(id);
   
   return (
-    <Card style={{width: '100%'}}>
-        <List style={{width: '100%'}} row={orders || []} columns={orderColumns} name="Invoice"/>
+    <Card style={{flexDirection: 'column', width: '100%'}}>
+        <List  row={orders || []} columns={orderColumns} name="Invoice"/>
     </Card>
   )
 }

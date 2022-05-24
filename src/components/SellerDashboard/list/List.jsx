@@ -147,12 +147,12 @@ const List = ({name, row,  columns}) => {
   ];
   return (
     <div className="datatable">
-       <div className="datatableTitle">
-         {name} List
-         {(name !=="Order" && name !=="Invoice") && <div  className="link" onClick={handleNew}>
+       {(name !=="Order" && name !=="Invoice") &&<div className="datatableTitle">
+         Add New {name}
+          <div  className="link" onClick={handleNew}>
           Add New
-        </div>}
-      </div>
+        </div>
+      </div>}
         <DataGrid
             className="datagrid"
             rows={row ? row : []}

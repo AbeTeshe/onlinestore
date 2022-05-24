@@ -1,27 +1,20 @@
 import React, { useState, useEffect } from "react";
 import {  Button, Divider } from "@material-ui/core";
-import logo from "../../assets/commerce.png";
 import Review from "./Review";
 import StripeCheckout from "react-stripe-checkout";
 import { useSelector, useDispatch } from "react-redux";
 import {publicRequest} from "../../requestMethod";
-import { useHistory } from "react-router-dom";
+import {setStripeData, setAppPage} from "../../redux/reducers/stateSlices";
 
-
-const KEY= "pk_test_51KvzYaJybeETotD1nyXpdlSGjvoH4rKhvb5Xy4sJGIcphMz1WSEjPJ5W3zPmp7jXWf766Z4tExVmF0g7eTuenHFu0072HuB10i";
+const KEY= "pk_test_51JsLJnL4ZN6qtyNcqFhgoeqjaNF789pAXWN47x1g59lfidILtJ8UXi9m0Y7lUxFp59yLIxbOktd2l9WbYgsZ3eQZ00buFYC6mi";
 
 const PaymentForm = ({
   checkoutToken,
-  nextStep,
   backStep,
-  shippingData,
-  onCaptureCheckout
 }) => {
-  
+  const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
   const [stripeToken, setStripeToken] = useState(null);
-  const history = useHistory();
-  console.log(cartItems);
 
   let cartTotal = 0;
   for(let i=0; i< cartItems.length; i++){
@@ -39,12 +32,8 @@ const PaymentForm = ({
           tokenId: stripeToken.id,
           amount: cartTotal * 100,
         });
-        history.push("/orderSuccess", {
-          stripeData: res.data,
-          orderItems: cartItems,
-          total: cartTotal,
-        });
-        
+        dispatch(setStripeData(res.data));
+        dispatch(setAppPage("orderSuccess"));
       } catch (error) {
         console.log(error)
       }

@@ -6,8 +6,7 @@ import {
 } from "@material-ui/core";
 import { useForm, FormProvider } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
-//import { commerce } from "../../lib/commerce";
-import FormInput from "./CustomTextField";
+import Input from "../auth/Input";
 import {setAppPage} from "../../redux/reducers/stateSlices";
 
 import {useGetUserProfilesQuery, useAddUserProfileMutation, useUpdateUserProfileMutation} from "../../redux/services/apiSlice";
@@ -20,7 +19,6 @@ const AddressForm = ({ checkoutToken, next }) => {
   const {googleId, givenName, familyName,  email} = user?.result;
   const userProfile = userProfiles?.find((profile) => profile?.userId === googleId)
   const id = userProfile?._id;
-  console.log(userProfile);
  
   const [shippingData, setShippingData] = useState({
     firstName: userProfile?.firstName || givenName,
@@ -72,15 +70,15 @@ const AddressForm = ({ checkoutToken, next }) => {
           })
         )}>
           <Grid container spacing={3}>
-            <FormInput value={shippingData.firstName} handleChange={handleChange} required name="firstName" label="First Name" />
-            <FormInput value={shippingData.lastName} handleChange={handleChange} required name="lastName" label="Last Name" />
-            <FormInput value={shippingData.addressLine1} handleChange={handleChange} required name="addressLine1" label="Address Line 1" />
-            <FormInput value={shippingData.email} handleChange={handleChange} required name="email" label="Email" />
-            <FormInput value={shippingData.city} handleChange={handleChange} required name="city" label="City" />
-            <FormInput value={shippingData.zipCode} handleChange={handleChange} required name="zipCode" label="Zip / Postal code" />
-            <FormInput value={shippingData.country}  handleChange={handleChange} name="country" label="Shipping Country" />
-            <FormInput value={shippingData.shippingDivision} handleChange={handleChange} name="shippingDivision" label="Shipping subdivision"  />
-            <FormInput value={shippingData.shippingOption} handleChange={handleChange} name="shippingOption" label="Shipping options"/>
+            <Input value={shippingData.firstName} handleChange={handleChange} required name="firstName" label="First Name"  half/>
+            <Input value={shippingData.lastName} handleChange={handleChange} required name="lastName" label="Last Name"  half/>
+            <Input value={shippingData.addressLine1} handleChange={handleChange} required name="addressLine1" label="Address Line 1"  half/>
+            <Input value={shippingData.email} handleChange={handleChange} required name="email" label="Email"  half/>
+            <Input value={shippingData.city} handleChange={handleChange} required name="city" label="City"  half/>
+            <Input value={shippingData.zipCode} handleChange={handleChange} required name="zipCode" label="Zip / Postal code"  half/>
+            <Input value={shippingData.country}  handleChange={handleChange} name="country" label="Shipping Country"  half/>
+            <Input value={shippingData.shippingDivision} handleChange={handleChange} name="shippingDivision" label="Shipping subdivision"   half/>
+            <Input value={shippingData.shippingOption} handleChange={handleChange} name="shippingOption" label="Shipping options" half/>
           </Grid>
           <br />
           <Grid container style={{ display: "flex", justifyContent: "space-between" }} >

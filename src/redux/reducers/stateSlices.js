@@ -7,6 +7,7 @@ const stateSlice = createSlice({
         appPage: localStorage.getItem('appPage') ? JSON.parse(localStorage.getItem('appPage')) : 'productPage',
         productDetailId: null,
         loginPlace: null,
+        stripeData: null,
     },
     reducers: {
         setPage: (state, action) => {
@@ -23,10 +24,15 @@ const stateSlice = createSlice({
         setLoginPlace: (state, action) => {
             state.loginPlace = action.payload;
         },
-      
+        setStripeData: (state, action) => {
+            state.stripeData = action.payload;
+        },
+        resetStripeData: (state) => {
+            state.stripeData = null;
+        }
     }
 });
 
-export const {setPage, setAppPage, setProductDetailId, setLoginPlace} = stateSlice.actions;
+export const {setPage, setAppPage, setProductDetailId, setLoginPlace, setStripeData, resetStripeData} = stateSlice.actions;
 
 export default stateSlice.reducer;

@@ -34,7 +34,7 @@ const UserInvoices = () => {
   }
 
   return (
-    <Card style={{flexDirection: 'column'}}>
+    <Card style={{flexDirection: 'column', width: '100%'}}>
       <List row={invoices || []} columns={invoiceColumns} name="Invoice" />
     </Card>
   )

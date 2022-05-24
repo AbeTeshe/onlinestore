@@ -1,5 +1,4 @@
-import React from 'react';
-import { Typography, Button, Grid} from '@material-ui/core';
+import { Typography, Grid} from '@material-ui/core';
 import {Remove, Add, Delete} from "@mui/icons-material";
 import {useDispatch} from 'react-redux';
 import useStyles from './styles';

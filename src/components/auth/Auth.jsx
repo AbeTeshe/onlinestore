@@ -20,7 +20,7 @@ const Auth = () => {
     const [formData, setFormData] = useState(initialState);
     const handleShowPassword = () => setShowPassword(!showPassword); 
     const loginPlace = useSelector((state) => state.states.loginPlace);
-    console.log(loginPlace);
+
     const dispatch = useDispatch();
     
     const handleChange= (e) => {
@@ -74,7 +74,7 @@ const Auth = () => {
     };
 
     const googleFailure = (error) => {
-        console.log(error);
+        
         console.log("Google Sign In was unsuccessful. Try Again Later");
     };
 
@@ -97,7 +97,7 @@ const Auth = () => {
                             )}
                             <Input value={formData.email} name="email" label="Email Address" handleChange={handleChange} type="email"/>
                             <Input value={formData.password} name="password" label="Password" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword}/>
-                            {isSignup && <Input value={formData.confirmPassword} name="confirmPassword" label="Confirm Password" handleChange={handleChange} type="password"/>}
+                            {isSignup && <Input value={formData.confirmPassword} name="confirmPassword" label="Confirm Password" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword}/>}
                             
                     </Grid>
                     <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
