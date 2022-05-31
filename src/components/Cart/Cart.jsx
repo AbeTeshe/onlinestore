@@ -3,9 +3,9 @@ import useStyles from './styles';
 import CartItem from './CartItem/CartItem';
 import { useSelector, useDispatch } from 'react-redux';
 import {emptyCart} from "../../redux/reducers/cartSlice";
-import { setAppPage, setLoginPlace } from '../../redux/reducers/stateSlices';
-
-const Cart = ({  handleUpdateCartQty, handleRemoveFromCart, handleClose }) => {
+import { setLoginPlace } from '../../redux/reducers/stateSlices';
+import HOC from '../HOC';
+const Cart = ({handleAppPage,  handleUpdateCartQty, handleRemoveFromCart, handleClose }) => {
 
     const classes = useStyles();
     const user = useSelector((state) => state.auth.authData);
@@ -22,14 +22,10 @@ const Cart = ({  handleUpdateCartQty, handleRemoveFromCart, handleClose }) => {
         dispatch(emptyCart());
     }
 
-    const handleAppPage = (page) => {
-        dispatch(setAppPage(page))
-    }
-
     const handleLogin = () => {
         handleClose();
         dispatch(setLoginPlace("cart"));
-        dispatch(setAppPage("login"));
+        handleAppPage("login");
     }
 
     const EmptyCart = () => (
@@ -72,4 +68,4 @@ const Cart = ({  handleUpdateCartQty, handleRemoveFromCart, handleClose }) => {
 }
 
 
-export default Cart;
+export default HOC(Cart);

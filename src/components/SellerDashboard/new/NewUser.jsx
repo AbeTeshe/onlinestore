@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import {useSelector, useDispatch} from "react-redux";
 import { resetProfileEditId } from "../../../redux/reducers/editSlice";
-import { setPage } from "../../../redux/reducers/stateSlices";
 import {Card, Form, Input, Button} from "../../index";
 import {useGetUserProfileQuery, useAddUserProfileMutation, useUpdateUserProfileMutation } from "../../../redux/services/apiSlice";
 import {toast} from "react-toastify";
-
-const NewUser = () => {
+import HOC from "../../HOC";
+const NewUser = ({handleAdminPage}) => {
   const [person, setPerson] = useState({firstName: '', lastName: '', email: '',
                                 phoneNumber: '', country: '', city: '',  addressLine1: '',
                                 zipCode: '', shippingDivision: '', shippingOption: '' });
@@ -40,7 +39,7 @@ const NewUser = () => {
       toast.success("New User Added!");
     }
     clear();
-    dispatch(setPage("userList"));
+    handleAdminPage("userList");
   }
 
   const clear = () => {
@@ -74,4 +73,4 @@ const NewUser = () => {
   );
 };
 
-export default NewUser;
+export default HOC(NewUser);

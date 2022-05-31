@@ -15,11 +15,12 @@ import { useSelector, useDispatch } from "react-redux";
 import logos from "../../assets/commerce.png";
 import useStyles from "./styles";
 import { logout } from "../../redux/reducers/authSlice";
-import {setAppPage, setLoginPlace} from "../../redux/reducers/stateSlices";
+import { setLoginPlace} from "../../redux/reducers/stateSlices";
 
 import {useGetLogoDataQuery} from "../../redux/services/apiSlice";
+import HOC from "../HOC";
 
-const Navbar = ({  searchField, setSearchField, anchorEl,setAnchorEl, handleClose, showSearch }) => {
+const Navbar = ({handleAppPage, searchField, setSearchField, anchorEl,setAnchorEl, handleClose, showSearch }) => {
   const classes = useStyles();
   const user = useSelector((state) => state.auth.authData);
   const cartTotalQuantity = useSelector(state => state.cart.totalQuantity);
@@ -44,23 +45,21 @@ const clear = () => {
 
 const handleLogout = () => {
   dispatch(logout());
-  dispatch(setAppPage('productPage'));
+  handleAppPage('productPage');
   localStorage.removeItem("userProfile");
 }
 
-const handleAppPage = (page) => {
-  dispatch(setAppPage(page))
-}
+
 
 const loginHandler = () => {
   handleClose();
-  dispatch(setLoginPlace("login"));
-  dispatch(setAppPage("login"));
+  handleAppPage("login");
+  handleAppPage("login");
 }
 
 const handleProfileLink = () => {
   handleClose();
-  dispatch(setAppPage("userProfile"));
+  handleAppPage("userProfile");
 }
 
   return (
@@ -134,4 +133,4 @@ const handleProfileLink = () => {
   );
 };
 
-export default Navbar;
+export default HOC(Navbar);

@@ -3,9 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { emptyCart } from '../../redux/reducers/cartSlice';
 import { publicRequest } from '../../requestMethod';
 import {useGetUserProfilesQuery} from "../../redux/services/apiSlice";
-import {setAppPage, resetStripeData} from "../../redux/reducers/stateSlices";
+import { resetStripeData} from "../../redux/reducers/stateSlices";
+import HOC from "../HOC";
 
-const OrderSuccess = () => {
+const OrderSuccess = ({handleAppPage}) => {
     const dispatch = useDispatch();
     const data = useSelector((state) => state.states.stripeData);
     const cartItems = useSelector((state) => state.cart.cartItems);
@@ -68,9 +69,9 @@ const OrderSuccess = () => {
       {orderId
         ? `Order has been created successfully. Your order number is ${orderId}`
         : `Successfull. Your order is being prepared...`}
-      <button style={{ padding: 10, marginTop: 20 }} onClick={() => dispatch(setAppPage("productPage"))} >Go to Homepage</button>
+      <button style={{ padding: 10, marginTop: 20 }} onClick={() => handleAppPage("productPage")} >Go to Homepage</button>
     </div>
   )
 }
 
-export default OrderSuccess
+export default HOC(OrderSuccess)

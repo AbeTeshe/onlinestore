@@ -1,31 +1,16 @@
 import { Grid, Typography, Button } from '@material-ui/core';
 import { Grade } from '@material-ui/icons';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Loading from "./Loading";
 import useStyles from "./styles";
-import {addItemToCart} from '../../redux/reducers/cartSlice';
 import {useGetProductQuery} from "../../redux/services/apiSlice";
-import { setAppPage } from '../../redux/reducers/stateSlices';
-import {toast} from 'react-toastify';
+import HOC from "../HOC";
 
-const ProductDetails = () => {
+const ProductDetails = ({onAddToCart, handleAppPage}) => {
     const id = useSelector((state) => state.states.productDetailId);
     const classes = useStyles();
-    const dispatch = useDispatch();
     const {data:product, isLoading} = useGetProductQuery(id);
     
-     
-    const onAddToCart = () => {
-      dispatch(
-          addItemToCart({
-              id : product?._id,
-              name: product?.name,
-              price: Number(product?.price),
-              image: product?.mediaUrl,
-      })
-    )
-    toast.success(`${product?.name} added to cart!`);
-  }
 
   return (
     <>
@@ -34,7 +19,7 @@ const ProductDetails = () => {
         <div className={classes.toolbar} />
         <Grid container justify="center" className={classes.detailProduct} spacing={3} >
             <Grid item  xs={12} sm={12} md={12} lg={12}>
-               <Button className={classes.backToProductsButton} onClick={() => dispatch(setAppPage("productPage"))}>Back to Products</Button>
+               <Button className={classes.backToProductsButton} onClick={() =>handleAppPage("productPage")}>Back to Products</Button>
             </Grid>
             <Grid item xs={12} sm={12} md={6} lg={6}>
                 <img src={product?.mediaUrl} alt="detailprImage" className={classes.detailProductImage}/>
@@ -57,11 +42,11 @@ const ProductDetails = () => {
                 <Typography className={classes.productDetails}><span className={classes.productDetailName}>Available: </span> <span className={classes.productDesc}>{product?.details?.availabilityStatus}</span></Typography>
                 <Typography className={classes.productDetails}><span className={classes.productDetailName}>Product Code:</span> <span className={classes.productDesc}>{product?.details?.productCode}</span></Typography>
                 <Typography className={classes.productDetailDescription}>{product?.description}</Typography>
-                <Button className={classes.AddToCartProduct} onClick={onAddToCart}>Add To Cart</Button>
+                <Button className={classes.AddToCartProduct} onClick={() => onAddToCart(product)}>Add To Cart</Button>
             </Grid>
         </Grid>
     </main>}</>
   )
 }
 
-export default ProductDetails;
+export default HOC(ProductDetails);

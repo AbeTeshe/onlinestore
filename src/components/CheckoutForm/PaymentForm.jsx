@@ -4,13 +4,14 @@ import Review from "./Review";
 import StripeCheckout from "react-stripe-checkout";
 import { useSelector, useDispatch } from "react-redux";
 import {publicRequest} from "../../requestMethod";
-import {setStripeData, setAppPage} from "../../redux/reducers/stateSlices";
-
+import {setStripeData} from "../../redux/reducers/stateSlices";
+import HOC from "../HOC";
 const KEY= "pk_test_51JsLJnL4ZN6qtyNcqFhgoeqjaNF789pAXWN47x1g59lfidILtJ8UXi9m0Y7lUxFp59yLIxbOktd2l9WbYgsZ3eQZ00buFYC6mi";
 
 const PaymentForm = ({
   checkoutToken,
   backStep,
+  handleAppPage
 }) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -33,7 +34,7 @@ const PaymentForm = ({
           amount: cartTotal * 100,
         });
         dispatch(setStripeData(res.data));
-        dispatch(setAppPage("orderSuccess"));
+        handleAppPage("orderSuccess");
       } catch (error) {
         console.log(error)
       }
@@ -71,4 +72,4 @@ const PaymentForm = ({
   );
 };
 
-export default PaymentForm;
+export default HOC(PaymentForm);

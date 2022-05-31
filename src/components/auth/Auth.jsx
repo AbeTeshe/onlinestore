@@ -8,12 +8,12 @@ import Input from './Input';
 import useStyles from "./styles";
 import {loginWithGoogle} from '../../redux/reducers/authSlice';
 import { loginUser, registerUser } from '../../redux/apiCalls/authApiCalls';
-import {setAppPage} from "../../redux/reducers/stateSlices";
+import HOC from "../HOC";
 const initialState = {firstName: '', 
                        lastName: '', email: '',
                        password: '', confirmPassword: ''};
 
-const Auth = () => {
+const Auth = ({handleAppPage}) => {
     const [isSignup, setIsSignup] = useState(false);
     const classes = useStyles();
     const [showPassword, setShowPassword] = useState(false);
@@ -34,18 +34,18 @@ const Auth = () => {
         if(isSignup){
             registerUser(formData, dispatch);
             if(loginPlace === "login") {
-                dispatch(setAppPage('productPage'))
+                handleAppPage('productPage')
             }
             else if (loginPlace==="cart"){
-                dispatch(setAppPage('checkout'))
+                handleAppPage('checkout')
             }
         } else {
             loginUser({formData}, dispatch);
             if(loginPlace ==="login") {
-                dispatch(setAppPage('productPage'))
+                handleAppPage('productPage')
             }
             else if (loginPlace==="cart"){
-                dispatch(setAppPage('checkout'))
+                handleAppPage('checkout')
             }
         }
     }
@@ -62,10 +62,10 @@ const Auth = () => {
         try {
             dispatch(loginWithGoogle({token, result}));
             if(loginPlace ==="login") {
-                dispatch(setAppPage('productPage'))
+                handleAppPage('productPage')
             }
             else if (loginPlace==="cart"){
-                dispatch(setAppPage('checkout'))
+                handleAppPage('checkout')
             }
         }
         catch(error) {
@@ -134,4 +134,4 @@ const Auth = () => {
   )
 }
 
-export default Auth
+export default HOC(Auth)

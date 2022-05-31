@@ -5,14 +5,12 @@ import {
   Typography
 } from "@material-ui/core";
 import { useForm, FormProvider } from "react-hook-form";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector} from "react-redux";
 import Input from "../auth/Input";
-import {setAppPage} from "../../redux/reducers/stateSlices";
-
+import HOC from "../HOC";
 import {useGetUserProfilesQuery, useAddUserProfileMutation, useUpdateUserProfileMutation} from "../../redux/services/apiSlice";
-const AddressForm = ({ checkoutToken, next }) => {
+const AddressForm = ({handleAppPage,  next }) => {
   const user = useSelector((state) => state.auth.authData);
-  const dispatch = useDispatch();
   const {data: userProfiles} = useGetUserProfilesQuery();
   const [addUserProfile] = useAddUserProfileMutation();
   const [updateUserProfile] = useUpdateUserProfileMutation();
@@ -82,7 +80,7 @@ const AddressForm = ({ checkoutToken, next }) => {
           </Grid>
           <br />
           <Grid container style={{ display: "flex", justifyContent: "space-between" }} >
-            <Button  variant="outlined" onClick={() => dispatch(setAppPage("cart"))}>
+            <Button  variant="outlined" onClick={() => handleAppPage("cart")}>
               Back to cart
             </Button>
             <Button type="submit" variant="contained" color="primary" onClick={(userProfile===undefined) && handleSubmit}>
@@ -95,4 +93,4 @@ const AddressForm = ({ checkoutToken, next }) => {
   );
 };
 
-export default AddressForm;
+export default HOC(AddressForm);

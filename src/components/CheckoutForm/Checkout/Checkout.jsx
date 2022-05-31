@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Paper,
   Stepper,
@@ -10,18 +10,17 @@ import {
   Button
 } from "@material-ui/core";
 
-import {useDispatch} from "react-redux";
 import useStyles from "./styles";
 import AddressForm from "../AddressForm";
 import PaymentForm from "../PaymentForm";
+import HOC from "../../HOC";
 
 const steps = ["Shipping Address", "Payment Details"];
 
-const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
+const Checkout = ({ handleAppPage, order, onCaptureCheckout, error }) => {
   const [checkoutToken, setCheckoutToken] = useState(null);
   const [activeStep, setActiveStep] = useState(0);
   const [shippingData, setShippingData] = useState({});
-  const dispatch = useDispatch();
 
   const classes = useStyles();
 
@@ -33,10 +32,6 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
 
     nextStep();
   };
-
-  const handleAppPage = () => {
-    dispatch(setAppPage("productPage"))
-  }
 
   let Confirmation = () =>
     order.customer ? (
@@ -52,7 +47,7 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
           </Typography>
         </div>
         <br />
-        <Button onClick={handleAppPage} variant="outlined" type="button">
+        <Button onClick={() => handleAppPage("productPage")} variant="outlined" type="button">
           Back to home
         </Button>
       </>
@@ -67,7 +62,7 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
       <>
         <Typography variant="h5">Error: {error}</Typography>
         <br />
-        <Button onClick={handleAppPage}  variant="outlined" type="button" >
+        <Button onClick={() => handleAppPage("productPage")}  variant="outlined" type="button" >
           Back to home
         </Button>
       </>
@@ -117,4 +112,4 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
   );
 };
 
-export default Checkout;
+export default HOC(Checkout);

@@ -9,16 +9,11 @@ import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 import {Card} from "../../index";
 import { useDispatch } from "react-redux";
-import { setPage } from "../../../redux/reducers/stateSlices";
+import HOC from "../../HOC";
 
 
-const Sidebar = () => {
+const Sidebar = ({handleAdminPage}) => {
 
-  const dispatch = useDispatch();
-  const handlePage = (page) => {
-    dispatch(setPage(page))
-  }
-  
   return (
     <div className="sidebar">
       <Card className="top">
@@ -28,33 +23,33 @@ const Sidebar = () => {
       <div className="center">
         <ul>
           <p className="title">MAIN</p>
-          <li onClick={() => handlePage("home")}>
+          <li onClick={() => handleAdminPage("home")}>
             <DashboardIcon className="icon" />
             <span>Dashboard</span>
           </li>
           <p className="sideBarTitle">LISTS</p>
-          <li onClick={() => handlePage("userList")}>
+          <li onClick={() => handleAdminPage("userList")}>
               <PersonOutlineIcon className="icon" />
               <span>Users</span>
           </li>
-            <li onClick={() => handlePage("productList")}>
+            <li onClick={() => handleAdminPage("productList")}>
               <StoreIcon className="icon" />
               <span>Products</span>
             </li>
-          <li onClick={() => handlePage("orders")}>
+          <li onClick={() => handleAdminPage("orders")}>
             <CreditCardIcon className="icon" />
             <span>Orders</span>
           </li>
-          <li onClick={() => handlePage("invoices")}>
+          <li onClick={() => handleAdminPage("invoices")}>
             <ReceiptIcon className="icon" />
             <span>Invoices</span>
           </li>
           <p className="title">SETTING</p>
-          <li onClick={() => handlePage("profile")}>
+          <li onClick={() => handleAdminPage("profile")}>
             <ArticleOutlinedIcon className="icon" />
             <span>License</span>
           </li>
-          <li onClick={() => handlePage("logo")}>
+          <li onClick={() => handleAdminPage("logo")}>
             <DashboardCustomizeIcon className="icon" />
             <span>Customize</span>
           </li>
@@ -68,4 +63,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default HOC(Sidebar);

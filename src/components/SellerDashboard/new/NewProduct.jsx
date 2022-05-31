@@ -3,13 +3,12 @@ import {useSelector, useDispatch} from "react-redux";
 import {create} from 'ipfs-http-client';
 import {resetProductEditId} from "../../../redux/reducers/editSlice";
 import {Card, Form, Input, Button} from "../../index";
-
-import { setPage } from "../../../redux/reducers/stateSlices";
 import {useGetProductQuery, useAddProductMutation, useUpdateProductMutation} from "../../../redux/services/apiSlice";
 import {toast} from 'react-toastify';
+import HOC from "../../HOC";
 
 const client = create('https://ipfs.infura.io:5001');
-const NewProduct = () => {
+const NewProduct = ({handleAdminPage}) => {
   const [product, setProduct] = useState({name: '', price: '', description: '',
                                     mediaUrl: '', quantity: '', supplier: '',
                                     details: {
@@ -68,7 +67,7 @@ const NewProduct = () => {
       toast.success("New Product Added!");
     }
     clear();
-    dispatch(setPage("productList"));
+    handleAdminPage("productList");
 
   }
 
@@ -109,7 +108,6 @@ const clear = () => {
         </Card>
         <Button onClick={handleSubmit} >{(id === null) ? 'Add' : 'Update'}</Button>
       </>
-   
   );
 };
-export default NewProduct;
+export default HOC(NewProduct);

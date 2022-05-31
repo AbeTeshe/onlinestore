@@ -2,33 +2,20 @@ import React from 'react';
 import { Card, CardMedia, CardContent, CardActions, Typography, IconButton, Button } from '@material-ui/core';
 import { AddShoppingCart } from '@material-ui/icons';
 import {  useDispatch } from 'react-redux';
-import { addItemToCart } from '../../../redux/reducers/cartSlice';
-import {setProductDetailId, setAppPage} from "../../../redux/reducers/stateSlices";
-import {toast} from "react-toastify";
+import {setProductDetailId} from "../../../redux/reducers/stateSlices";
+import HOC from "../../HOC"
 
 import useStyles from './styles';
 
-const Product = ({ product}) => {
+const Product = ({handleAppPage,  onAddToCart, product}) => {
     
     const classes = useStyles();
     const dispatch = useDispatch();
     
-    const {_id, name, mediaUrl, price, description} = product;
-
-    const onAddToCart = () => {
-        dispatch(
-            addItemToCart({
-                id : _id,
-                name: name,
-                price: Number(price),
-                image: mediaUrl,
-        })
-      )
-      toast.success(`${name} added to cart!`);
-    }
+    const { name, mediaUrl, price, description} = product;
 
     const handleProductDetail = (id) => {
-        dispatch(setAppPage('productDetails'));
+        handleAppPage('productDetails');
         dispatch(setProductDetailId(id));
     }
 
@@ -48,7 +35,7 @@ const Product = ({ product}) => {
         </CardContent>
         <CardActions disableSpacing className={classes.cardActions}>
             <Button className={classes.detailButton} onClick={() => handleProductDetail(product._id)}>See Details</Button>
-            <IconButton aria-label="Add to Cart" onClick={onAddToCart}>
+            <IconButton aria-label="Add to Cart" onClick={() => onAddToCart(product)}>
                 <AddShoppingCart />
             </IconButton>
         </CardActions>
@@ -56,6 +43,6 @@ const Product = ({ product}) => {
     );
 }
 
-export default Product;
+export default HOC(Product);
 
 

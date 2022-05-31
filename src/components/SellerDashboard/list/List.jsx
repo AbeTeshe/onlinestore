@@ -3,14 +3,13 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch } from "react-redux";
 import { Button,  ButtonGroup} from "@mui/material";
 import { setProductEditId,  setProfileEditId } from "../../../redux/reducers/editSlice";
-import { setPage } from "../../../redux/reducers/stateSlices";
 import {useGetProductsQuery, useGetUserProfilesQuery, 
   useUpdateProductMutation, useUpdateUserProfileMutation, useGetOrdersQuery,
   useUpdateOrderMutation, useAddInvoiceMutation} from '../../../redux/services/apiSlice';
 import {toast} from "react-toastify";
+import HOC from "../../HOC";
 
-
-const List = ({name, row,  columns}) => {
+const List = ({handleAdminPage, name, row,  columns}) => {
   const {data: products} = useGetProductsQuery();
   const {data: userProfile} = useGetUserProfilesQuery();
   const {data: orders} = useGetOrdersQuery();
@@ -56,21 +55,21 @@ const List = ({name, row,  columns}) => {
   
   const handleEdit = (id) => {
     if(name==="Product") {
-      dispatch(setPage("newProduct"))
+      handleAdminPage("newProduct")
       dispatch(setProductEditId(id));
     }
     else if (name==="User"){
-      dispatch(setPage("newUser"));
+      handleAdminPage("newUser");
       dispatch(setProfileEditId(id));
     }
   }
 
   const handleNew = () => {
     if(name==="Product"){
-      dispatch(setPage("newProduct"));
+      handleAdminPage("newProduct");
     }
     else if (name==="User"){
-      dispatch(setPage("newUser"));
+      handleAdminPage("newUser");
     }
   }
 
@@ -166,4 +165,4 @@ const List = ({name, row,  columns}) => {
   );
 };
 
-export default List;
+export default HOC(List);
