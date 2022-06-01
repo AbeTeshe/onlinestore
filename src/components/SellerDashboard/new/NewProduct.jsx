@@ -71,6 +71,7 @@ const NewProduct = ({handleAdminPage}) => {
 
   }
 
+  
 
 const clear = () => {
   setProduct({name: '', price: '', 

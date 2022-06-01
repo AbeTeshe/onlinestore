@@ -6,23 +6,17 @@ import UserInvoices from './UserInvoices';
 import React, {useState} from 'react';
 import Input from '../auth/Input';
 import useStyles from './styles';
-import { useSelector } from 'react-redux';
-import {useGetUserProfilesQuery, useAddUserProfileMutation, useUpdateUserProfileMutation} from "../../redux/services/apiSlice";
+import { useAddUserProfileMutation, useUpdateUserProfileMutation} from "../../redux/services/apiSlice";
 import {toast} from 'react-toastify';
-const UserProfile = () => {
+import HOC from "../HOC";
+const UserProfile = ({user, id, userProfile}) => {
   const classes = useStyles();
-  const user = useSelector((state) => state.auth.authData);
   const [editUser, setEditUser] = useState(false);
   const [index, setIndex] = useState(0);
-  
-  const {data: userProfiles} = useGetUserProfilesQuery();
+  const {googleId, givenName, familyName,  email} = user?.result;
   const [addUserProfile] = useAddUserProfileMutation();
   const [updateUserProfile] = useUpdateUserProfileMutation();
-
-  const {googleId, givenName, familyName,  email} = user?.result;
-  const userProfile = userProfiles?.find((profile) => profile?.userId === googleId)
-  const id = userProfile?._id;
-
+  
   const [person, setPerson] = useState({
       userId: googleId,
       firstName: givenName,
@@ -125,4 +119,4 @@ const UserProfile = () => {
   );
 }
 
-export default UserProfile;
+export default HOC(UserProfile);

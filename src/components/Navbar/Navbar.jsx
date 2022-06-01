@@ -20,9 +20,8 @@ import { setLoginPlace} from "../../redux/reducers/stateSlices";
 import {useGetLogoDataQuery} from "../../redux/services/apiSlice";
 import HOC from "../HOC";
 
-const Navbar = ({handleAppPage, searchField, setSearchField, anchorEl,setAnchorEl, handleClose, showSearch }) => {
+const Navbar = ({user, handleAppPage, searchField, setSearchField, anchorEl,setAnchorEl, handleClose, showSearch }) => {
   const classes = useStyles();
-  const user = useSelector((state) => state.auth.authData);
   const cartTotalQuantity = useSelector(state => state.cart.totalQuantity);
   const dispatch = useDispatch();
   const {data: logoData} = useGetLogoDataQuery();
@@ -53,7 +52,7 @@ const handleLogout = () => {
 
 const loginHandler = () => {
   handleClose();
-  handleAppPage("login");
+  dispatch(setLoginPlace("login"));
   handleAppPage("login");
 }
 

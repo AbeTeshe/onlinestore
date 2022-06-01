@@ -20,6 +20,7 @@ const Auth = ({handleAppPage}) => {
     const [formData, setFormData] = useState(initialState);
     const handleShowPassword = () => setShowPassword(!showPassword); 
     const loginPlace = useSelector((state) => state.states.loginPlace);
+    console.log(loginPlace);
 
     const dispatch = useDispatch();
     
@@ -33,7 +34,7 @@ const Auth = ({handleAppPage}) => {
         e.preventDefault();
         if(isSignup){
             registerUser(formData, dispatch);
-            if(loginPlace === "login") {
+            if(loginPlace==="login") {
                 handleAppPage('productPage')
             }
             else if (loginPlace==="cart"){
@@ -41,7 +42,7 @@ const Auth = ({handleAppPage}) => {
             }
         } else {
             loginUser({formData}, dispatch);
-            if(loginPlace ==="login") {
+            if(loginPlace==="login") {
                 handleAppPage('productPage')
             }
             else if (loginPlace==="cart"){
@@ -61,7 +62,7 @@ const Auth = ({handleAppPage}) => {
         const token = res?.tokenId;
         try {
             dispatch(loginWithGoogle({token, result}));
-            if(loginPlace ==="login") {
+            if(loginPlace==="login") {
                 handleAppPage('productPage')
             }
             else if (loginPlace==="cart"){

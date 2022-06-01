@@ -8,7 +8,6 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 import {Card} from "../../index";
-import { useDispatch } from "react-redux";
 import HOC from "../../HOC";
 
 

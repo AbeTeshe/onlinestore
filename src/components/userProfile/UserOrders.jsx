@@ -1,16 +1,10 @@
-import { useGetUserOrderQuery, useGetUserProfilesQuery } from '../../redux/services/apiSlice';
+import { useGetUserOrderQuery } from '../../redux/services/apiSlice';
 import {Card, List} from "../index";
-import { useSelector } from 'react-redux';
 import { orderColumns } from '../SellerDashboard/datatablesource';
+import HOC from '../HOC';
 
-const UserOrders = () => {
-  const user = useSelector((state) => state.auth.authData);
-  const {googleId, givenName, familyName,  email} = user?.result;
-  const {data: userProfiles} = useGetUserProfilesQuery();
-  const userProfile = userProfiles?.find((profile) => profile?.userId === googleId)
-  const id = userProfile?._id;
+const UserOrders = ({id}) => {
   const {data: orders} = useGetUserOrderQuery(id);
-  
   return (
     <Card style={{flexDirection: 'column', width: '100%'}}>
         <List  row={orders || []} columns={orderColumns} name="Invoice"/>
@@ -18,4 +12,4 @@ const UserOrders = () => {
   )
 }
 
-export default UserOrders;
+export default HOC(UserOrders);

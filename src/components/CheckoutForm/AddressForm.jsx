@@ -5,18 +5,15 @@ import {
   Typography
 } from "@material-ui/core";
 import { useForm, FormProvider } from "react-hook-form";
-import { useSelector} from "react-redux";
 import Input from "../auth/Input";
 import HOC from "../HOC";
-import {useGetUserProfilesQuery, useAddUserProfileMutation, useUpdateUserProfileMutation} from "../../redux/services/apiSlice";
-const AddressForm = ({handleAppPage,  next }) => {
-  const user = useSelector((state) => state.auth.authData);
-  const {data: userProfiles} = useGetUserProfilesQuery();
+
+import { useAddUserProfileMutation, useUpdateUserProfileMutation} from "../../redux/services/apiSlice";
+const AddressForm = ({user, userProfile, id, handleAppPage, next }) => {
+ 
   const [addUserProfile] = useAddUserProfileMutation();
   const [updateUserProfile] = useUpdateUserProfileMutation();
   const {googleId, givenName, familyName,  email} = user?.result;
-  const userProfile = userProfiles?.find((profile) => profile?.userId === googleId)
-  const id = userProfile?._id;
  
   const [shippingData, setShippingData] = useState({
     firstName: userProfile?.firstName || givenName,

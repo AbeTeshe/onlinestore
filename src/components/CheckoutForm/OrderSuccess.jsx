@@ -2,21 +2,16 @@ import React, {useState, useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { emptyCart } from '../../redux/reducers/cartSlice';
 import { publicRequest } from '../../requestMethod';
-import {useGetUserProfilesQuery} from "../../redux/services/apiSlice";
 import { resetStripeData} from "../../redux/reducers/stateSlices";
 import HOC from "../HOC";
 
-const OrderSuccess = ({handleAppPage}) => {
+const OrderSuccess = ({userProfile, handleAppPage}) => {
     const dispatch = useDispatch();
     const data = useSelector((state) => state.states.stripeData);
     const cartItems = useSelector((state) => state.cart.cartItems);
-   
-    const user = useSelector((state) => state.auth.authData);
-    const {data: userProfiles} = useGetUserProfilesQuery();
-    const userProfile = userProfiles?.find((profile) => profile?.userId === user?.result?.googleId)
     
-    const [orderId, setOrderId] = useState(null);
-    
+    //const [orderId, setOrderId] = useState(null);
+    let orderId = null;
 
     let total = 0;
     for(let i=0; i< cartItems.length; i++){
@@ -44,7 +39,7 @@ const OrderSuccess = ({handleAppPage}) => {
             orderStatus: 'Pending',
             totalPrice: total,
           });
-          setOrderId(res.data._id);
+          orderId = res.data._id;
         } catch (error) {
           console.log(error);
         }
