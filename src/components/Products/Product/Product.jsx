@@ -21,7 +21,7 @@ const Product = ({handleAppPage,  onAddToCart, product}) => {
 
     return (
      <Card className={classes.root}>
-        <CardMedia className={classes.media} image={mediaUrl} title={product.name} />
+        <CardMedia data-testid="productImage" className={classes.media} image={mediaUrl} title={product.name} />
         <CardContent>
             <div className={classes.cardContent}>
                 <Typography variant="h5" gutterBottom className={classes.cardName}>

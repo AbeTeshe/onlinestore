@@ -20,7 +20,6 @@ const Auth = ({handleAppPage}) => {
     const [formData, setFormData] = useState(initialState);
     const handleShowPassword = () => setShowPassword(!showPassword); 
     const loginPlace = useSelector((state) => state.states.loginPlace);
-    console.log(loginPlace);
 
     const dispatch = useDispatch();
     
@@ -41,7 +40,7 @@ const Auth = ({handleAppPage}) => {
                 handleAppPage('checkout')
             }
         } else {
-            loginUser({formData}, dispatch);
+            loginUser(formData, dispatch);
             if(loginPlace==="login") {
                 handleAppPage('productPage')
             }

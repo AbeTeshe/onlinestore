@@ -11,6 +11,8 @@ const HOC = OriginalComponent => {
     
         //DATA'S FOR SINGLE USER 
         const user = useSelector((state) => state.auth.authData);
+        console.log(user);
+        const googleLoginIn = useSelector((state) => state.auth.isGoogleLoginIn);
         const {data: userProfiles} = useGetUserProfilesQuery();
         //const {googleId} = user?.result;
         const userProfile = userProfiles?.find((profile) => profile?.userId === user?.result?.googleId)
