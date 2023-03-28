@@ -10,6 +10,7 @@ const App = () => {
   const {data} = useGetProductsQuery();
   const [anchorEl, setAnchorEl] = useState(false);
   const products =  data?.filter((product) => product.isActive === true);
+  console.log(data);
   const appPage = useSelector((state) => state.states.appPage);
 
   const handleClose = () => {
